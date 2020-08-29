@@ -3,10 +3,6 @@
 This project was generated with [ngX-Rocket](https://github.com/ngx-rocket/generator-ngx-rocket/)
 version 8.0.1
 
-# Contribuitors
-
-Diego Angel Castillo Sanabria
-Sanchez Carlos JR
 
 # Getting started
 
@@ -28,7 +24,7 @@ npm start
 dist/                        web app production build
 docs/                        project docs and coding guides
 e2e/                         end-to-end tests
-functions/                   project source code
+functions/                   micro-services source code
 src/                         project source code
 |- app/                      app components
 |  |- core/                  core module (singleton services and single-use components)
