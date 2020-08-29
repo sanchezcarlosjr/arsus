@@ -1,0 +1,10 @@
+/*
+ * Global application theme.
+ * Framework overrides and customization goes here.
+ */
+
+@media only screen and (min-height: 600px) and (min-width: 768px) {
+  .sc-ion-modal-md-h {
+    --width: 800px;
+  }
+}

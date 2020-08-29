@@ -1,0 +1,128 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title><span translate>Home</span></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card class="ion-text-center">
+    <img class="logo" src="assets/icons/icon-512x512.png" alt="arsus logo" />
+    <ion-card-content>
+      <ion-card-title>
+        <span translate>Arsus by Carlos Sanchez</span>
+      </ion-card-title>
+      <p>
+        <app-loader [isLoading]="isLoading"></app-loader>
+        <q [hidden]="isLoading">{{ quote }}</q>
+      </p>
+      <ion-list>
+        <ion-item *ngIf="isInstalledPWA" (click)="install()" button>
+          <ion-icon name="arrow-down-circle-outline" slot="start"></ion-icon>
+          <p translate>Download app</p>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon name="moon" slot="start"></ion-icon>
+          <ion-toggle (ionChange)="change()" [checked]="theme$ | async"></ion-toggle>
+        </ion-item>
+        <ion-item routerLink="/" lines="none" button>
+          <ion-icon slot="start" name="newspaper-outline"></ion-icon>
+          News
+        </ion-item>
+        <ion-item routerLink="/research" lines="none" button>
+          <ion-icon slot="start" name="cube"></ion-icon>
+          Research & Projects
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="calculator-outline"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/ideas" target="_blank">
+            <span>Ideas Trunk</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="library-outline"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/computer-science" target="_blank">
+            <span>Computer science notes</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/whatsapp" target="_blank">
+            <span>Whatsapp</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-youtube"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/youtube" target="_blank">
+            <span>Youtube</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-twitter"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/twitter" target="_blank">
+            <span>Twitter</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-rss"></ion-icon>
+          <a href="https://open.spotify.com/playlist/7x39km11KAVXZZ8RUwWrD7?si=kfYdX_LVS-uRbSqIC_bVuA" target="_blank">
+            <span>Arsus music</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-facebook"></ion-icon>
+          <a href="https://www.facebook.com/ArsusJR/" target="_blank">
+            <span>Arsus</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-instagram"></ion-icon>
+          <a href="https://www.instagram.com/arsus_jr/" target="_blank">
+            <span>ArsusJR</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-medium"></ion-icon>
+          <a href="https://medium.com/@sanchezcarlosjr" target="_blank">
+            <span>Medium</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-github"></ion-icon>
+          <a href="https://github.com/sanchezcarlosjr" target="_blank">
+            <span>Github</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="barcode-outline"></ion-icon>
+          <a href="https://anchor.fm/sanchez-carlos-jr" target="_blank">
+            <span>Podcast (Anchor)</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="logo-twitch"></ion-icon>
+          <a href="https://www.twitch.tv/sanchezcarlosjr" target="_blank">
+            <span>Twitch</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="call-outline"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/phone" target="_blank">
+            <span>Call me</span>
+          </a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="mail-outline"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/mail">Talk me</a>
+        </ion-item>
+        <ion-item lines="none" button>
+          <ion-icon slot="start" name="information-circle-outline" target="_blank"></ion-icon>
+          <a href="https://x.sanchezcarlosjr.com/resume">
+            <span translate>About</span>
+          </a>
+        </ion-item>
+      </ion-list>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

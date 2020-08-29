@@ -1,0 +1,29 @@
+{
+  "generator-ngx-rocket": {
+    "version": "8.0.1",
+    "props": {
+      "location": "path",
+      "strict": false,
+      "skipInstall": false,
+      "skipQuickstart": false,
+      "initGit": true,
+      "usePrefix": true,
+      "target": ["web"],
+      "pwa": true,
+      "ui": "ionic",
+      "layout": "tabs",
+      "auth": true,
+      "lazy": true,
+      "angulartics": false,
+      "languages": ["de-DE", "en-US", "fr-FR", "zh-CN"],
+      "tools": ["prettier", "hads", "compodoc", "puppeteer"],
+      "utility": ["datefns"],
+      "deploy": "firebase",
+      "appName": "sanchezcarlosjr",
+      "projectName": "sanchezcarlosjr",
+      "packageManager": "npm",
+      "mobile": [],
+      "desktop": []
+    }
+  }
+}

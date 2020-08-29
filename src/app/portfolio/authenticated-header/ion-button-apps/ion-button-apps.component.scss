@@ -1,0 +1,13 @@
+ion-row {
+  height: 11vh;
+}
+
+ion-col {
+  cursor: pointer;
+  margin: 3px;
+}
+
+ion-col:hover {
+  margin: 2px;
+  border: solid 1px rgba(0, 0, 0, 0.6);
+}

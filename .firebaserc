@@ -1,0 +1,24 @@
+{
+  "projects": {
+    "next": "arsus-enterprise-next",
+    "arsus-production": "arsus-production",
+    "arsus-life-documentation": "arsus-enterprise-documentation",
+    "prod": "arsus-production"
+  },
+  "targets": {
+    "arsus-production": {
+      "hosting": {
+        "carlos-sanchez-jr ": [
+          "carlos-sanchez-jr "
+        ]
+      }
+    },
+    "arsus-enterprise-documentation": {
+      "hosting": {
+        "app": [
+          "arsus-enterprise-documentation"
+        ]
+      }
+    }
+  }
+}

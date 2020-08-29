@@ -1,0 +1,96 @@
+<app-authenticated-header></app-authenticated-header>
+
+<ion-content>
+  <ion-grid>
+    <ion-row>
+      <ion-col class="ion-hide-sm-down ion-align-self-start"></ion-col>
+      <ion-col size-sm="12" size-md="8" class="ion-align-self-center">
+        <div class="articles" *ngFor="let article of articles | async">
+          <ng-tweet *ngIf="article.type === 'tweet'; else card" [id]="article.urlToImage"></ng-tweet>
+          <ng-template #card>
+            <ion-card mode="ios">
+              <iframe
+                *ngIf="article.type === 'video'"
+                [src]="article.urlToImage | safeResource"
+                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+              ></iframe>
+              <ion-img
+                *ngIf="article.urlToImage && article.type !== 'video'"
+                [src]="article.urlToImage"
+                [alt]="article.title"
+              ></ion-img>
+              <ion-card-header>
+                <ion-card-title>
+                  {{ article.source.name }}
+                  <ion-icon name="chevron-forward-outline"></ion-icon>
+                  {{ article.title }}
+                </ion-card-title>
+                <ion-card-subtitle>{{ article.publishedAt }}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <audio
+                  *ngIf="article.type === 'podcast'"
+                  controls
+                  controlsList="nodownload"
+                  preload="none"
+                  (click)="interaction(article.uid)"
+                >
+                  <source [src]="article.audio" type="audio/mpeg" />
+                  <source [src]="article.audio" type="audio/mp4" />
+                  Your browser does not support the audio element.
+                </audio>
+                <ion-button (click)="share(article)" color="dark" fill="clear" slot="icon-only">
+                  <ion-icon name="share-social-outline"></ion-icon>
+                </ion-button>
+                <ion-button *ngIf="userUID" color="dark" fill="clear" slot="icon-only">
+                  <ion-icon name="bookmark-outline"></ion-icon>
+                </ion-button>
+                <ion-button
+                  (click)="seeMore(article.description, article.uid)"
+                  color="dark"
+                  fill="clear"
+                  slot="icon-only"
+                >
+                  <ion-icon name="expand-outline"></ion-icon
+                ></ion-button>
+                <ion-button fill="clear" (click)="interaction(article.uid)">
+                  <a [href]="article.url" target="_blank" translate>See source</a></ion-button
+                >
+              </ion-card-content>
+            </ion-card>
+          </ng-template>
+        </div>
+        <ng-container *ngIf="(articles | async).length === 0">
+          <div class="articles" *ngFor="let article of [1, 1]">
+            <ion-card mode="ios">
+              <ion-skeleton-text style="width: 100%; height: 200px; margin: 0;"></ion-skeleton-text>
+              <ion-card-header>
+                <ion-card-title>
+                  <ion-skeleton-text animated style="width: 70%; height: 25px;"></ion-skeleton-text>
+                </ion-card-title>
+                <ion-card-subtitle>
+                  <ion-skeleton-text animated style="width: 10%; height: 18px;"></ion-skeleton-text>
+                </ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-skeleton-text animated style="width: 100%; height: 17px;"></ion-skeleton-text>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ng-container>
+        <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+          <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+        </ion-infinite-scroll>
+      </ion-col>
+      <ion-col class="ion-hide-sm-down"></ion-col>
+    </ion-row>
+  </ion-grid>
+  <df-messenger
+    intent="WELCOME"
+    chat-title="😀 Carlos Sanchez"
+    chat-icon="assets/icons/icon-72x72.png"
+    agent-id="695979d8-2719-43a8-98b2-25747f9d2602"
+    language-code="en"
+  ></df-messenger>
+</ion-content>

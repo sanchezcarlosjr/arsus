@@ -1,0 +1,51 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Inbox</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Communication</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form (ngSubmit)="upload()" [formGroup]="communicationForm" novalidate>
+        <ion-segment formControlName="type">
+          <ion-segment-button value="email">
+            <ion-label>Email</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="whatsapp">
+            <ion-label>Whatsapp</ion-label>
+          </ion-segment-button>
+          <ion-segment-button value="sms">
+            <ion-label>SMS</ion-label>
+          </ion-segment-button>
+        </ion-segment>
+        <ion-input formControlName="to" placeholder="To"></ion-input>
+        <ion-input formControlName="subject" placeholder="Subject"></ion-input>
+        <ion-item>
+          <ion-label position="floating">Message</ion-label>
+          <ion-textarea formControlName="message"></ion-textarea>
+        </ion-item>
+        <ion-button type="submit" expand="full" fill="outline">
+          <ion-icon name="send-outline"></ion-icon>
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  <ng-container *ngFor="let item of articles$ | async">
+    <app-inbox-item
+      (typeChanged)="typeChanged($event)"
+      [from]="item.from"
+      [body]="item.body"
+      [created_at]="item.created_at"
+    ></app-inbox-item>
+  </ng-container>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)">
+    <ion-infinite-scroll-content loadingSpinner="crescent"></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

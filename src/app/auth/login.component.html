@@ -1,0 +1,79 @@
+<ion-content no-bounce>
+  <div class="login-background"></div>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center ion-no-padding">
+      <ion-col size-sm="8" size-lg="6" size-xl="4" class="ion-align-self-center ion-no-padding">
+        <div class="login-header ion-text-center">
+          <h1 translate>APP_NAME</h1>
+          <ion-list *ngIf="isWeb" color="primary" lines="none" class="ion-no-padding">
+            <app-language-selector type="select" itemClass="ion-color ion-color-primary item-lines-none">
+            </app-language-selector>
+          </ion-list>
+        </div>
+        <div class="login-container">
+          <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+            <ion-text color="danger" [hidden]="!error || loginForm.dirty || isLoading">
+              <span class="ion-padding" translate>Username or password incorrect.</span>
+            </ion-text>
+            <ion-list>
+              <ion-item lines="inset">
+                <ion-label color="medium" position="floating" translate>Username</ion-label>
+                <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
+              </ion-item>
+              <ion-text
+                color="danger"
+                [hidden]="loginForm.controls.username.valid || loginForm.controls.username.untouched"
+              >
+                <span class="ion-padding" translate>Username is required</span>
+              </ion-text>
+              <ion-item lines="inset">
+                <ion-label color="medium" position="floating" translate>Password</ion-label>
+                <ion-input type="password" formControlName="password" autocomplete="current-password"></ion-input>
+              </ion-item>
+              <ion-text
+                color="danger"
+                [hidden]="loginForm.controls.password.valid || loginForm.controls.password.untouched"
+              >
+                <span class="ion-padding" translate>Password is required</span>
+              </ion-text>
+            </ion-list>
+            <div class="ion-padding-horizontal">
+              <ion-button
+                type="submit"
+                [disabled]="loginForm.invalid || isLoading"
+                color="primary"
+                expand="block"
+                translate
+              >
+                Login
+              </ion-button>
+              <p>
+                By continuing, you agree to
+                <a style="text-decoration: underline;" routerLink="/terms-and-conditions">Arsus's Conditions of Use </a
+                >and <a style="text-decoration: underline;" routerLink="/privacy-policy">Privacy Notice.</a>
+              </p>
+              <p class="ion-text-center" translate>or</p>
+              <div class="ion-text-center">
+                <ion-button (click)="login('google')">
+                  <ion-icon slot="icon-only" name="logo-google"></ion-icon>
+                </ion-button>
+                <ion-button (click)="login('facebook')">
+                  <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
+                </ion-button>
+                <ion-button (click)="login('microsoft')">
+                  <ion-icon name="logo-windows"></ion-icon>
+                </ion-button>
+                <ion-button (click)="login('twitter')">
+                  <ion-icon name="logo-twitter"></ion-icon>
+                </ion-button>
+                <ion-button (click)="login('yahoo')">
+                  <ion-icon name="logo-yahoo"></ion-icon>
+                </ion-button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

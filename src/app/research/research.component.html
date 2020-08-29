@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title translate>APP_NAME</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>
+        <a href="https://x.sanchezcarlosjr.com/research">
+          Papers
+        </a>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label color="primary">What's new</ion-label>
+    </ion-list-header>
+    <ion-item *ngFor="let project of projects | async" button [routerLink]="['/', project.name, project.uid]">
+      <ion-thumbnail slot="start">
+        <img [src]="project.img" />
+      </ion-thumbnail>
+      <ion-label>
+        {{ project.title }}
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">arsus</string>
+    <string name="title_activity_main">arsus</string>
+    <string name="package_name">com.sanchezcarlosjr.blog2</string>
+    <string name="custom_url_scheme">com.sanchezcarlosjr.blog2</string>
+</resources>

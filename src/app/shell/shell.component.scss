@@ -1,0 +1,23 @@
+$tabs-width: 90px;
+$tabs-height: $tabs-width;
+
+@media (min-width: 768px) {
+  ion-tabs {
+    flex-direction: row-reverse;
+  }
+
+  ion-tab-bar {
+    height: 100%;
+    width: $tabs-width;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-top: none;
+    border-right: var(--border);
+  }
+
+  ion-tab-button {
+    width: 100%;
+    height: $tabs-height;
+    flex: 0 1 auto;
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "appId": "com.sanchezcarlosjr.blog2",
+  "appName": "Arsus",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "dist",
+  "linuxAndroidStudioPath": "/opt/android-studio/bin/studio.sh",
+  "plugins": {
+    "SplashScreen": {
+      "launchAutoHide": false
+    }
+  },
+  "cordova": {}
+}

@@ -1,0 +1,2 @@
+<iframe *ngIf="src" [src]="src | safeResource" [height]="height"></iframe>
+<div *ngIf="html" [innerHTML]="html | safeHTML"></div>

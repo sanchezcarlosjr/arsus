@@ -1,0 +1,41 @@
+<ion-list>
+  <ion-item>
+    <ion-avatar slot="start">
+      <img [src]="photoURL$ | async" />
+    </ion-avatar>
+    <ion-label>Hello {{ displayName$ | async }}</ion-label>
+  </ion-item>
+  <ion-item lines="none" button>
+    <ion-icon name="moon" slot="start"></ion-icon>
+    <ion-toggle (ionChange)="change()" [checked]="theme$ | async"></ion-toggle>
+  </ion-item>
+  <ion-item lines="none" button>
+    <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
+    <a href="https://x.sanchezcarlosjr.com/whatsapp">
+      <span>Whatsapp</span>
+    </a>
+  </ion-item>
+  <ion-item lines="none" button>
+    <ion-icon slot="start" name="logo-youtube"></ion-icon>
+    <a href="https://x.sanchezcarlosjr.com/youtube">
+      <span>Youtube</span>
+    </a>
+  </ion-item>
+  <ion-item lines="none" button>
+    <ion-icon slot="start" name="logo-twitter"></ion-icon>
+    <a href="https://x.sanchezcarlosjr.com/twitter">
+      <span>Twitter</span>
+    </a>
+  </ion-item>
+  <ion-item button lines="none">
+    <ion-icon slot="start" name="information-circle-outline"></ion-icon>
+    <a href="https://x.sanchezcarlosjr.com/resume">
+      <span translate>About</span>
+    </a>
+  </ion-item>
+  <app-language-selector type="item"></app-language-selector>
+  <ion-item lines="none" (click)="signOut()" button>
+    <ion-icon slot="start" name="log-out"></ion-icon>
+    <ion-label translate>Logout</ion-label>
+  </ion-item>
+</ion-list>

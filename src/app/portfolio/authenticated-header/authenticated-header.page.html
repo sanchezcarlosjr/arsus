@@ -1,0 +1,14 @@
+<ion-toolbar>
+  <ion-title translate>APP_NAME</ion-title>
+  <ion-buttons slot="end">
+    <ion-button *ngIf="!(isAuthenticated$ | async)" color="warning" fill="outline" routerLink="/login" translate
+      >Login
+    </ion-button>
+    <ion-button-apps *ngIf="(isAuthenticated$ | async)"></ion-button-apps>
+    <ion-button (click)="present($event)" *ngIf="(isAuthenticated$ | async)">
+      <ion-avatar>
+        <img [src]="(photoURL$ | async)" alt="" />
+      </ion-avatar>
+    </ion-button>
+  </ion-buttons>
+</ion-toolbar>

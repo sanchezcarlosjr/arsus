@@ -1,0 +1,17 @@
+<ng-container>
+  <ion-segment value="NA" (ionChange)="segmentChanged($event)">
+    <ion-segment-button value="content">
+      <ion-label>Content</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="no-reply">
+      <ion-label>NoReply</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="NA">
+      <ion-label>NA</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-item (click)="seeMore()">
+    <ion-label>{{ from }}</ion-label>
+    <ion-card-subtitle>{{ created_at }}</ion-card-subtitle>
+  </ion-item>
+</ng-container>

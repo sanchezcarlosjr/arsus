@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title><span translate>Settings</span></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-list>
+    <ion-list-header>
+      <ion-label translate>Account</ion-label>
+    </ion-list-header>
+    <ion-item (click)="writeInClipboardUserUID()" button lines="full">
+      <ion-icon name="server-outline" slot="start"></ion-icon>
+      <ion-label>{{ uid$ | async }}</ion-label>
+    </ion-item>
+    <ion-item button (click)="logout()">
+      <ion-icon name="log-out" slot="start"></ion-icon>
+      <ion-label translate>Logout</ion-label>
+    </ion-item>
+    <ng-container *ngIf="isWeb">
+      <ion-list-header>
+        <ion-label translate>Preferences</ion-label>
+      </ion-list-header>
+      <app-language-selector type="item"></app-language-selector>
+    </ng-container>
+    <ion-list-header>
+      <ion-label>Legal</ion-label>
+    </ion-list-header>
+    <ion-item button routerLink="/privacy-policy">
+      <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+      <ion-label translate>Privacy Policy</ion-label>
+    </ion-item>
+    <ion-item button routerLink="/terms-and-conditions">
+      <ion-icon name="man-outline" slot="start"></ion-icon>
+      <ion-label translate>Terms and Conditions</ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

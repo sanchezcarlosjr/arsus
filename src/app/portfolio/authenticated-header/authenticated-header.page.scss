@@ -1,0 +1,15 @@
+ion-avatar {
+  width: 32px;
+  height: 32px;
+  margin: 0 9px;
+}
+
+.call-to-action {
+  color: var(--ion-color-secondary-contrast);
+  background: var(--ion-color-danger);
+}
+
+.call-to-action:hover {
+  color: var(--ion-color-secondary-contrast);
+  background: var(--ion-color-danger);
+}
