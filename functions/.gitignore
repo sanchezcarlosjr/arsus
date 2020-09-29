@@ -6,5 +6,6 @@
 /typings
 
 /node_modules
-/api/go.sum
+
 service-account-credentials.json
+/lib

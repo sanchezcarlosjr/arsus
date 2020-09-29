@@ -17,16 +17,7 @@ export const environment = {
   defaultLanguage: 'es-ES',
   supportedLanguages: ['de-DE', 'en-US', 'fr-FR', 'zh-CN', 'es-ES'],
   googleAuthDomain: 'https://sanchezcarlosjr.com/login',
-  firebaseConfig: {
-    apiKey: '',
-    authDomain: '',
-    databaseURL: '',
-    projectId: '',
-    storageBucket: '',
-    messagingSenderId: '',
-    appId: '',
-    measurementId: '',
-  },
+  firebaseConfig: env.firebaseConfig,
 };
 
 /*
