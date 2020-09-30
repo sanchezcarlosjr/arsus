@@ -1,13 +1,13 @@
-import * as mocha from 'mocha';
-import { AdminWrapper } from '../../../../AdminWrapper';
-import { CurpId } from '../../../../../src/contexts/api/government/domain/CurpId';
 import { assert, expect } from 'chai';
-import { CurpResponse } from '../../../../../src/contexts/api/government/domain/CurpResponse';
-import { CurpIdScraper } from '../../../../../src/contexts/api/government/infraestructure/CurpIdScraper';
-import { ensureIsValidApiKey } from '../../../../../src/contexts/api/government/domain/ApiKey';
+import * as mocha from 'mocha';
 import { CurpIdFinder } from '../../../../../src/contexts/api/government/application/CurpIdFinder';
+import { ensureIsValidApiKey } from '../../../../../src/contexts/api/government/domain/ApiKey';
+import { CurpId } from '../../../../../src/contexts/api/government/domain/CurpId';
+import { CurpResponse } from '../../../../../src/contexts/api/government/domain/CurpResponse';
 import { CurpIdQueryFinder } from '../../../../../src/contexts/api/government/infraestructure/CurpIdQueryFinder';
+import { CurpIdScraper } from '../../../../../src/contexts/api/government/infraestructure/CurpIdScraper';
 import { Database } from '../../../../../src/database/database';
+import { AdminWrapper } from '../../../../AdminWrapper';
 
 const examples: CurpResponse[] = [
   {
@@ -24,13 +24,30 @@ const examples: CurpResponse[] = [
 mocha.describe('CURP Api', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
-  it('should validate API Key', async () => {
+  it('should show error when it invalid API Key', async () => {
     try {
       await ensureIsValidApiKey('');
     } catch (e) {
       expect(e.message).to.equal(`Api key '' not found. You need to sign up on https://sanchezcarlosjr.com`);
     }
   });
+  it('should show error when it API Key not found', async () => {
+    try {
+      await ensureIsValidApiKey('444');
+    } catch (e) {
+      expect(e.message).to.equal(`Api key '444' not found. You need to sign up on https://sanchezcarlosjr.com`);
+    }
+  });
+
+  it('should not show error with valid API Key', async () => {
+    try {
+      await ensureIsValidApiKey('444');
+    } catch (e) {
+      if (e.message && e.message === `Api key '444' not found. You need to sign up on https://sanchezcarlosjr.com`)
+        throw Error();
+    }
+  });
+
   it('should validate CURP', () => {
     assert.doesNotThrow(() => new CurpId('C'), `'CASE00011NMA8' is a invalid curp`);
     assert.throw(() => new CurpId('CASE0001A'), `'CASE000116NMA' is a invalid curp`);

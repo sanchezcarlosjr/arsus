@@ -1,11 +1,11 @@
-import * as functions from 'firebase-functions';
 import { Response } from 'express';
-import { CurpIdFinder } from '../../../contexts/api/government/application/CurpIdFinder';
-import { CurpId } from '../../../contexts/api/government/domain/CurpId';
-import { CurpIdScraper } from '../../../contexts/api/government/infraestructure/CurpIdScraper';
-import { ensureIsValidApiKey } from '../../../contexts/api/government/domain/ApiKey';
-import { CurpIdQueryFinder } from '../../../contexts/api/government/infraestructure/CurpIdQueryFinder';
+import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
+import { CurpIdFinder } from '../../../contexts/api/government/application/CurpIdFinder';
+import { ensureIsValidApiKey } from '../../../contexts/api/government/domain/ApiKey';
+import { CurpId } from '../../../contexts/api/government/domain/CurpId';
+import { CurpIdQueryFinder } from '../../../contexts/api/government/infraestructure/CurpIdQueryFinder';
+import { CurpIdScraper } from '../../../contexts/api/government/infraestructure/CurpIdScraper';
 
 export const curp = functions
   .runWith({

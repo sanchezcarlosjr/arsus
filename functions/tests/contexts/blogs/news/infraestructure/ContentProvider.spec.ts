@@ -1,17 +1,17 @@
 import { expect } from 'chai';
+import * as mocha from 'mocha';
+import * as moment from 'moment';
+import { NewsCreator } from '../../../../../src/contexts/blog/news/application/NewsCreator';
+import { Article } from '../../../../../src/contexts/blog/news/domain/Article';
+import { FirestoreNewsSaveRepository } from '../../../../../src/contexts/blog/news/infraestructure/FirestoreNewsSaveRepository';
+import { HackerNews } from '../../../../../src/contexts/blog/news/infraestructure/HackerNews';
+import { Music } from '../../../../../src/contexts/blog/news/infraestructure/Music';
+import { NewsApi } from '../../../../../src/contexts/blog/news/infraestructure/NewsApi';
+import { Podcast } from '../../../../../src/contexts/blog/news/infraestructure/Podcast';
 import { Twitter } from '../../../../../src/contexts/blog/news/infraestructure/Twitter';
 import { Youtube } from '../../../../../src/contexts/blog/news/infraestructure/Youtube';
-import * as mocha from 'mocha';
-import { NewsCreator } from '../../../../../src/contexts/blog/news/application/NewsCreator';
-import { FirestoreNewsSaveRepository } from '../../../../../src/contexts/blog/news/infraestructure/FirestoreNewsSaveRepository';
-import { AdminWrapper } from '../../../../AdminWrapper';
-import { Article } from '../../../../../src/contexts/blog/news/domain/Article';
-import { HackerNews } from '../../../../../src/contexts/blog/news/infraestructure/HackerNews';
-import { NewsApi } from '../../../../../src/contexts/blog/news/infraestructure/NewsApi';
-import * as moment from 'moment';
-import { Music } from '../../../../../src/contexts/blog/news/infraestructure/Music';
-import { Podcast } from '../../../../../src/contexts/blog/news/infraestructure/Podcast';
 import { ContentMailStrategy } from '../../../../../src/contexts/email/domain/ContentMailStrategy';
+import { AdminWrapper } from '../../../../AdminWrapper';
 import sinon = require('sinon');
 
 const isValidSetDocuments = (actual: Article[]): boolean => {
@@ -74,7 +74,7 @@ mocha.describe('Content Provider', () => {
     const articles = await music.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
-  it.only('should request to Podcast Api and return with articles format', async () => {
+  it('should request to Podcast Api and return with articles format', async () => {
     const podcast = new Podcast();
     const articles = await podcast.run();
     expect(isValidSetDocuments(articles)).to.equal(true);

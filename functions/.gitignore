@@ -9,3 +9,4 @@
 
 service-account-credentials.json
 /lib
+tests/.env
