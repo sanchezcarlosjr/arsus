@@ -1,0 +1,28 @@
+service: government
+
+provider:
+  name: aws
+  runtime: go1.x
+  region: us-west-1
+  stage: prod
+  memorySize: 3008
+
+package:
+  exclude:
+    - ./**
+  include:
+    - ./bin/**
+
+functions:
+  mexican:
+    handler: bin/mexican
+    events:
+      - http:
+          path: /mexican
+          method: get
+  rfc:
+    handler: bin/rfc
+    events:
+      - http:
+          path: /rfc
+          method: get
