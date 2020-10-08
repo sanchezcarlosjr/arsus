@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "github.com/sanchezcarlosjr/arsus/apps/government/shared"
+	_ "github.com/sanchezcarlosjr/arsus/apps/government/sanchezcarlosjr"
 
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
