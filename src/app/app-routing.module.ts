@@ -6,7 +6,7 @@ const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'inbox',
-      loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule),
+      loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule)
     },
     {
       path: 'users',

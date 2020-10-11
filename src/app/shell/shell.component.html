@@ -4,6 +4,18 @@
       <ion-icon name="home"></ion-icon>
       <ion-label translate>Home</ion-label>
     </ion-tab-button>
+    <ion-tab-button tab="inbox" *ngIf="admin | async">
+       <ion-icon name="chatbox-ellipses"></ion-icon>
+       <ion-label translate>Inbox</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="users" *ngIf="admin | async">
+      <ion-icon name="people"></ion-icon>
+      <ion-label translate>Users</ion-label>
+    </ion-tab-button>
+   <ion-tab-button tab="rss">
+      <ion-icon name="radio"></ion-icon>
+      <ion-label translate>RSS</ion-label>
+    </ion-tab-button>
     <ion-tab-button tab="settings">
       <ion-icon name="cog"></ion-icon>
       <ion-label translate>Settings</ion-label>

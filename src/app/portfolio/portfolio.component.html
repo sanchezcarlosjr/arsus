@@ -10,7 +10,7 @@
           <iframe *ngIf="article.type === 'video'" [src]="article.urlToImage | safeResource"
                   allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           <ion-item *ngIf="article.type === 'newspaper' || article.type === 'email'" lines="none">
-            <ion-thumbnail *ngIf="article.urlToImage" slot="end" >
+            <ion-thumbnail *ngIf="article.urlToImage" slot="end" [routerLink]="['/article', article.title, article.uid]">
                 <img [src]="article.urlToImage">
             </ion-thumbnail>
             <ion-label>

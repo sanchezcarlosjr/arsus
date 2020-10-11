@@ -1,20 +1,21 @@
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
-import { LoginAction, LogoutAction } from './auth.actions';
 import { Injectable } from '@angular/core';
-import { auth, UserInfo } from 'firebase/app';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
-import { AngularFireFunctions } from '@angular/fire/functions';
-import { GoogleApiService } from '@store/auth/google-authentication.controller';
-import { SetUserName } from '@store/theme/theme.actions';
 import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { Router } from '@angular/router';
 import { ToastController } from '@ionic/angular';
-import { filter, tap } from 'rxjs/operators';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { UserRequest } from '@store/auth/user-request';
+import { SetUserName } from '@store/theme/theme.actions';
+import { auth, UserInfo } from 'firebase/app';
+import { filter, tap } from 'rxjs/operators';
+import { LoginAction, LogoutAction } from './auth.actions';
 
 export interface AuthenticationStateModel extends UserInfo {
   phoneNumber: string;
   uid: string;
+  admin: boolean;
   displayName: string;
   photoURL: string;
   email: string;
@@ -26,6 +27,7 @@ const defaults: AuthenticationStateModel = {
   uid: '',
   displayName: '',
   email: '',
+  admin: false,
   phoneNumber: '',
   emailVerified: false,
   photoURL: '',
@@ -44,7 +46,8 @@ export class AuthStateModule implements NgxsOnInit {
     private firestore: AngularFirestore,
     private toast: ToastController,
     private router: Router
-  ) {}
+  ) {
+  }
 
   @Selector()
   static photoURL(state: AuthenticationStateModel) {
@@ -54,6 +57,11 @@ export class AuthStateModule implements NgxsOnInit {
   @Selector()
   static uid(state: AuthenticationStateModel) {
     return state.uid;
+  }
+
+  @Selector()
+  static admin(state: AuthenticationStateModel) {
+    return state.admin;
   }
 
   ngxsOnInit(ctx: StateContext<AuthenticationStateModel>) {
@@ -85,8 +93,9 @@ export class AuthStateModule implements NgxsOnInit {
           });
         })
       )
-      .subscribe((user) =>
+      .subscribe(async (user) =>
         ctx.patchState({
+          admin: ((await user.getIdTokenResult()).claims).hasOwnProperty('admin'),
           photoURL: user.photoURL || 'https://image.flaticon.com/icons/svg/2494/2494552.svg',
           uid: user.uid,
           emailVerified: user.emailVerified,
