@@ -7,12 +7,14 @@ import { SecuritySocialNumberRapidapiFinder } from './../infraestructure/Securit
 export class MexicanFinder {
     private database = new Database();
     async find(curp: CurpResponse) {
-        const securitySocialNumber = new SecuritySocialNumberRapidapiFinder(curp.curp);
-        const rfc = new RFCRapidapiFinder(curp.name, curp.fatherName, curp.motherName, curp.birthday);
-        const object = {
-            ...await securitySocialNumber.find(),
-            ...await rfc.find()
-        };
-        return this.database.collection('id').update(curp.curp, object);
+        const requests = [new SecuritySocialNumberRapidapiFinder(curp.curp), new RFCRapidapiFinder(curp.name, curp.fatherName, curp.motherName, curp.birthday)]
+        return Promise.all(requests.map(async (request) => {
+            try {
+              const response  = await request.find();
+              return this.database.collection('id').update(curp.curp, response);
+            } catch(e) {
+                 console.warn(e);
+            }
+        }));
     }
 }

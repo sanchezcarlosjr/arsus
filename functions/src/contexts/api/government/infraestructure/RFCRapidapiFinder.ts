@@ -4,8 +4,7 @@ import { get, post } from 'request-promise';
 export interface RFC {
   isLRFC: boolean,
   rfc: string,
-  blockListData: any,
-  isRFCInBlockList: {
+  rfcBlockList: {
       id: string,
       actualStatus: string
   }
@@ -108,15 +107,11 @@ export class RFCRapidapiFinder {
         return {
             isLRFC: this.record.isRegistered,
             rfc: this.rfc, 
-            isRFCInBlockList: (this.record.blacklist69) ?  
+            rfcBlockList: (this.record.blacklist69) ?  
             {
                 id: this.record.blacklist69b.id,
                 actualStatus: this.record.blacklist69b.status
-            }: null,
-            blockListData: {
-                ...this.record.blacklist69,
-                ...this.record.blacklist69b
-            }
+            }: null
         };
     }
 }

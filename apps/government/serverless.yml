@@ -4,7 +4,7 @@ provider:
   name: aws
   runtime: go1.x
   region: us-west-1
-  stage: prod
+  stage: beta
   memorySize: 3008
 
 package:

@@ -23,8 +23,9 @@ export class SecuritySocialNumberRapidapiFinder {
                         },
                         json: true
                 })
-        } catch(e) {}
-        finally {
+             return this.doStrategy();
+        } catch(e) {
+             console.warn(e);
              return this.doStrategy();
         }
     }
