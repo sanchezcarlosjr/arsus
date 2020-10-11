@@ -6,60 +6,24 @@
       <ion-col class="ion-hide-sm-down ion-align-self-start"></ion-col>
       <ion-col size-sm="12" size-md="8" class="ion-align-self-center">
         <div class="articles" *ngFor="let article of articles | async">
-          <ng-tweet *ngIf="article.type === 'tweet'; else card" [id]="article.urlToImage"></ng-tweet>
-          <ng-template #card>
-            <ion-card mode="ios">
-              <iframe
-                *ngIf="article.type === 'video'"
-                [src]="article.urlToImage | safeResource"
-                allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
-              <ion-img
-                *ngIf="article.urlToImage && article.type !== 'video'"
-                [src]="article.urlToImage"
-                [alt]="article.title"
-              ></ion-img>
-              <ion-card-header>
-                <ion-card-title>
-                  {{ article.source.name }}
-                  <ion-icon name="chevron-forward-outline"></ion-icon>
-                  {{ article.title }}
-                </ion-card-title>
-                <ion-card-subtitle>{{ article.publishedAt }}</ion-card-subtitle>
-              </ion-card-header>
-              <ion-card-content>
-                <audio
-                  *ngIf="article.type === 'podcast'"
-                  controls
-                  controlsList="nodownload"
-                  preload="none"
-                  (click)="interaction(article.uid)"
-                >
-                  <source [src]="article.audio" type="audio/mpeg" />
-                  <source [src]="article.audio" type="audio/mp4" />
-                  Your browser does not support the audio element.
-                </audio>
-                <ion-button (click)="share(article)" color="dark" fill="clear" slot="icon-only">
-                  <ion-icon name="share-social-outline"></ion-icon>
-                </ion-button>
-                <ion-button *ngIf="userUID" color="dark" fill="clear" slot="icon-only">
-                  <ion-icon name="bookmark-outline"></ion-icon>
-                </ion-button>
-                <ion-button
-                  (click)="seeMore(article.description, article.uid)"
-                  color="dark"
-                  fill="clear"
-                  slot="icon-only"
-                >
-                  <ion-icon name="expand-outline"></ion-icon
-                ></ion-button>
-                <ion-button fill="clear" (click)="interaction(article.uid)">
-                  <a [href]="article.url" target="_blank" translate>See source</a></ion-button
-                >
-              </ion-card-content>
-            </ion-card>
-          </ng-template>
+          <ng-tweet *ngIf="article.type === 'tweet'" [id]="article.urlToImage"></ng-tweet>
+          <iframe *ngIf="article.type === 'video'" [src]="article.urlToImage | safeResource"
+                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <ion-item *ngIf="article.type === 'newspaper' || article.type === 'email'" lines="none">
+            <ion-thumbnail *ngIf="article.urlToImage" slot="end" >
+                <img [src]="article.urlToImage">
+            </ion-thumbnail>
+            <ion-label>
+              <h1  class="ion-text-nowrap" [routerLink]="['/article', article.title, article.uid]">{{article.title}}</h1>
+              <p>{{article.summary}}</p>
+              <p>
+                {{article.publishedAt}} {{article.readingTime}}
+                <a [href]="article.url" target="_blank" translate>
+                  <ion-icon class="expand" name="golf"></ion-icon>
+                </a>
+              </p>
+            </ion-label>
+          </ion-item>
         </div>
         <ng-container *ngIf="(articles | async).length === 0">
           <div class="articles" *ngFor="let article of [1, 1]">

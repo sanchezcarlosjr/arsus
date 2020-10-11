@@ -1,16 +1,15 @@
-import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { NewsFirestore } from './news.firestore';
-import {
-  Disconnected,
-  Emitted,
-  NgxsFirestoreConnect,
-  StreamDisconnected,
-  StreamEmitted,
-} from '@ngxs-labs/firestore-plugin';
-import { append, patch } from '@ngxs/store/operators';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { FetchNews, GetNews } from '@app/portfolio/news/news.actions';
+import {
+  Emitted,
+  NgxsFirestoreConnect,
+
+  StreamEmitted
+} from '@ngxs-labs/firestore-plugin';
+import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
+import { append, patch } from '@ngxs/store/operators';
+import { NewsFirestore } from './news.firestore';
 
 export interface Source {
   id?: string;
@@ -18,18 +17,18 @@ export interface Source {
 }
 
 export interface Article {
-  source: Source;
+  source?: Source;
   author?: string;
-  title: string;
-  description: string;
-  url: string;
-  styles: any;
+  title?: string;
+  description?: string;
+  url?: string;
+  styles?: any;
   audio?: any;
-  urlToImage: SafeResourceUrl | string | number;
-  publishedAt: any;
+  urlToImage?: SafeResourceUrl | string | number;
+  publishedAt?: any;
   content?: string;
-  uid: string;
-  type: string;
+  uid?: string;
+  type?: string;
 }
 
 export interface NewsStateModel {

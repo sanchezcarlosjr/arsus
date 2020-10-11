@@ -1,8 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-
-import { PortfolioComponent } from './portfolio.component';
 import { extract } from '../i18n';
+import { PortfolioComponent } from './portfolio.component';
+import { ViewerComponent } from './viewer/viewer.component';
+
 
 const routes: Routes = [
   {
@@ -10,6 +11,10 @@ const routes: Routes = [
     component: PortfolioComponent,
     data: { title: extract('News') },
   },
+  {
+    path: 'article/:title/:uid',
+    component: ViewerComponent
+  }
 ];
 
 @NgModule({

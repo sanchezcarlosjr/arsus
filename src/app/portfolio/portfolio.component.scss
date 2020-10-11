@@ -1,9 +1,11 @@
-ion-card:first-child {
-  margin: auto;
-}
-
 .articles {
   margin-bottom: 15em;
+}
+
+h1 {
+  font-size: 2em;
+  white-space: normal!important;
+  font-weight: 700;
 }
 
 .center {
@@ -21,7 +23,7 @@ df-messenger {
   --df-messenger-user-message: var(--ion-color-tertiary);
   --df-messenger-input-font-color: var(--ion-color-step-600);
   --df-messenger-minimized-chat-close-icon-color: var(--ion-color-dark);
-  --df-messenger-input-box-color: var(--ion-background-color);
+  --df-messenger-input-box-color: var(--ion-background-color); 
 }
 
 audio {
@@ -32,4 +34,13 @@ iframe {
   border: 0;
   width: 100%;
   height: 600px;
+}
+
+.expand {
+  font-size: 20px;
+}
+
+ion-thumbnail {
+  width: calc(20vw);
+  height: calc(30vh - 8px);
 }

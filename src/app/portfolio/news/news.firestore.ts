@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
+import { Article } from '@app/portfolio/news/news.state';
+import { NgxsFirestorePagination } from '@core/pagination.firestore';
 import { formatDistanceToNow } from 'date-fns';
 import { es } from 'date-fns/locale';
-import { NgxsFirestorePagination } from '@core/pagination.firestore';
-import { Article } from '@app/portfolio/news/news.state';
 
 @Injectable({
   providedIn: 'root',
@@ -14,7 +14,7 @@ export class NewsFirestore extends NgxsFirestorePagination<Article> {
   protected orderByDirection = 'desc';
 
   protected format = (article: Article) => {
-    article.publishedAt = formatDistanceToNow(article.publishedAt.toDate(), { locale: es });
+    article.publishedAt = formatDistanceToNow(article.publishedAt.toDate(), { locale: es, addSuffix: true });
     return article;
   };
 }

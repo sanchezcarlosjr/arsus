@@ -1,0 +1,4 @@
+<app-authenticated-header></app-authenticated-header>
+
+<ngx-description *ngIf="article.type === 'email'"  [description]=[article.description]></ngx-description>
+<div *ngIf="article.type === 'newspaper'" [innerHTML]="article.description | safeHTML" class="ion-padding"></div>

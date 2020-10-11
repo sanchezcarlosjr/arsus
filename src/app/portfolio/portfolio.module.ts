@@ -11,9 +11,10 @@ import { NgxsModule } from '@ngxs/store';
 import { NewsState } from './news/news.state';
 import { TweetComponent } from './tweet/tweet.component';
 import { IframeModule } from '@app/@shared/iframe/iframe.module';
+import { ViewerComponent } from './viewer/viewer.component';
 
 @NgModule({
-  declarations: [PortfolioComponent, TweetComponent],
+  declarations: [PortfolioComponent, TweetComponent, ViewerComponent],
   imports: [
     CommonModule,
     TranslateModule,
