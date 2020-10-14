@@ -17,10 +17,21 @@
               <h1  class="ion-text-nowrap" [routerLink]="['/article', article.title, article.uid]">{{article.title}}</h1>
               <p>{{article.summary}}</p>
               <p>
-                {{article.publishedAt}} {{article.readingTime}}
-                <a [href]="article.url" target="_blank" translate>
-                  <ion-icon class="expand" name="golf"></ion-icon>
-                </a>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col>
+                          {{article.publishedAt}} 
+                      </ion-col>
+                      <ion-col>
+                          {{article.readingTime}}
+                      </ion-col>
+                      <ion-col>
+                        <a [href]="article.url" target="_blank">
+                          <ion-icon class="expand" name="enter"></ion-icon>
+                        </a>
+                      </ion-col>
+                    </ion-row>
+                  </ion-grid>
               </p>
             </ion-label>
           </ion-item>

@@ -1,6 +1,5 @@
 <app-authenticated-header></app-authenticated-header>
 
 <ion-content>
-    <ngx-description *ngIf="article.type === 'email'"  [description]=[article.description]></ngx-description>
-    <div *ngIf="article.type === 'newspaper'" [innerHTML]="article.description | safeHTML" class="ion-padding"></div>s
+    <div [innerHTML]="article.description | safeHTML" class="ion-padding main"></div>
 </ion-content>
