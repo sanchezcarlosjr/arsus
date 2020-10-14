@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
+import { AngularFireAuthGuard, redirectLoggedInTo } from '@angular/fire/auth-guard';
 import { RouterModule, Routes } from '@angular/router';
-
 import { extract } from '@app/i18n';
 import { LoginComponent } from './login.component';
-import { AngularFireAuthGuard, redirectLoggedInTo } from '@angular/fire/auth-guard';
 
 const routes: Routes = [
   {
@@ -12,10 +11,7 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: {
       title: extract('Login'),
-      authGuardPipe: () =>
-        redirectLoggedInTo([
-          localStorage.getItem('authURLAfterLogin') ? localStorage.getItem('authURLAfterLogin') : '/home',
-        ]),
+      authGuardPipe: () => redirectLoggedInTo([localStorage.getItem('authURLAfterLogin') || 'tabs/home'])
     },
   },
 ];

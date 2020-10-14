@@ -1,7 +1,17 @@
+import { AngularFireAuthGuard, AuthPipe, loggedIn } from '@angular/fire/auth-guard';
 import { Route, Routes } from '@angular/router';
-import { ShellComponent } from './shell.component';
-import { AngularFireAuthGuard } from '@angular/fire/auth-guard';
+import { pipe } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { ShellComponent } from './shell.component';
+
+export const redirectUnauthorizedTo: (redirect: any[]) => AuthPipe =
+  (redirect) => pipe(loggedIn, map((loggedIn: any) => {
+    if (loggedIn) {
+      return loggedIn;
+    }
+    localStorage.setItem('authURLAfterLogin', location.pathname);
+    return redirect;
+  }));
 
 /**
  * Provides helper methods to create routes.
@@ -19,7 +29,7 @@ export class Shell {
       children: routes,
       canActivate: [AngularFireAuthGuard],
       data: {
-        redirectToProfileOrLogin: () => map((user) => (user ? ['home'] : ['login'])),
+        authGuardPipe: () => redirectUnauthorizedTo(['login'])
       },
     };
   }

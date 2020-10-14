@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Plugins } from '@capacitor/core';
 import { Platform, ToastController } from '@ionic/angular';
-import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { LogoutAction } from '@store/auth/auth.actions';
 import { AuthStateModule } from '@store/auth/auth.state';
-import { Observable } from 'rxjs';
 import { GoogleApiService } from '@store/auth/google-authentication.controller';
-import { ThemeStateModule } from '@store/theme/theme.state';
-import { Plugins } from '@capacitor/core';
+import { Observable } from 'rxjs';
 
 const { Clipboard } = Plugins;
 
@@ -18,14 +15,9 @@ const { Clipboard } = Plugins;
   styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
-  @Select(AuthStateModule.photoURL) photoURL$: Observable<string>;
-  @Select(ThemeStateModule.userName) displayName$: Observable<string>;
   @Select(AuthStateModule.uid) uid$: Observable<string>;
 
   constructor(
-    private router: Router,
-    private activatedRoute: ActivatedRoute,
-    private translateService: TranslateService,
     private platform: Platform,
     private googleApiService: GoogleApiService,
     private store: Store,

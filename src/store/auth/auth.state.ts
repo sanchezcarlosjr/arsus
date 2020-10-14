@@ -70,7 +70,6 @@ export class AuthStateModule implements NgxsOnInit {
         filter((user) => !!user),
         tap(async (user) => {
           ctx.dispatch(new SetUserName(user.displayName));
-          localStorage.removeItem('authURLAfterLogin');
           const device = await UserRequest.device();
           this.angularFireAuth.getRedirectResult().then((redirectResult) => {
             if (redirectResult && redirectResult.user) {
@@ -86,6 +85,7 @@ export class AuthStateModule implements NgxsOnInit {
               });
             }
           });
+         localStorage.removeItem('authURLAfterLogin');
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({
             created_at: new Date(),
@@ -139,7 +139,7 @@ export class AuthStateModule implements NgxsOnInit {
       default:
         return this.angularFireAuth
           .createUserWithEmailAndPassword(email, password)
-          .then(() => this.router.navigateByUrl('/home'))
+          .then(() => this.router.navigateByUrl('/tabs/home'))
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {
               return this.angularFireAuth.signInWithEmailAndPassword(email, password);
@@ -151,7 +151,7 @@ export class AuthStateModule implements NgxsOnInit {
             });
             await toast.present();
           })
-          .then(() => this.router.navigateByUrl('/home'))
+          .then(() => this.router.navigateByUrl('/tabs/home'))
           .catch(async (error) => {
             const toast = await this.toast.create({
               message: error.message,
