@@ -10,7 +10,7 @@ import { UserRequest } from '@store/auth/user-request';
 import { SetUserName } from '@store/theme/theme.actions';
 import { auth, UserInfo } from 'firebase/app';
 import { filter, tap } from 'rxjs/operators';
-import { LoginAction, LogoutAction } from './auth.actions';
+import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
 
 export interface AuthenticationStateModel extends UserInfo {
   phoneNumber: string;
@@ -108,12 +108,30 @@ export class AuthStateModule implements NgxsOnInit {
     return this.factory(action.provider, action.email, action.password);
   }
 
+  @Action(LinkAction)
+  link(ctx: StateContext<AuthenticationStateModel>, action: LoginAction) {
+    return this.factoryLink(action.provider);
+  }
+
   @Action(LogoutAction)
   logout(ctx: StateContext<AuthenticationStateModel>) {
     ctx.dispatch(new SetUserName(''));
     this.angularFireAuth.signOut().then(() => this.router.navigateByUrl('/'));
     ctx.setState(defaults);
   }
+
+ private async factoryLink(context: string) {
+   let provider = null;
+    switch (context) {
+        case 'google':
+          provider = new auth.GoogleAuthProvider();
+          provider.addScope(GoogleApiService.SCOPE);
+          return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
+        case 'twitter':
+          provider = new auth.TwitterAuthProvider();
+          return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
+    }
+ }
 
   private factory(context: string, email: string, password: string) {
     let provider = null;

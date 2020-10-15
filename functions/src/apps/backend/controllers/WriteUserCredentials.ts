@@ -1,9 +1,9 @@
-import { ProviderDataAdapter } from '../../../contexts/blog/users/infraestructure/ProviderDataAdapter';
-import { Google } from '../../../contexts/blog/users/infraestructure/Google';
-import { Youtube } from '../../../contexts/blog/users/infraestructure/Youtube';
-import { Twitter, TwitterFollower } from '../../../contexts/blog/users/infraestructure/Twitter';
 import { Change, EventContext } from 'firebase-functions/lib/cloud-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
+import { Google } from '../../../contexts/blog/users/infraestructure/Google';
+import { ProviderDataAdapter } from '../../../contexts/blog/users/infraestructure/ProviderDataAdapter';
+import { Twitter, TwitterFollower } from '../../../contexts/blog/users/infraestructure/Twitter';
+import { Youtube } from '../../../contexts/blog/users/infraestructure/Youtube';
 
 const functions = require('firebase-functions');
 
@@ -15,7 +15,7 @@ export const WriteUserController = functions.firestore
     switch (credentials.lastProvider) {
       case 'google':
         providerDataAdapter = new ProviderDataAdapter(context.params.userUID, credentials.google.accessToken);
-        return providerDataAdapter.adapt(new Google()).then(() => providerDataAdapter.adapt(new Youtube()));
+        return providerDataAdapter.adaptProperties(new Google()).then(() => providerDataAdapter.adapt(new Youtube()));
       case 'twitter':
         const tokenUID = {
           key: credentials.twitter.accessToken,

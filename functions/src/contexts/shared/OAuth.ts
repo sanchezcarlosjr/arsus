@@ -1,5 +1,5 @@
 import * as crypto from 'crypto';
-
+import * as functions from 'firebase-functions';
 const OAuth1 = require('oauth-1.0a');
 
 export interface OAuthHeadersOptions {
@@ -10,8 +10,8 @@ export interface OAuthHeadersOptions {
 }
 
 export class OAuth {
-  private consumerKey = '';
-  private consumerSecret = '';
+  private consumerKey = functions.config().twitter.consumerkey;
+  private consumerSecret = functions.config().twitter.consumersecret;
   private oauth: any;
 
   constructor() {

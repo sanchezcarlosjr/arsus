@@ -1,6 +1,6 @@
-import { ProviderDataAdaptable } from './ProviderDataAdapter';
-import { OAuth } from '../../../shared/OAuth';
 import { post } from 'request-promise';
+import { OAuth } from '../../../shared/OAuth';
+import { ProviderDataAdaptable, SourceNews } from './ProviderDataAdapter';
 
 export interface Urls {
   url: string;
@@ -134,11 +134,12 @@ export class Twitter implements ProviderDataAdaptable {
     };
   }
 
-  map(providerResponse: TwitterResponse): any[] {
+  map(providerResponse: TwitterResponse): SourceNews[] {
     return providerResponse.users.map((user) => {
       return {
-        channelID: user.screen_name,
-        itemID: user.id,
+        id: user.id.toString(), 
+        name: user.screen_name,
+        type: 'twitter'
       };
     });
   }

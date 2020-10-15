@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Plugins } from '@capacitor/core';
 import { Platform, ToastController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
-import { LogoutAction } from '@store/auth/auth.actions';
+import { LinkAction, LogoutAction } from '@store/auth/auth.actions';
 import { AuthStateModule } from '@store/auth/auth.state';
 import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { Observable } from 'rxjs';
@@ -42,6 +42,10 @@ export class SettingsComponent implements OnInit {
 
   grantOfflineAccess() {
     this.googleApiService.signInWithRedirect();
+  }
+
+  link(provider: string) {
+    this.store.dispatch(new LinkAction(provider));
   }
 
   logout() {

@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { AngularFirestore } from '@angular/fire/firestore';
+import { AngularFireFunctions } from '@angular/fire/functions';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { FetchInbox, GetInbox } from '@app/inbox/store/inbox.actions';
+import { InboxItem, InboxState } from '@app/inbox/store/inbox.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { InboxItem, InboxState } from '@app/inbox/store/inbox.state';
-import { FetchInbox, GetInbox } from '@app/inbox/store/inbox.actions';
-import { AngularFirestore } from '@angular/fire/firestore';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { AngularFireFunctions } from '@angular/fire/functions';
 
 @Component({
   selector: 'app-inbox',
@@ -36,8 +36,13 @@ export class InboxComponent implements OnInit {
     this.store.dispatch(new GetInbox());
   }
 
-  typeChanged(event: any) {
-    this.firestore.collection('TypeCommunication').add(event);
+  async typeChanged(event: {type: string, id: string}) {
+    if (event.type === 'content') {
+        await this.cloudFunctions.httpsCallable('AddSourceNewsController')({
+          id: event.id,
+          type: 'email'
+        }).toPromise();
+    }
   }
 
   loadData(event: any): void {

@@ -5,7 +5,7 @@ import { AdminWrapper } from '../../AdminWrapper';
 mocha.describe('CLI', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
-  it.only('Admin CLI', async () => {
+  it('Admin CLI', async () => {
     admin.auth().setCustomUserClaims('', {admin: true}).then(() => {});
   });
 });

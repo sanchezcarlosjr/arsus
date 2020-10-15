@@ -1,5 +1,6 @@
-import * as test from 'firebase-functions-test';
 import * as productionAdmin from 'firebase-admin';
+import * as test from 'firebase-functions-test';
+import { mockConfig } from './env';
 
 export class AdminWrapper {
   private projectConfig = {
@@ -12,49 +13,10 @@ export class AdminWrapper {
     appId: '',
     measurementId: '',
   };
-  private mockConfig = {
-    twillio: {
-      account_sid: '',
-      auth_token: '',
-    },
-    stripe: {
-      planenterprisebasic: '',
-      apikey: '',
-      publishablelivekey: '',
-      publishabletestkey: '',
-    },
-    google: {
-      userid: '',
-      bucket: '',
-      key: '',
-    },
-    podcast: {
-      key: '',
-    },
-    facturapi: {
-      userkey: '',
-    },
-    newsapi: {
-      key: '',
-    },
-    algolia: {
-      appid: '',
-      apikey: '',
-      index: '',
-    },
-    algolia_partners: {
-      index: '',
-      apikey: '',
-      appid: '',
-    },
-    sendgrid: {
-      key: '',
-    },
-  };
 
   constructor() {
     const functions = test(this.projectConfig, './tests/service-account-credentials.json');
-    functions.mockConfig(this.mockConfig);
+    functions.mockConfig(mockConfig);
   }
 
   setRealEnvironment(productionEnvironment: boolean) {

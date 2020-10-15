@@ -17,3 +17,10 @@ export class LogoutAction {
 
   constructor() {}
 }
+
+
+export class LinkAction {
+  public static readonly type = '[Auth] Link Action';
+
+  constructor(public provider: string, public email?: string, public password?: string) {}
+}

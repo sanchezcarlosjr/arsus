@@ -9,8 +9,16 @@
       <ion-label translate>Account</ion-label>
     </ion-list-header>
     <ion-item (click)="writeInClipboardUserUID()" button lines="full">
-      <ion-icon name="server-outline" slot="start"></ion-icon>
+      <ion-icon name="server" slot="start"></ion-icon>
       <ion-label>{{ uid$ | async }}</ion-label>
+    </ion-item>
+    <ion-item  button (click)="link('twitter')">
+        <ion-icon name="logo-twitter" slot="start"></ion-icon>
+        <ion-label> Link with Twitter</ion-label>
+    </ion-item>
+    <ion-item button (click)="link('google')">
+        <ion-icon name="logo-google" slot="start"></ion-icon>
+        <ion-label> Link with Google</ion-label>
     </ion-item>
     <ion-item button (click)="logout()">
       <ion-icon name="log-out" slot="start"></ion-icon>
@@ -26,11 +34,11 @@
       <ion-label>Legal</ion-label>
     </ion-list-header>
     <ion-item button routerLink="/privacy-policy">
-      <ion-icon name="finger-print-outline" slot="start"></ion-icon>
+      <ion-icon name="finger-print" slot="start"></ion-icon>
       <ion-label translate>Privacy Policy</ion-label>
     </ion-item>
     <ion-item button routerLink="/terms-and-conditions">
-      <ion-icon name="man-outline" slot="start"></ion-icon>
+      <ion-icon name="man" slot="start"></ion-icon>
       <ion-label translate>Terms and Conditions</ion-label>
     </ion-item>
   </ion-list>

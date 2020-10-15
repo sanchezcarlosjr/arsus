@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
-import { YoutubeResponse } from './YoutubeSubscriptionResponse';
-import { ProviderDataAdaptable } from './ProviderDataAdapter';
 import { post } from 'request-promise';
+import { ProviderDataAdaptable, SourceNews } from './ProviderDataAdapter';
+import { YoutubeResponse } from './YoutubeSubscriptionResponse';
 
 export class Youtube implements ProviderDataAdaptable {
   createOptionsFor(bearer: string): { uri: string; qs: any; auth: any; json: true } {
@@ -20,11 +20,12 @@ export class Youtube implements ProviderDataAdaptable {
     };
   }
 
-  map(youtubeResponse: YoutubeResponse): any[] {
+  map(youtubeResponse: YoutubeResponse): SourceNews[] {
     return youtubeResponse.items.map((item: any) => {
       return {
-        itemID: item.id,
-        channelID: item.snippet.resourceId.channelId,
+        name: item.snippet.title,
+        id: item.snippet.resourceId.channelId,
+        type: 'youtube'
       };
     });
   }
