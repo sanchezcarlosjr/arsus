@@ -4,7 +4,7 @@
     "build": "tsc",
     "start": "npm run shell",
     "test": "npm run test:unit",
-    "test:unit": "mocha -r ts-node/register tests/**/*.spec.ts --timeout 100000",
+    "test:unit": "mocha -r ts-node/register tests/**/*.spec.ts --timeout 36000000",
     "test:features": "cucumber-js -p default",
     "deploy": "firebase deploy --only functions"
   },

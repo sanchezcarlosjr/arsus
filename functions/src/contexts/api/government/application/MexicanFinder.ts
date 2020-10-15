@@ -9,12 +9,8 @@ export class MexicanFinder {
     async find(curp: CurpResponse) {
         const requests = [new SecuritySocialNumberRapidapiFinder(curp.curp), new RFCRapidapiFinder(curp.name, curp.fatherName, curp.motherName, curp.birthday)]
         return Promise.all(requests.map(async (request) => {
-            try {
-              const response  = await request.find();
-              return this.database.collection('id').update(curp.curp, response);
-            } catch(e) {
-                 console.warn(e);
-            }
+                const response  = await request.find();
+                return this.database.collection('id').update(curp.curp, response);
         }));
     }
 }

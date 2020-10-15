@@ -2,12 +2,12 @@ import * as admin from 'firebase-admin';
 import 'firebase-functions';
 
 admin.initializeApp();
-
+admin.firestore().settings({ ignoreUndefinedProperties: true })
 export * from './apps/backend/controllers/AddSourceNewsController';
 export * from './apps/backend/controllers/ArticleSearchController';
 export * from './apps/backend/controllers/bot/BotFulfillment';
 export * from './apps/backend/controllers/bot/SMS';
-export { curp } from './apps/backend/controllers/Curp';
+export * from './apps/backend/controllers/Curp';
 export * from './apps/backend/controllers/EmailSendController';
 export * from './apps/backend/controllers/EnterpriseStoreController';
 export * from './apps/backend/controllers/EnterpriseUpdateController';

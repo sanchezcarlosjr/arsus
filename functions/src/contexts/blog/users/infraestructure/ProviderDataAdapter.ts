@@ -15,6 +15,7 @@ export interface ProviderDataAdaptable {
 
 export class BatchFirestoreRepository {
   private firestore: FirebaseFirestore.Firestore = admin.firestore();
+
   async save<T extends {id: string}>(
             documents: T[],
             path: (document: any) => string,
@@ -59,6 +60,6 @@ export class ProviderDataAdapter {
   async adapt(providerData: ProviderDataAdaptable) {
     const subscriptions  = await get(providerData.createOptionsFor(this.tokenUID)).then((providerResponse) => providerData.map(providerResponse));
     const source = new Source();
-    source.save(subscriptions, this.userUID);
+    return source.save(subscriptions, this.userUID);
   }
 }

@@ -1,4 +1,3 @@
-import * as functions from 'firebase-functions';
 import * as mocha from 'mocha';
 import { Google } from '../../../../../src/contexts/blog/users/infraestructure/Google';
 import { ProviderDataAdapter } from '../../../../../src/contexts/blog/users/infraestructure/ProviderDataAdapter';
@@ -10,12 +9,9 @@ import { Youtube } from './../../../../../src/contexts/blog/users/infraestructur
 mocha.describe('Data User Provider', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(true);
-  const userUID = functions.config().google.userid;
-  const googleToken =
-    'ya29.a0AfH6SMC_oE2t5VdvlBoSJk5HJsaBch7Uj9RqB1sfkyx2bev84HMIAhUm8EbRWWLrVJZTf2A5wOOJnbHQLpOFX8BX-5wEtbGClPWRy-57Ban2NL1AkXw3X1JZN5aDNYqpLyfq-7yUiRSNfjlW3MQonG7QOuar12N8M6EHVg';
-  it.only('should get twitter friends', async () => {
+  it('should get twitter friends', async () => {
     const twitter = new Twitter();
-    const providerDataAdapter = new ProviderDataAdapter('', {
+    const providerDataAdapter = new ProviderDataAdapter('ibApT32rEUWPSP2aieZCOzyXCbC3', {
       key: '1033135342323298304-G2WSNzJFeXURQ9eF9dUwiJpMoV7rZ7',
       secret: 'IuBNxs4RJJrnRfwN0aImUTacMv8AsHwTSQd2JiVNtKWay',
     });
@@ -35,7 +31,7 @@ mocha.describe('Data User Provider', () => {
   });
   it('should get people data from google', async () => {
     const google = new Google();
-    const providerDataAdapter = new ProviderDataAdapter(userUID, googleToken);
+    const providerDataAdapter = new ProviderDataAdapter('', 'ya29.-5wEtbGClPWRy-57Ban2NL1AkXw3X1JZN5aDNYqpLyfq-7yUiRSNfjlW3MQonG7QOuar12N8M6EHVg');
     try {
       await providerDataAdapter.adaptProperties(google);
     } catch (e) {

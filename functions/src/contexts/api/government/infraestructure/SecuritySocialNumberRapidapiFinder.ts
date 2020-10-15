@@ -1,5 +1,4 @@
 import { get } from 'request-promise';
-const functions = require('firebase-functions');
 
 export interface IMSSResponse {
     datosPersonales: any;
@@ -18,14 +17,19 @@ export class SecuritySocialNumberRapidapiFinder {
                         },
                         headers: {
                             'x-rapidapi-host': 'imss.p.rapidapi.com',
-                            'x-rapidapi-key': functions.config().rapidapi.key,
+                            'x-rapidapi-key': 'fb542f27admsh62a79f5c3c5c2e9p115517jsn1a7ef511ebd1',
                             useQueryString: true
                         },
                         json: true
                 })
              return this.doStrategy();
         } catch(e) {
-             console.warn(e);
+             if (e.message == '400 - "El CURP no tiene el formato correcto."') {
+                 return {
+                     isRegisteredInIMSS: null
+                 };
+             }
+             console.warn(e.message);
              return this.doStrategy();
         }
     }

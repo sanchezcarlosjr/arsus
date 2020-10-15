@@ -1,4 +1,3 @@
-const functions = require('firebase-functions');
 import { get, post } from 'request-promise';
 
 export interface RFC {
@@ -78,7 +77,7 @@ export class RFCRapidapiFinder {
             },
              headers: {
                 'x-rapidapi-host': 'jfhe88-rfc-generator-mexico.p.rapidapi.com',
-                'x-rapidapi-key': functions.config().rapidapi.key,
+                'x-rapidapi-key': 'fb542f27admsh62a79f5c3c5c2e9p115517jsn1a7ef511ebd1',
                 useQueryString: true
             },
             json: true
@@ -89,7 +88,7 @@ export class RFCRapidapiFinder {
       this.record = await post('https://verifier.p.rapidapi.com/rfc/verify', {
            headers: {
                 'x-rapidapi-host': 'verifier.p.rapidapi.com',
-                'x-rapidapi-key': functions.config().rapidapi.key,
+                'x-rapidapi-key': 'fb542f27admsh62a79f5c3c5c2e9p115517jsn1a7ef511ebd1',
                 'content-type': 'application/json',
                 accept: 'application/json',
                 useQueryString: true
@@ -99,11 +98,20 @@ export class RFCRapidapiFinder {
       });
     }
     async find() {
-      await this.generate();
-      await this.verify();     
+      try {
+            await this.generate();
+            await this.verify();     
+      } catch(e) {
+           console.warn(e.message);
+      }
       return this.doStrategy();
     }
-    private doStrategy(): RFC {
+    private doStrategy(): RFC | any {
+        if (!this.record) {
+            return {
+                rfc: this.rfc || null
+            };
+        }
         return {
             isLRFC: this.record.isRegistered,
             rfc: this.rfc, 

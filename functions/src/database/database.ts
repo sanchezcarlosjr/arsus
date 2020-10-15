@@ -3,7 +3,7 @@ import { FirebaseFirestore, WhereFilterOp } from '@firebase/firestore-types';
 const admin = require('firebase-admin');
 
 export class Database {
-  private readonly firestore: FirebaseFirestore = admin.firestore();
+  private firestore: FirebaseFirestore = admin.firestore();
   private _collection = 'users';
 
   public get batch() {

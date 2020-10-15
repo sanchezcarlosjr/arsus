@@ -10,13 +10,11 @@ export interface OAuthHeadersOptions {
 }
 
 export class OAuth {
-  private consumerKey = functions.config().twitter.consumerkey;
-  private consumerSecret = functions.config().twitter.consumersecret;
   private oauth: any;
 
   constructor() {
     this.oauth = OAuth1({
-      consumer: { key: this.consumerKey, secret: this.consumerSecret },
+      consumer: { key: functions.config().twitter.consumerkey, secret: functions.config().twitter.consumersecret },
       signature_method: 'HMAC-SHA1',
       hash_function: (base_string: string, key: string) =>
         crypto.createHmac('sha1', key).update(base_string).digest('base64'),
