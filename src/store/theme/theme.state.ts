@@ -1,6 +1,6 @@
+import { Injectable } from '@angular/core';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { SetThemeAction, SetUserName } from './theme.actions';
-import { Injectable } from '@angular/core';
 
 export interface ThemeStateModel {
   isDarkTheme: boolean;

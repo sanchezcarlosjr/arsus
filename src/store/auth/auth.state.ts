@@ -3,13 +3,13 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Router } from '@angular/router';
-import { ToastController } from '@ionic/angular';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { UserRequest } from '@store/auth/user-request';
 import { SetUserName } from '@store/theme/theme.actions';
 import { auth, UserInfo } from 'firebase/app';
 import { filter, tap } from 'rxjs/operators';
+import { ToastService } from './../../app/@shared/toast.service';
 import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
 
 export interface AuthenticationStateModel extends UserInfo {
@@ -44,7 +44,7 @@ export class AuthStateModule implements NgxsOnInit {
     private angularFireAuth: AngularFireAuth,
     private functions: AngularFireFunctions,
     private firestore: AngularFirestore,
-    private toast: ToastController,
+    private toast: ToastService,
     private router: Router
   ) {
   }
@@ -69,7 +69,7 @@ export class AuthStateModule implements NgxsOnInit {
       .pipe(
         filter((user) => !!user),
         tap(async (user) => {
-          ctx.dispatch(new SetUserName(user.displayName));
+          ctx.dispatch(new SetUserName(user.displayName || user.email.split('@')[0]) || 'anonymous');
           const device = await UserRequest.device();
           this.angularFireAuth.getRedirectResult().then((redirectResult) => {
             if (redirectResult && redirectResult.user) {
@@ -85,7 +85,7 @@ export class AuthStateModule implements NgxsOnInit {
               });
             }
           });
-         localStorage.removeItem('authURLAfterLogin');
+          localStorage.removeItem('authURLAfterLogin');
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({
             created_at: new Date(),
@@ -120,18 +120,18 @@ export class AuthStateModule implements NgxsOnInit {
     ctx.setState(defaults);
   }
 
- private async factoryLink(context: string) {
-   let provider = null;
+  private async factoryLink(context: string) {
+    let provider = null;
     switch (context) {
-        case 'google':
-          provider = new auth.GoogleAuthProvider();
-          provider.addScope(GoogleApiService.SCOPE);
-          return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
-        case 'twitter':
-          provider = new auth.TwitterAuthProvider();
-          return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
+      case 'google':
+        provider = new auth.GoogleAuthProvider();
+        provider.addScope(GoogleApiService.SCOPE);
+        return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
+      case 'twitter':
+        provider = new auth.TwitterAuthProvider();
+        return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
     }
- }
+  }
 
   private factory(context: string, email: string, password: string) {
     let provider = null;
@@ -155,28 +155,28 @@ export class AuthStateModule implements NgxsOnInit {
         provider = new auth.OAuthProvider('yahoo.com');
         return this.angularFireAuth.signInWithRedirect(provider);
       default:
+        if (/etochq|firemailbox/.test(email)) {
+          return this.toast.showError('Invalid email domain. Check your email. ');
+        }
         return this.angularFireAuth
           .createUserWithEmailAndPassword(email, password)
-          .then(() => this.router.navigateByUrl('/tabs/home'))
+          .then((userCredential) => {
+            userCredential.user.sendEmailVerification();
+            this.toast.showInfo('Verify your email. Check your inbox.');
+          })
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {
-              return this.angularFireAuth.signInWithEmailAndPassword(email, password);
+              return this.angularFireAuth.
+                signInWithEmailAndPassword(email, password)
+                .then((userCredential) => {
+                  if (!userCredential.user.emailVerified && userCredential.user.providerId === 'firebase') {
+                    return this.toast.showError('Verify your email. Check your inbox.');
+                  }
+                  this.router.navigateByUrl('/tabs/home');
+                })
+                .catch((error) => this.toast.showError(error.message));
             }
-            const toast = await this.toast.create({
-              message: error.message,
-              duration: 420,
-              color: 'danger',
-            });
-            await toast.present();
-          })
-          .then(() => this.router.navigateByUrl('/tabs/home'))
-          .catch(async (error) => {
-            const toast = await this.toast.create({
-              message: error.message,
-              duration: 420,
-              color: 'danger',
-            });
-            await toast.present();
+            return this.toast.showError(error.message);
           });
     }
   }

@@ -4,7 +4,7 @@
     "build": "tsc",
     "start": "npm run shell",
     "test": "npm run test:unit",
-    "test:unit": "mocha -r ts-node/register tests/**/*.spec.ts --timeout 36000000",
+    "test:unit": "mocha -r ts-node/register tests/**/*.spec.ts --timeout 360000000",
     "test:features": "cucumber-js -p default",
     "deploy": "firebase deploy --only functions"
   },
@@ -30,6 +30,7 @@
     "oauth-1.0a": "^2.2.6",
     "request": "^2.88.2",
     "request-promise": "^4.2.5",
+    "rfc-facil": "^1.1.0",
     "stripe": "^8.63.0",
     "twilio": "^3.48.0",
     "uuidv4": "^6.1.1",

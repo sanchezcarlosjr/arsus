@@ -1,16 +1,17 @@
-import { Database } from './../../../../database/database';
 import { CurpResponse } from './../domain/CurpResponse';
 import { RFCRapidapiFinder } from './../infraestructure/RFCRapidapiFinder';
 import { SecuritySocialNumberRapidapiFinder } from './../infraestructure/SecuritySocialNumberRapidapiFinder';
 
+let t = 0;
 
 export class MexicanFinder {
-    private database = new Database();
     async find(curp: CurpResponse) {
-        const requests = [new SecuritySocialNumberRapidapiFinder(curp.curp), new RFCRapidapiFinder(curp.name, curp.fatherName, curp.motherName, curp.birthday)]
-        return Promise.all(requests.map(async (request) => {
-                const response  = await request.find();
-                return this.database.collection('id').update(curp.curp, response);
-        }));
+        console.log('\x1b[36m%s\x1b[0m', `${t++}. ${curp.curp}`);
+        const securitySocialNumberFinder = new SecuritySocialNumberRapidapiFinder(curp.curp);
+        const rfcFinder = new RFCRapidapiFinder(curp.name, curp.fatherName, curp.motherName, curp.birthday);
+        return {
+            ...await securitySocialNumberFinder.find(),
+            ...await rfcFinder.find(),
+        }
     }
 }
