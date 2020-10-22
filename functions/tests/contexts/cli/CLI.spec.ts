@@ -65,10 +65,10 @@ mocha.describe('Download mexican key data', () => {
   adminWrapper.setRealEnvironment(false);
   it.only('Admin CLI', async () => {
     const transaction = new Transaction();
-    const startAfter = 'SOJJ941214HMCLRN08';
+    const startAfter = 'SISS910917HOCLSB05';
     let document = await admin.firestore().collection('id').doc(startAfter).get();
     while (document) {
-      let query = admin.firestore().collection('id').orderBy('curp', 'desc').startAfter(document).limit(30);
+      let query = admin.firestore().collection('id').orderBy('curp', 'desc').startAfter(document).limit(20);
       try {
         document = await transaction.transacte(query).catch(() => transaction.transacte(query));
       } catch (e) {
