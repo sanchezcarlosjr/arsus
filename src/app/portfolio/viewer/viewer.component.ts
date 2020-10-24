@@ -6,20 +6,22 @@ import { Article } from '@app/portfolio/news/news.state';
 @Component({
   selector: 'app-viewer',
   templateUrl: './viewer.component.html',
-  styleUrls: ['./viewer.component.scss']
+  styleUrls: ['./viewer.component.scss'],
 })
 export class ViewerComponent implements OnInit {
   article: Article = {
     type: '',
     description: '',
-    source: {name: ''},
-    title: ''
+    source: { name: '' },
+    title: '',
   };
-  constructor(private route: ActivatedRoute, private firestore: AngularFirestore) { }
+  constructor(private route: ActivatedRoute, private firestore: AngularFirestore) {}
 
   ngOnInit(): void {
-    this.firestore.collection('content').doc(this.route.snapshot.paramMap.get('uid')).valueChanges()
-    .subscribe((document: Article) => this.article = document);
+    this.firestore
+      .collection('content')
+      .doc(this.route.snapshot.paramMap.get('uid'))
+      .valueChanges()
+      .subscribe((document: Article) => (this.article = document));
   }
-
 }

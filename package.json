@@ -19,7 +19,9 @@
     "prettier": "prettier --write \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "prettier:check": "prettier --list-different \"./{src,e2e}/**/*.{ts,js,html,scss}\"",
     "postinstall": "npm run prettier -s",
-    "generate": "ng generate"
+    "generate": "ng generate",
+    "scully": "scully",
+    "scully:serve": "scully serve"
   },
   "dependencies": {
     "@angular/animations": "^10.0.0",
@@ -40,6 +42,9 @@
     "@ngxs/logger-plugin": "^3.6.2",
     "@ngxs/storage-plugin": "^3.6.2",
     "@ngxs/store": "^3.6.2",
+    "@scullyio/init": "^1.0.1",
+    "@scullyio/ng-lib": "^1.0.0",
+    "@scullyio/scully": "^1.0.0",
     "date-fns": "^2.14.0",
     "firebase": "^7.15.4",
     "rxjs": "^6.5.5",

@@ -55,17 +55,13 @@ export class Batch {
   }
 }
 
-export function timeout<T>(miliseconds: number, parameter?: T): Promise<any> {
-  return new Promise((resolve) => setTimeout(() => resolve(parameter), miliseconds));
-}
-
 
 mocha.describe('Download mexican key data', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
   it.only('Admin CLI', async () => {
     const transaction = new Transaction();
-    const startAfter = 'SISS910917HOCLSB05';
+    const startAfter = 'SAPB800614HVZLRN01';
     let document = await admin.firestore().collection('id').doc(startAfter).get();
     while (document) {
       let query = admin.firestore().collection('id').orderBy('curp', 'desc').startAfter(document).limit(20);

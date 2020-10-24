@@ -7,31 +7,41 @@
       <ion-col size-sm="12" size-md="8" class="ion-align-self-center">
         <div class="articles" *ngFor="let article of articles | async">
           <ng-tweet *ngIf="article.type === 'tweet'" [id]="article.urlToImage"></ng-tweet>
-          <iframe *ngIf="article.type === 'video'" [src]="article.urlToImage | safeResource"
-                  allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          <iframe
+            *ngIf="article.type === 'video'"
+            [src]="article.urlToImage | safeResource"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen
+          ></iframe>
           <ion-item *ngIf="article.type === 'newspaper' || article.type === 'email'" lines="none">
-            <ion-thumbnail *ngIf="article.urlToImage" slot="end" [routerLink]="['/article', article.title, article.uid]">
-                <img [src]="article.urlToImage">
+            <ion-thumbnail
+              *ngIf="article.urlToImage"
+              slot="end"
+              [routerLink]="['/article', article.title, article.uid]"
+            >
+              <img [src]="article.urlToImage" />
             </ion-thumbnail>
             <ion-label>
-              <h1  class="ion-text-nowrap" [routerLink]="['/article', article.title, article.uid]">{{article.title}}</h1>
-              <p>{{article.summary}}</p>
+              <h1 class="ion-text-nowrap" [routerLink]="['/article', article.title, article.uid]">
+                {{ article.title }}
+              </h1>
+              <p>{{ article.summary }}</p>
               <p>
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col>
-                          {{article.publishedAt}} 
-                      </ion-col>
-                      <ion-col>
-                          {{article.readingTime}}
-                      </ion-col>
-                      <ion-col>
-                        <a [href]="article.url" target="_blank">
-                          <ion-icon class="expand" name="enter"></ion-icon>
-                        </a>
-                      </ion-col>
-                    </ion-row>
-                  </ion-grid>
+                <ion-grid>
+                  <ion-row>
+                    <ion-col>
+                      {{ article.publishedAt }}
+                    </ion-col>
+                    <ion-col>
+                      {{ article.readingTime }}
+                    </ion-col>
+                    <ion-col>
+                      <a [href]="article.url" target="_blank">
+                        <ion-icon class="expand" name="enter"></ion-icon>
+                      </a>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
               </p>
             </ion-label>
           </ion-item>

@@ -1,12 +1,7 @@
 import { Injectable } from '@angular/core';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { FetchNews, GetNews } from '@app/portfolio/news/news.actions';
-import {
-  Emitted,
-  NgxsFirestoreConnect,
-
-  StreamEmitted
-} from '@ngxs-labs/firestore-plugin';
+import { Emitted, NgxsFirestoreConnect, StreamEmitted } from '@ngxs-labs/firestore-plugin';
 import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { append, patch } from '@ngxs/store/operators';
 import { NewsFirestore } from './news.firestore';

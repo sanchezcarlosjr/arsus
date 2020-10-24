@@ -4,16 +4,16 @@ import { RouterModule, Routes } from '@angular/router';
 import { extract } from '@app/i18n';
 import { UsersComponent } from './users.component';
 
-
 const routes: Routes = [
-  { 
-    path: '', component: UsersComponent,
-    data: { 
+  {
+    path: '',
+    component: UsersComponent,
+    data: {
       title: extract('Users'),
-      authGuardPipe: () => hasCustomClaim('admin')
+      authGuardPipe: () => hasCustomClaim('admin'),
     },
     canActivate: [AngularFireAuthGuard],
-  }
+  },
 ];
 
 @NgModule({

@@ -17,6 +17,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgxsStoreModule } from '@store/store.module';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
+import { ScullyLibModule } from '@scullyio/ng-lib';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
     SettingsModule,
     AuthModule,
     NgxsStoreModule,
-    AppRoutingModule, // must be imported as the last module as it contains the fallback route
+    AppRoutingModule,
+    ScullyLibModule, // must be imported as the last module as it contains the fallback route
   ],
   declarations: [AppComponent],
   providers: [],

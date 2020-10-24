@@ -1,29 +1,29 @@
 <ion-header>
-    <ion-toolbar color="primary">
-        <ion-buttons slot="start">
-            <ion-menu-button></ion-menu-button>
-        </ion-buttons>
-        <ion-title>News sources</ion-title>
-        <ion-buttons slot="end">
-            <ion-button (click)="add()" slot="icon-only">
-                <ion-icon name="add"></ion-icon>
-            </ion-button>
-        </ion-buttons>
-    </ion-toolbar>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>News sources</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="add()" slot="icon-only">
+        <ion-icon name="add"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
 </ion-header>
 <ion-content>
-    <ion-list>
-        <ion-item *ngFor="let source of sources | async">
-            <ion-label>
-                <ng-container [ngSwitch]="source.type">
-                    <ion-icon *ngSwitchCase="'twitter'" name="logo-twitter"></ion-icon>
-                    <ion-icon *ngSwitchCase="'email'" name="mail"></ion-icon>
-                    <ion-icon *ngSwitchCase="'youtube'" name="logo-youtube"></ion-icon>
-                    <ion-icon *ngSwitchCase="'xml'" name="radio"></ion-icon>
-                </ng-container>
-                {{source.name}}
-            </ion-label>
-            <ion-icon name="trash" (click)="remove(source.id)"></ion-icon>
-        </ion-item>
-    </ion-list>
+  <ion-list>
+    <ion-item *ngFor="let source of sources | async">
+      <ion-label>
+        <ng-container [ngSwitch]="source.type">
+          <ion-icon *ngSwitchCase="'twitter'" name="logo-twitter"></ion-icon>
+          <ion-icon *ngSwitchCase="'email'" name="mail"></ion-icon>
+          <ion-icon *ngSwitchCase="'youtube'" name="logo-youtube"></ion-icon>
+          <ion-icon *ngSwitchCase="'xml'" name="radio"></ion-icon>
+        </ng-container>
+        {{ source.name }}
+      </ion-label>
+      <ion-icon name="trash" (click)="remove(source.id)"></ion-icon>
+    </ion-item>
+  </ion-list>
 </ion-content>

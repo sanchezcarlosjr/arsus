@@ -46,8 +46,7 @@ export class AuthStateModule implements NgxsOnInit {
     private firestore: AngularFirestore,
     private toast: ToastService,
     private router: Router
-  ) {
-  }
+  ) {}
 
   @Selector()
   static photoURL(state: AuthenticationStateModel) {
@@ -95,7 +94,7 @@ export class AuthStateModule implements NgxsOnInit {
       )
       .subscribe(async (user) =>
         ctx.patchState({
-          admin: ((await user.getIdTokenResult()).claims).hasOwnProperty('admin'),
+          admin: (await user.getIdTokenResult()).claims.hasOwnProperty('admin'),
           photoURL: user.photoURL || 'https://image.flaticon.com/icons/svg/2494/2494552.svg',
           uid: user.uid,
           emailVerified: user.emailVerified,
@@ -166,8 +165,8 @@ export class AuthStateModule implements NgxsOnInit {
           })
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {
-              return this.angularFireAuth.
-                signInWithEmailAndPassword(email, password)
+              return this.angularFireAuth
+                .signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
                   if (!userCredential.user.emailVerified && userCredential.user.providerId === 'firebase') {
                     return this.toast.showError('Verify your email. Check your inbox.');

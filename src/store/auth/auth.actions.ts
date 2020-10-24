@@ -18,7 +18,6 @@ export class LogoutAction {
   constructor() {}
 }
 
-
 export class LinkAction {
   public static readonly type = '[Auth] Link Action';
 

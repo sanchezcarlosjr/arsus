@@ -2,7 +2,6 @@ service: government
 
 provider:
   name: aws
-  runtime: go1.x
   region: us-west-1
   stage: prod
   memorySize: 3008
@@ -15,12 +14,14 @@ package:
 
 functions:
   mexican:
+    runtime: go1.x
     handler: bin/mexican
     events:
       - http:
           path: /mexican
           method: get
   rfc:
+    runtime: go1.x
     handler: bin/rfc
     events:
       - http:

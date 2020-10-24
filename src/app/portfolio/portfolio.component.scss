@@ -4,7 +4,7 @@
 
 h1 {
   font-size: 2em;
-  white-space: normal!important;
+  white-space: normal !important;
   font-weight: 700;
 }
 
@@ -23,7 +23,7 @@ df-messenger {
   --df-messenger-user-message: var(--ion-color-tertiary);
   --df-messenger-input-font-color: var(--ion-color-step-600);
   --df-messenger-minimized-chat-close-icon-color: var(--ion-color-dark);
-  --df-messenger-input-box-color: var(--ion-background-color); 
+  --df-messenger-input-box-color: var(--ion-background-color);
 }
 
 audio {

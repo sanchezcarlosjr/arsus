@@ -4,14 +4,13 @@ import { RouterModule, Routes } from '@angular/router';
 import { extract } from '../i18n';
 import { InboxComponent } from './inbox.component';
 
-
 const routes: Routes = [
   {
     path: '',
     component: InboxComponent,
-    data: { 
+    data: {
       title: extract('Inbox'),
-      authGuardPipe: () => hasCustomClaim('admin')
+      authGuardPipe: () => hasCustomClaim('admin'),
     },
     canActivate: [AngularFireAuthGuard],
   },

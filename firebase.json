@@ -2,7 +2,7 @@
   "hosting": [
     {
       "site": "carlos-sanchez-jr",
-      "public": "dist",
+      "public": "dist/static",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {

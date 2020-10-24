@@ -12,6 +12,5 @@ export class ShellComponent implements OnInit {
   @Select(AuthStateModule.admin) admin: Observable<boolean>;
   constructor() {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 }

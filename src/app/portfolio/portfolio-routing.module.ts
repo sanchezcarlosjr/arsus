@@ -4,7 +4,6 @@ import { extract } from '../i18n';
 import { PortfolioComponent } from './portfolio.component';
 import { ViewerComponent } from './viewer/viewer.component';
 
-
 const routes: Routes = [
   {
     path: '',
@@ -13,8 +12,8 @@ const routes: Routes = [
   },
   {
     path: 'article/:title/:uid',
-    component: ViewerComponent
-  }
+    component: ViewerComponent,
+  },
 ];
 
 @NgModule({

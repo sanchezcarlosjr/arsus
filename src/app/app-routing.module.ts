@@ -6,15 +6,15 @@ const routes: Routes = [
   Shell.childRoutes([
     {
       path: 'inbox',
-      loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule)
+      loadChildren: () => import('./inbox/inbox.module').then((m) => m.InboxModule),
     },
     {
       path: 'users',
       loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
     },
-    { 
+    {
       path: 'rss',
-      loadChildren: () => import('./rss/rss.module').then(m => m.RssModule) 
+      loadChildren: () => import('./rss/rss.module').then((m) => m.RssModule),
     },
   ]),
   {

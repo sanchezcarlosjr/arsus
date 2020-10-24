@@ -11,7 +11,7 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: {
       title: extract('Login'),
-      authGuardPipe: () => redirectLoggedInTo([localStorage.getItem('authURLAfterLogin') || 'tabs/home'])
+      authGuardPipe: () => redirectLoggedInTo([localStorage.getItem('authURLAfterLogin') || 'tabs/home']),
     },
   },
 ];

@@ -36,12 +36,14 @@ export class InboxComponent implements OnInit {
     this.store.dispatch(new GetInbox());
   }
 
-  async typeChanged(event: {type: string, id: string}) {
+  async typeChanged(event: { type: string; id: string }) {
     if (event.type === 'content') {
-        await this.cloudFunctions.httpsCallable('AddSourceNewsController')({
+      await this.cloudFunctions
+        .httpsCallable('AddSourceNewsController')({
           id: event.id,
-          type: 'email'
-        }).toPromise();
+          type: 'email',
+        })
+        .toPromise();
     }
   }
 
