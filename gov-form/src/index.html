@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/gov-form.esm.js"></script>
+    <script nomodule src="/build/gov-form.js"></script>
+  </head>
+  <body>
+    <gov-form apikey=""></gov-form>
+    <script>
+      const govForm = document.querySelector('gov-form');
+      govForm.addEventListener('completed', event => { console.log(event.detail) })
+    </script>
+  </body>
+</html>
