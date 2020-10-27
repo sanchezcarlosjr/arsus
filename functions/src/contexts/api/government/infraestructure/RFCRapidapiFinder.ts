@@ -1,3 +1,4 @@
+import { config } from 'firebase-functions';
 import { get, post } from 'request-promise';
 import { warnByAPI } from './SecuritySocialNumberRapidapiFinder';
 const RFCFacil = require('rfc-facil');
@@ -86,7 +87,7 @@ export class RFCRapidapiFinder {
                 },
                 headers: {
                     'x-rapidapi-host': 'jfhe88-rfc-generator-mexico.p.rapidapi.com',
-                    'x-rapidapi-key': 'fb542f27admsh62a79f5c3c5c2e9p115517jsn1a7ef511ebd1',
+                    'x-rapidapi-key': config().rapidapi.key,
                     useQueryString: true
                 },
                 json: true

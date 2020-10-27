@@ -2,7 +2,11 @@ package main
 
 import (
 	"context"
+	"fmt"
+	"log"
+	"time"
 
+	"cloud.google.com/go/firestore"
 	firebase "firebase.google.com/go"
 	"github.com/aws/aws-lambda-go/events"
 	"google.golang.org/api/option"
@@ -34,5 +38,34 @@ func EnsureAPIKey(apiKey string) string {
 	if err != nil {
 		return "api key not found"
 	}
+	updateDocumentUsers(apiKey)
 	return ""
+}
+
+func updateDocumentUsers(apiKey string) {
+	collection := fmt.Sprintf("users/%s/quota",apiKey)
+	_, err := updateCounter(collection, time.Now().Format("01-02-2006"), "quota")
+	if (err != nil) {
+		setDocument(collection, time.Now().Format("01-02-2006"), map[string]interface{}{
+			 "quota": 0,
+		})
+	}
+}
+
+func setDocument(collection string, doc string, document map[string]interface{}) {
+	client, err := App.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	client.Collection(collection).Doc(doc).Set(context.Background(), document)
+}
+
+func updateCounter(collection string, doc string, value string) (*firestore.WriteResult, error) {
+	client, err := App.Firestore(context.Background())
+	if err != nil {
+		log.Fatalln(err)
+	}
+	return client.Collection(collection).Doc(doc).Update(context.Background(),  []firestore.Update{
+		 {Path: "quota", Value: firestore.Increment(1)},
+	})
 }

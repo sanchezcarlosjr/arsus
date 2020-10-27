@@ -7,11 +7,11 @@ export interface CurpResponse {
 @Component({
   tag: 'gov-form',
   styleUrl: 'gov-form.css',
-  shadow: true,
+  shadow: false
 })
 export class GovForm {
   @Prop() apikey: string;
-  @State() curp: string;
+  @State() curp: string = '';
   @Event() completed: EventEmitter<CurpResponse>;
 
   async handleSubmit(event) {
@@ -28,15 +28,22 @@ export class GovForm {
     this.curp = event.target.value;
   }
 
-
   render() {
     return (
       <form onSubmit={(e) => this.handleSubmit(e)}>
-        <label>
-          CURP:
-          <input type="text" value={this.curp} onInput={(event) => this.handleChange(event)} />
-        </label>
-        <input class="submit" type="submit" value="Submit" />
+          <div>
+               <div>
+                  <label class="desc" id="labelCurp" htmlfor="curp"  >CURP: </label>
+               </div>
+               <div>
+                  <input type="text"  id="Field1" name="" class="field text fn" value={this.curp} onInput={(event) => this.handleChange(event)} />
+               </div>
+          </div>
+         <div>
+            <div>
+              <input id="saveForm" name="saveForm" class="submit" type="submit" value="Submit" />
+          </div>
+         </div>
       </form>
     );
   }

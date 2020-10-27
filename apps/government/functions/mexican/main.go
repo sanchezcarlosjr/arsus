@@ -75,6 +75,8 @@ func where(mexican Mexican) (response map[string]interface{}, err error) {
 	return doc.Data(), nil
 }
 
+
+
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	mexican := Mexican{
 		fatherName: request.QueryStringParameters["fatherName"],

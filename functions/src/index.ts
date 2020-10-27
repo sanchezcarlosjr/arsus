@@ -12,6 +12,7 @@ export * from './apps/backend/controllers/EmailSendController';
 export * from './apps/backend/controllers/EnterpriseStoreController';
 export * from './apps/backend/controllers/EnterpriseUpdateController';
 export * from './apps/backend/controllers/InboxSender';
+export * from './apps/backend/controllers/Infonavit';
 export * from './apps/backend/controllers/InvoiceCancelController';
 export * from './apps/backend/controllers/NewsGeneratorController';
 export * from './apps/backend/controllers/NewsGetController';

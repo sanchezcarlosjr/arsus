@@ -1,3 +1,4 @@
+import { config } from 'firebase-functions';
 import { get } from 'request-promise';
 
 export interface IMSSResponse {
@@ -22,7 +23,7 @@ export class SecuritySocialNumberRapidapiFinder {
                 },
                 headers: {
                     'x-rapidapi-host': 'imss.p.rapidapi.com',
-                    'x-rapidapi-key': 'fb542f27admsh62a79f5c3c5c2e9p115517jsn1a7ef511ebd1',
+                    'x-rapidapi-key': config().rapidapi.key,
                     useQueryString: true
                 },
                 json: true

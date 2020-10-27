@@ -59,9 +59,9 @@ export class Batch {
 mocha.describe('Download mexican key data', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
-  it.only('Admin CLI', async () => {
+  it('Admin CLI', async () => {
     const transaction = new Transaction();
-    const startAfter = 'SAPB800614HVZLRN01';
+    const startAfter = 'RUEK810714MJCBSR01';
     let document = await admin.firestore().collection('id').doc(startAfter).get();
     while (document) {
       let query = admin.firestore().collection('id').orderBy('curp', 'desc').startAfter(document).limit(20);

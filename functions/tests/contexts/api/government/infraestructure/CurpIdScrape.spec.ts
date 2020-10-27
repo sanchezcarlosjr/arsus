@@ -8,6 +8,7 @@ import { CurpIdQueryFinder } from '../../../../../src/contexts/api/government/in
 import { CurpIdScraper } from '../../../../../src/contexts/api/government/infraestructure/CurpIdScraper';
 import { Database } from '../../../../../src/database/database';
 import { AdminWrapper } from '../../../../AdminWrapper';
+import { QuotaCounter } from './../../../../../src/apps/backend/controllers/Curp';
 
 const examples: CurpResponse[] = [
   {
@@ -24,6 +25,10 @@ const examples: CurpResponse[] = [
 mocha.describe('CURP Api', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
+  it('should update daily quota', async () => {
+    const quota = new QuotaCounter('');
+    await quota.execute();
+  });
   it('should show error when it invalid API Key', async () => {
     try {
       await ensureIsValidApiKey('');

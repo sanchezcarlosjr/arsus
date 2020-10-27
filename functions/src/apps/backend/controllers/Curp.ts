@@ -10,13 +10,27 @@ import { CurpIdScraper } from '../../../contexts/api/government/infraestructure/
 import { CurpResponse } from './../../../contexts/api/government/domain/CurpResponse';
 
 interface Command {
-  execute: (curpResponse: CurpResponse) => any;
+  execute: (curpResponse?: CurpResponse) => any;
+}
+
+export class QuotaCounter implements Command {
+  constructor(private apiKey: string) { }
+  execute() {
+    const date = new Date();
+    const ref = admin.firestore().collection(`users/${this.apiKey}/quota`).
+      doc(`${date.getDate()}-${date.getMonth()}-${date.getFullYear()}`);
+    return ref.update('quota', admin.firestore.FieldValue.increment(1)).catch(
+      () => ref.set({
+        quota: 1
+      })
+    );
+  }
 }
 
 export class CURPResponseCommand implements Command {
   constructor(private curpWasFindOnAPI: boolean) { }
   execute(curpResponse: CurpResponse) {
-    if (!this.curpWasFindOnAPI) {
+    if (this.curpWasFindOnAPI) {
       return null;
     }
     return admin.firestore().collection('id').doc(curpResponse.curp).set(curpResponse);
@@ -24,17 +38,18 @@ export class CURPResponseCommand implements Command {
 }
 
 export class JsonCommand implements Command {
-  constructor(private response: Response) { }
+  constructor(private response: Response, private code: number = 200) { }
   execute(curpResponse: CurpResponse) {
     this.response.setHeader('Content-Type', 'application/json');
-    return this.response.send(curpResponse);
+    this.response.set('Access-Control-Allow-Origin', '*');
+    this.response.set('Access-Control-Allow-Methods', 'GET');
+    return this.response.status(this.code).send(curpResponse);
   }
 }
 
 export class CommandBatch {
   private static INSTANCE: CommandBatch;
-  private commands: Command[] = [];
-  constructor() { }
+  private constructor(private commands: Command[] = []) { }
   public static getInstance() {
     if (!CommandBatch.INSTANCE) {
       CommandBatch.INSTANCE = new CommandBatch();
@@ -45,11 +60,11 @@ export class CommandBatch {
     this.commands.push(command);
     return this;
   }
-  public execute(curpResponse: CurpResponse): any {
+  public execute(response: any): any {
     while (this.commands.length > 1) {
-      this.commands.pop().execute(curpResponse);
+      this.commands.pop().execute(response);
     }
-    return this.commands.pop().execute(curpResponse);
+    return this.commands.pop().execute(response);
   }
 }
 
@@ -67,11 +82,16 @@ export const curp = functions
         .find(
           new CurpId(req.query.curp)
         );
-      return CommandBatch.getInstance().addCommand(new JsonCommand(response)).execute(curpResponse);
+      return CommandBatch.getInstance().
+        addCommand(new QuotaCounter(req.query.apiKey)).
+        addCommand(new JsonCommand(response)).
+        execute(curpResponse);
     } catch (e) {
       console.warn(e);
-      return response.status(400).send({
-        error: e.message,
-      });
+      return CommandBatch.getInstance().
+        addCommand(new JsonCommand(response, 400)).
+        execute({
+          error: e.message
+        });
     }
   });
