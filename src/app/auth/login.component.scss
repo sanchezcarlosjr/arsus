@@ -20,3 +20,32 @@ ion-row {
 .login-container {
   background-color: var(--ion-background-color);
 }
+
+ion-button {
+  margin: 1.5em 0;
+}
+
+.google {
+  --background: #FFFF;
+  --color: rgba(5, 2, 2, 0.54);
+}
+
+.facebook {
+  --background: #1877F2;
+  --color: #ffffff;
+}
+
+.microsoft {
+  --background: #2f2f2f;
+  --color: #ffffff;
+}
+
+.twitter {
+   --background: #00acee;
+  --color: #ffffff;
+}
+
+.yahoo {
+   --background: #720e9e;
+  --color: #ffffff;
+}

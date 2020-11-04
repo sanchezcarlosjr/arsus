@@ -1,12 +1,9 @@
 import { AngularFireFunctions } from '@angular/fire/functions';
 import { Device, Geolocation } from '@capacitor/core';
-import { of } from 'rxjs';
-import { User } from 'firebase';
-import { AuthenticationStateModel } from '@store/auth/auth.state';
-import { switchMap, take } from 'rxjs/operators';
+import { take } from 'rxjs/operators';
 
 export class UserRequest {
-  constructor(private cloudFunctions: AngularFireFunctions) {}
+  constructor(private cloudFunctions: AngularFireFunctions) { }
 
   static async device() {
     const info = await Device.getInfo();

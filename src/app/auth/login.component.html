@@ -17,7 +17,7 @@
             </ion-text>
             <ion-list>
               <ion-item lines="inset">
-                <ion-label color="medium" position="floating" translate>Username</ion-label>
+                <ion-label color="medium" position="stacked" translate>Username</ion-label>
                 <ion-input type="text" formControlName="username" autocomplete="username"></ion-input>
               </ion-item>
               <ion-text
@@ -27,7 +27,7 @@
                 <span class="ion-padding" translate>Username is required</span>
               </ion-text>
               <ion-item lines="inset">
-                <ion-label color="medium" position="floating" translate>Password</ion-label>
+                <ion-label color="medium" position="stacked" translate>Password</ion-label>
                 <ion-input type="password" formControlName="password" autocomplete="current-password"></ion-input>
               </ion-item>
               <ion-text
@@ -47,29 +47,42 @@
               >
                 Login
               </ion-button>
-              <p>
-                By continuing, you agree to
-                <a style="text-decoration: underline;" routerLink="/terms-and-conditions">Arsus's Conditions of Use </a
-                >and <a style="text-decoration: underline;" routerLink="/privacy-policy">Privacy Notice.</a>
-              </p>
-              <p class="ion-text-center" translate>or</p>
-              <div class="ion-text-center">
-                <ion-button (click)="login('google')">
-                  <ion-icon slot="icon-only" name="logo-google"></ion-icon>
-                </ion-button>
-                <ion-button (click)="login('facebook')">
-                  <ion-icon slot="icon-only" name="logo-facebook"></ion-icon>
-                </ion-button>
-                <ion-button (click)="login('microsoft')">
-                  <ion-icon name="logo-windows"></ion-icon>
-                </ion-button>
-                <ion-button (click)="login('twitter')">
-                  <ion-icon name="logo-twitter"></ion-icon>
-                </ion-button>
-                <ion-button (click)="login('yahoo')">
-                  <ion-icon name="logo-yahoo"></ion-icon>
-                </ion-button>
-              </div>
+              <ion-button (click)="login('google')" expand="block" class="google">
+                <ion-icon slot="start" name="logo-google"></ion-icon>
+                 <p>
+                    <span translate>Continue with </span> <span> Google</span>
+                 </p>
+              </ion-button>
+              <ion-button (click)="login('facebook')" expand="block" class="facebook">
+                <ion-icon slot="start" name="logo-facebook"></ion-icon>
+                <p>
+                  <span translate>Continue with </span> <span> Facebook</span>
+                </p>
+              </ion-button>
+              <ion-button (click)="login('microsoft')" expand="block" class="microsoft">
+                <ion-icon slot="start" name="logo-windows"></ion-icon>
+                <p>
+                <span translate>Continue with </span> <span> Microsoft</span>
+                </p>
+              </ion-button>
+              <ion-button (click)="login('twitter')" expand="block" class="twitter">
+                <ion-icon slot="start" name="logo-twitter"></ion-icon>
+                <p>
+                  <span translate>Continue with </span> <span> Twitter</span>
+                </p>
+              </ion-button>
+              <ion-button (click)="login('yahoo')" expand="block" class="yahoo">
+                <ion-icon name="logo-yahoo"></ion-icon>
+                <p>
+                  <span translate>Continue with</span> <span> Yahoo</span>
+                </p>
+              </ion-button>
+                      <p style="font-size: 10px;">
+                        <span translate>By continuing, you agree to</span>
+                        <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate>Arsus's Conditions of Use</a>
+                        <span translate> and </span>
+                        <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
+                      </p>
             </div>
           </form>
         </div>

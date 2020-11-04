@@ -69,7 +69,6 @@ export class AuthStateModule implements NgxsOnInit {
         filter((user) => !!user),
         tap(async (user) => {
           ctx.dispatch(new SetUserName(user.displayName || user.email.split('@')[0]) || 'anonymous');
-          const device = await UserRequest.device();
           this.angularFireAuth.getRedirectResult().then((redirectResult) => {
             if (redirectResult && redirectResult.user) {
               const lastProvider = redirectResult.additionalUserInfo.providerId.split('.')[0];
@@ -85,6 +84,7 @@ export class AuthStateModule implements NgxsOnInit {
             }
           });
           localStorage.removeItem('authURLAfterLogin');
+          const device = await UserRequest.device();
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({
             created_at: new Date(),
@@ -159,9 +159,9 @@ export class AuthStateModule implements NgxsOnInit {
         }
         return this.angularFireAuth
           .createUserWithEmailAndPassword(email, password)
-          .then((userCredential) => {
+          .then(async (userCredential) => {
             userCredential.user.sendEmailVerification();
-            return this.toast.showInfo('Verify your email. Check your inbox.');
+            await this.toast.showInfo('Verify your email. Check your inbox.');
           })
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {

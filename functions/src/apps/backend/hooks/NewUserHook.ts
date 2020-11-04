@@ -1,7 +1,7 @@
+import * as sgMail from '@sendgrid/mail';
 import * as functions from 'firebase-functions';
 import { UserRecord } from 'firebase-functions/lib/providers/auth';
 import { Database } from '../../../database/database';
-import * as sgMail from '@sendgrid/mail';
 
 sgMail.setApiKey(functions.config().sendgrid.key);
 
@@ -30,6 +30,9 @@ export const createNewUser = functions
     } catch (e) {
       console.warn(e.message);
     }
+    if (!user.emailVerified && user.providerId === 'firebase') {
+      return new Promise((resolve) => resolve(''));
+    }
     const name = user.displayName.split(' ')[0];
     const msg = {
       to: user.email,
@@ -40,7 +43,7 @@ export const createNewUser = functions
       templateId: 'd-516dd7d5d6034192b638dad09cb27bb6',
       dynamic_template_data: {
         response: `Hey ${name}. If you have any questions, please reply to this email. I’m always happy to help!`,
-        subject: `Hi ${name}. How are you?`,
+        subject: `${name}, do you need help?`,
       },
     };
     try {
