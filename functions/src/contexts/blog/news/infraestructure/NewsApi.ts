@@ -19,7 +19,7 @@ export class NewsApi implements CreatorContentProvider {
     json: true,
   };
 
-  constructor() {}
+  constructor() { }
 
   private static uniqueArticles(articles: Article[]) {
     return Array.from(new Set(articles.map((article) => article.title))).map((title) => {
@@ -28,7 +28,7 @@ export class NewsApi implements CreatorContentProvider {
   }
 
   async run(): Promise<Article[]> {
-    const start = moment().subtract(2, 'hour');
+    const start = moment().subtract(6, 'hour');
     const today = new Date();
     let isASafeImage: RegExp;
     isASafeImage = /https:\/\/(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)/;

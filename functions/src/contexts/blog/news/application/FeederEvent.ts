@@ -1,12 +1,12 @@
+import admin from 'firebase-admin';
+import * as moment from 'moment';
 import { get } from 'request-promise';
 import * as xml from 'xml2js';
-import * as moment from 'moment';
-import admin from 'firebase-admin';
 
 export type Operator = (response: any) => any;
 
 export const filterPublishedBetween: Operator = async (response: Promise<any[]>) => {
-  const start = moment().subtract(8, 'hours');
+  const start = moment().subtract(6, 'hours');
   const today = new Date();
   return (await response).filter((item) => moment(item.publishedAt).isBetween(start, today));
 };
@@ -43,7 +43,7 @@ export function from<JsonResponse>(
 export class FeederEvent {
   private operators: Operator[] = [];
 
-  constructor(private event: Promise<any>) {}
+  constructor(private event: Promise<any>) { }
 
   pipe(...operators: Operator[]): this {
     this.operators.push(...operators);

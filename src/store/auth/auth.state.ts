@@ -46,7 +46,7 @@ export class AuthStateModule implements NgxsOnInit {
     private firestore: AngularFirestore,
     private toast: ToastService,
     private router: Router
-  ) {}
+  ) { }
 
   @Selector()
   static photoURL(state: AuthenticationStateModel) {
@@ -161,7 +161,7 @@ export class AuthStateModule implements NgxsOnInit {
           .createUserWithEmailAndPassword(email, password)
           .then((userCredential) => {
             userCredential.user.sendEmailVerification();
-            this.toast.showInfo('Verify your email. Check your inbox.');
+            return this.toast.showInfo('Verify your email. Check your inbox.');
           })
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {

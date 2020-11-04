@@ -22,13 +22,17 @@ mocha.describe('Infonavit', () => {
     it('should show error about captcha', async () => {
         const infonavit = new InfonavitScrapper();
         return expect(infonavit.find(new SecuritySocialNumber('96927225985'), new Birthday('1972-05-21T00:00:00.000Z')))
-            .to.be.rejectedWith(CaptchaError, "could not solve captcha")
+            .to.be.rejectedWith(CaptchaError, "invalid security social number or birthday")
     });
     it.only('should show error about modal from web', async () => {
         const infonavit = new InfonavitScrapper();
         return expect(infonavit.find(new SecuritySocialNumber('96927225985'), new Birthday('1972-05-21T00:00:00.000Z')))
             .to.be.rejectedWith(PersonWithoutCreditError, "sin relacion laboral vigente en el tercer  bimestre del 2020")
     });
+    it('temp', async () => {
+        const infonavit = new InfonavitScrapper();
+        await infonavit.find(new SecuritySocialNumber('96927225985'), new Birthday('1972-05-21T00:00:00.000Z'));
+    })
     it('test', async () => {
         const doSomethingAsync = async () => {
             throw new Error('message');

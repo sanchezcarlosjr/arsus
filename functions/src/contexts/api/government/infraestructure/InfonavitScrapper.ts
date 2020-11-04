@@ -1,6 +1,6 @@
 import { config } from 'firebase-functions';
 import puppeteer from 'puppeteer-extra';
-import { Browser, Page } from 'puppeteer-extra/dist/puppeteer';
+import { Page } from 'puppeteer-extra/dist/puppeteer';
 import { Birthday } from './../domain/Birthday';
 import { InfonavitResponse } from './../domain/InfonavitResponse';
 import { SecuritySocialNumber } from './../domain/SecuritySocialNumber';
@@ -20,7 +20,7 @@ enum InfonavitPage {
     URL = 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CI',
     INPUT_NSS = '//*[@id="precalif:nssTitular"]',
     INPUT_BIRTHDAY = '//*[@id="precalif:fechaTitular"]',
-    DIV_ERROR_INPUT = '/html/body/div[3]/div[2]/form/div[1]/div',
+    DIV_ERROR_CAPTCHA = '/html/body/div[3]/div[2]/form/div[1]/div',
     SUBMIT = '/html/body/div[3]/div[2]/form/div[2]/div/div[2]/table[2]/tbody/tr[2]/td/button',
     MODAL_SPAN_NAME = '/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[2]/td[2]/span',
     MODAL_SPAN_ERROR = '/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[3]/td/span'
@@ -34,71 +34,54 @@ export class PersonWithoutCreditError extends Error {
 
 export class CaptchaError extends Error {
     constructor() {
-        super("could not solve captcha");
+        super("invalid security social number or birthday");
     }
 }
 
-abstract class Handler {
-    protected page: Page;
-    protected browser: Browser;
-    private next: Handler;
-    setNext(handler: Handler) {
-        this.next = handler;
-    }
-    async handle(): Promise<void> {
-        if (this.next) {
-            await this.next.handle();
-        }
-    }
+interface Handler {
+    handle: (page: Page) => Promise<void>;
 }
 
-class Home extends Handler {
-    constructor(private securitySocialNumber: string, private birthday: string) {
-        super();
-    }
-    async handle() {
-        this.browser = await puppeteer.launch({ headless: true });
-        this.page = await this.browser.newPage();
-        await this.page.goto(InfonavitPage.URL);
-        const nss = await this.page.$x(InfonavitPage.INPUT_NSS);
-        await this.page.evaluate(
+class Home implements Handler {
+    constructor(private securitySocialNumber: string, private birthday: string) { }
+    async handle(page: Page) {
+        const nss = await page.$x(InfonavitPage.INPUT_NSS);
+        await page.evaluate(
             (elementHandler, securitySocialNumber) => elementHandler.value = securitySocialNumber,
             nss[0], this.securitySocialNumber
         );
-        const day = await this.page.$x(InfonavitPage.INPUT_BIRTHDAY);
-        await this.page.evaluate((elementHandler, birthday) => elementHandler.value = birthday, day[0], this.birthday);
-        await (this.page as any).solveRecaptchas();
-        const submit = await this.page.$x(InfonavitPage.SUBMIT);
+        const day = await page.$x(InfonavitPage.INPUT_BIRTHDAY);
+        await page.evaluate((elementHandler, birthday) => elementHandler.value = birthday, day[0], this.birthday);
+        await (page as any).solveRecaptchas();
+        const submit = await page.$x(InfonavitPage.SUBMIT);
         await Promise.all([
-            this.page.waitForNavigation(),
+            page.waitForNavigation(),
             submit[0].click()
         ])
-        let error = await this.page.$x(InfonavitPage.DIV_ERROR_INPUT);
-        if (error[0]) {
+        if ((await page.$x(InfonavitPage.DIV_ERROR_CAPTCHA))[0]) {
             throw new CaptchaError();
         }
-        super.handle();
     }
 }
 
-class ModalError extends Handler {
-    async handle() {
-        const spanError = await this.page.$x(InfonavitPage.MODAL_SPAN_ERROR)
-        const textContent = await (await spanError[0].getProperty('textContent')).jsonValue();
-        if (textContent) {
-            console.log(textContent);
-            throw new PersonWithoutCreditError("");
-        }
-        super.handle();
+class ModalError implements Handler {
+    async handle(page: Page) {
+        page.screenshot({ path: 'screenshot.png' });
+        const spanError = await page.$x("/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[3]/td")
+        const innerText = await spanError[0].getProperty('innerText');
+        console.log(innerText.jsonValue());
+        page.screenshot({ path: 'screenshot.png' });
     }
 }
 
 export class InfonavitScrapper {
     async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
-        const home = new Home(securitySocialNumber.value, birthday.value);
-        const modal = new ModalError();
-        home.setNext(modal);
-        home.handle();
+        const middlewares = [new Home(securitySocialNumber.value, birthday.value), new ModalError()];
+        const browser = await puppeteer.launch({ headless: true });
+        const page = await browser.newPage();
+        await page.goto(InfonavitPage.URL);
+        await Promise.all(middlewares.map((middleware) => middleware.handle(page)));
+        browser.close();
         return null;
     }
 }

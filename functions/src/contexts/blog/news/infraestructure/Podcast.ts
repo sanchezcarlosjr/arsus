@@ -12,12 +12,12 @@ export class Podcast implements CreatorContentProvider {
     json: true,
   };
 
-  constructor() {}
+  constructor() { }
 
   async run(): Promise<Article[]> {
     const articles: Article[] = [];
     const response = await request(this.option);
-    const start = moment().subtract(30, 'minutes');
+    const start = moment().subtract(6, 'hour');
     const today = new Date();
     const promise = response.podcasts
       .filter((podcast: any) => {
