@@ -1,0 +1,46 @@
+<ion-header>
+    <ion-toolbar color="primary">
+        <ion-buttons slot="start">
+            <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>API</ion-title>
+    </ion-toolbar>
+</ion-header>
+<ion-content>
+    <ion-item (click)="writeInClipboardUserUID()" button lines="full">
+        <ion-label position="stacked"><ion-icon name="server" slot="start"></ion-icon> API Key</ion-label>
+        <ion-input [value]="uid$ | async" readonly></ion-input>
+    </ion-item>
+    <ion-grid>
+        <ion-row>
+            <ion-col>
+                <ion-button>
+                    <a href="https://www.notion.so/sanchezcarlosjr/CURP-Renapo-API-392135e5a30a4ff59162325c4f76a9ec" target="_blank">
+                        <span>CURP API DOCS</span>
+                    </a>
+                </ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button>
+                    <a href="https://www.notion.so/sanchezcarlosjr/Mexican-Finder-API-faa3fbf0abbe42f5b9230342c95a2953"
+                        target="_blank">
+                        <span>Mexican API DOCS</span>
+                    </a>
+                </ion-button>
+            </ion-col>
+            <ion-col>
+                <ion-button>
+                    <a href="https://www.notion.so/sanchezcarlosjr/RFC-API-74a521e91993416da8df2224cd95b17a"
+                        target="_blank">
+                        <span>RFC API DOCS</span>
+                    </a>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+    <iframe height="900px" width="100%" src="https://repl.it/@CarlosSanchez14/API-Curp-1?lite=true" scrolling="no"
+        frameborder="no" allowtransparency="true" allowfullscreen="true"
+        sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
+    <df-messenger intent="WELCOME" chat-title="😀 Arsus Support" chat-icon="assets/icons/icon-72x72.png"
+        agent-id="695979d8-2719-43a8-98b2-25747f9d2602" language-code="en"></df-messenger>
+</ion-content>

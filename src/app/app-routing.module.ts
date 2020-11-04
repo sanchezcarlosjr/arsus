@@ -13,6 +13,10 @@ const routes: Routes = [
       loadChildren: () => import('./users/users.module').then((m) => m.UsersModule),
     },
     {
+      path: 'api',
+      loadChildren: () => import('./api/api.module').then(m => m.ApiModule)
+    },
+    {
       path: 'rss',
       loadChildren: () => import('./rss/rss.module').then((m) => m.RssModule),
     },
@@ -39,4 +43,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }
