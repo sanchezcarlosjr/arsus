@@ -10,3 +10,5 @@
 service-account-credentials.json
 /lib
 tests/env.ts
+
+.runtimeconfig.json

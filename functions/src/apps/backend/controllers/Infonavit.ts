@@ -21,8 +21,8 @@ export const infonavit = functions
             await ensureIsValidApiKey(req.query.apiKey);
             const infonavitResponse = await new InfonavitFinder(new InfonavitScrapper(), new InfonavitIdQueryFinder())
                 .find(
-                    new SecuritySocialNumber(req.query.nss),
-                    new Birthday(req.query.birthday)
+                    new Birthday(req.query.birthday),
+                    new SecuritySocialNumber(req.query.nss)
                 );
             return CommandBatch.getInstance().
                 addCommand(new QuotaCounter(req.query.apiKey)).

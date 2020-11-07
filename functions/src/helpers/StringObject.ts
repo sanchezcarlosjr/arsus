@@ -18,7 +18,7 @@ export class DateObject {
 
   constructor(value: string, format: string) {
     this._originalValue = value;
-    this._value = moment(value).add(1, 'days').format(format);
+    this._value = moment.utc(value).format(format);
   }
 
   get value() {
