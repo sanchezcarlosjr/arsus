@@ -1,20 +1,13 @@
 import { config } from 'firebase-functions';
 import puppeteer from 'puppeteer-extra';
 import { Page } from 'puppeteer-extra/dist/puppeteer';
+import { CommandBatch } from '../application/CommandBatch';
 import { Birthday } from './../domain/Birthday';
 import { InfonavitResponse } from './../domain/InfonavitResponse';
 import { SecuritySocialNumber } from './../domain/SecuritySocialNumber';
+import { InfonavitResponseCommand, MexicanGeneratorCommand } from './InfonavitResponseCommand';
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 
-puppeteer.use(
-    RecaptchaPlugin({
-        provider: {
-            id: '2captcha',
-            token: config().captcha2.key
-        },
-        visualFeedback: false
-    })
-)
 
 enum InfonavitPage {
     URL = 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CI',
@@ -23,7 +16,8 @@ enum InfonavitPage {
     DIV_ERROR_CAPTCHA = '/html/body/div[3]/div[2]/form/div[1]/div',
     SUBMIT = '/html/body/div[3]/div[2]/form/div[2]/div/div[2]/table[2]/tbody/tr[2]/td/button',
     MODAL_SPAN_NAME = '/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[2]/td[2]/span',
-    MODAL_SPAN_ERROR = '/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[3]/td/span'
+    MODAL_SPAN_ERROR = '/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[3]/td/span',
+    UNAUTHORIZATION = '/html/body/div[3]/div[2]/form/div[2]/div/div/table[3]/tbody/tr[1]/td[2]/table/tbody/tr/td[3]/div/div[2]/span'
 }
 
 export class PersonWithoutCreditError extends Error {
@@ -39,49 +33,110 @@ export class CaptchaError extends Error {
 }
 
 interface Handler {
-    handle: (page: Page) => Promise<void>;
+    handle: (page: Page) => Promise<InfonavitResponse>;
 }
 
 class Home implements Handler {
-    constructor(private securitySocialNumber: string, private birthday: string) { }
-    async handle(page: Page) {
-        const nss = await page.$x(InfonavitPage.INPUT_NSS);
-        await page.evaluate(
+    constructor(private securitySocialNumber: SecuritySocialNumber, private birthday: Birthday, private page: Page) { }
+    async handle() {
+        const nss = await this.page.$x(InfonavitPage.INPUT_NSS);
+        await this.page.evaluate(
             (elementHandler, securitySocialNumber) => elementHandler.value = securitySocialNumber,
-            nss[0], this.securitySocialNumber
+            nss[0], this.securitySocialNumber.value
         );
-        const day = await page.$x(InfonavitPage.INPUT_BIRTHDAY);
-        await page.evaluate((elementHandler, birthday) => elementHandler.value = birthday, day[0], this.birthday);
-        await (page as any).solveRecaptchas();
-        const submit = await page.$x(InfonavitPage.SUBMIT);
-        await Promise.all([
-            page.waitForNavigation(),
-            submit[0].click()
-        ])
-        if ((await page.$x(InfonavitPage.DIV_ERROR_CAPTCHA))[0]) {
+        const day = await this.page.$x(InfonavitPage.INPUT_BIRTHDAY);
+        await this.page.evaluate((elementHandler, birthday) => elementHandler.value = birthday, day[0], this.birthday.value);
+        await (this.page as any).solveRecaptchas();
+        await this.click(InfonavitPage.SUBMIT);
+        if ((await this.page.$x(InfonavitPage.DIV_ERROR_CAPTCHA))[0]) {
             throw new CaptchaError();
         }
+        const personWithoutCreditError = await this.getTextFrom(InfonavitPage.MODAL_SPAN_ERROR);
+        let mexicanName = await this.getTextFrom(InfonavitPage.MODAL_SPAN_NAME);
+        if (personWithoutCreditError) {
+            CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
+            return {
+                error: personWithoutCreditError.toLowerCase().trim()
+            }
+        }
+        (await this.page.$x(InfonavitPage.UNAUTHORIZATION))[0].click();
+        await this.click('/html/body/div[3]/div[2]/form/div[2]/div/div/table[5]/tbody/tr/td/button');
+        mexicanName = await this.getTextFrom('/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[1]/tbody/tr/td[4]/strong');
+        CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
+        return await this.mapResponse();
     }
-}
-
-class ModalError implements Handler {
-    async handle(page: Page) {
-        page.screenshot({ path: 'screenshot.png' });
-        const spanError = await page.$x("/html/body/div[3]/div[2]/form/div[5]/div[2]/table/tbody/tr[3]/td")
-        const innerText = await spanError[0].getProperty('innerText');
-        console.log(innerText.jsonValue());
-        page.screenshot({ path: 'screenshot.png' });
+    private async mapResponse() {
+        const xPaths = [
+            '/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[2]/tbody/tr[4]/td[3]',
+            '/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[2]/tbody/tr[5]/td[3]',
+            '/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[2]/tbody/tr[6]/td[3]',
+            '//*[@id="result:descuentoMensualAux"]',
+            '//*[@id="result:descuentoEcoAux"]'
+        ];
+        const promises = await Promise.all(xPaths.map((url) => this.getTextFrom(url)));
+        promises.push(await this.getTextFrom('//*[@id="result:montoCreditoAux"]', 'value'));
+        const response = promises.map((value) => Number(value.replace(',', '')));
+        return {
+            creditFromInfonavit: response[5],
+            housingSubAccountBalance: response[0],
+            operatingExpenses: response[1],
+            total: response[2],
+            monthlySalaryDiscount: response[3],
+            creditForEcotechnologies: response[4]
+        };
+    }
+    async click(xPath: string) {
+        const element = await this.page.$x(xPath);
+        await Promise.all([
+            this.page.waitForNavigation(),
+            element[0].click()
+        ])
+    }
+    async getTextFrom(xPath: string, property = 'innerText'): Promise<string> {
+        const spanElement = await this.page.$x(xPath);
+        if (!spanElement[0]) {
+            return '';
+        }
+        return await (await spanElement[0].getProperty(property)).jsonValue() as string;
     }
 }
 
 export class InfonavitScrapper {
     async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
-        const middlewares = [new Home(securitySocialNumber.value, birthday.value), new ModalError()];
-        const browser = await puppeteer.launch({ headless: true });
+        CommandBatch.getInstance().addCommand(new InfonavitResponseCommand(securitySocialNumber));
+        puppeteer.use(
+            RecaptchaPlugin({
+                provider: {
+                    id: '2captcha',
+                    token: config().captcha2.key
+                },
+                visualFeedback: false
+            })
+        )
+        const browser = await puppeteer.launch({
+            headless: true,
+            args: [
+                '--disable-gpu',
+                '--disable-dev-shm-usage',
+                '--disable-setuid-sandbox',
+                '--no-first-run',
+                '--no-sandbox',
+                '--no-zygote',
+                '--single-process',
+                "--proxy-server='direct://'",
+                '--proxy-bypass-list=*',
+                '--deterministic-fetch',
+            ],
+        });
         const page = await browser.newPage();
+        await page.setUserAgent(
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
+        );
+        await page.setViewport({ width: 1680, height: 1050 });
         await page.goto(InfonavitPage.URL);
-        await Promise.all(middlewares.map((middleware) => middleware.handle(page)));
+        const home = new Home(securitySocialNumber, birthday, page);
+        const response = await home.handle();
         browser.close();
-        return null;
+        return response;
     }
 }

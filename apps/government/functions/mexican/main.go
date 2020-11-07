@@ -51,7 +51,7 @@ func (mexican Mexican) toCURPBirthday() string {
 	return t.Format("2006-01-02")
 }
 
-func doc(collection string, doc string) map[string]interface {} {
+func doc(collection string, doc string) map[string]interface{} {
 	client, err := App.Firestore(context.Background())
 	if err != nil {
 		log.Fatalln(err)
@@ -66,7 +66,7 @@ func where(mexican Mexican) (response map[string]interface{}, err error) {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	query := client.Collection("id").Where("fatherName", "==",  mexican.fatherName).Where("motherName", "=", mexican.motherName).Where("name", "==", mexican.name).Where("gender", "==", mexican.gender).Where("birthday", "==", mexican.birthday).Where("birthState", "==", mexican.birthState)
+	query := client.Collection("id").Where("fatherName", "==", mexican.fatherName).Where("motherName", "=", mexican.motherName).Where("name", "==", mexican.name).Where("gender", "==", mexican.gender).Where("birthday", "==", mexican.birthday).Where("birthState", "==", mexican.birthState)
 	iter := query.Documents(context.Background())
 	doc, err := iter.Next()
 	if err != nil {
@@ -74,8 +74,6 @@ func where(mexican Mexican) (response map[string]interface{}, err error) {
 	}
 	return doc.Data(), nil
 }
-
-
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	mexican := Mexican{
@@ -89,11 +87,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	query, err := where(mexican)
 	if err == nil {
 		return JSON(200, map[string]interface{}{
-			"curp": query["curp"],
-			"nss": query["nss"],
-			"rfc": query["rfc"],
-			"isLRFC": query["isLRFC"],
-			"rfcBlockList": query["rfcBlockList"],
+			"curp":               query["curp"],
+			"nss":                query["nss"],
+			"rfc":                query["rfc"],
+			"isLRFC":             query["isLRFC"],
+			"rfcBlockList":       query["rfcBlockList"],
 			"isRegisteredInIMSS": query["isRegisteredInIMSS"],
 		})
 	}
@@ -106,11 +104,11 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 	http.Get(fmt.Sprintf("https://us-west4-arsus-production.cloudfunctions.net/curp?curp=%s&apiKey=%s", curp, request.QueryStringParameters["apiKey"]))
 	response := doc("id", curp)
 	return JSON(200, map[string]interface{}{
-		"curp": curp,
-		"nss": response["nss"],
-		"rfc": response["rfc"],
-		"isLRFC": response["isLRFC"],
-		"rfcBlockList": response["rfcBlockList"],
+		"curp":               curp,
+		"nss":                response["nss"],
+		"rfc":                response["rfc"],
+		"isLRFC":             response["isLRFC"],
+		"rfcBlockList":       response["rfcBlockList"],
 		"isRegisteredInIMSS": response["isRegisteredInIMSS"],
 	})
 }

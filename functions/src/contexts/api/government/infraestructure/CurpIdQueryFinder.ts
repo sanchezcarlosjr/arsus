@@ -10,10 +10,10 @@ export class CurpIdQueryFinder extends CurpIdRepository {
       .doc(`id/${id.value}`)
       .get()
       .then((document) => {
-        const data = document.data();
-        if (!data) {
+        if (!document.exists) {
           return null;
         }
+        const data = document.data();
         return {
           curp: data.curp,
           fatherName: data.fatherName,

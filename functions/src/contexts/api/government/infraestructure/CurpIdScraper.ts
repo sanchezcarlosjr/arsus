@@ -1,10 +1,11 @@
 import { get } from 'request-promise';
-import { CommandBatch, CURPResponseCommand } from '../../../../apps/backend/controllers/Curp';
 import { Database } from '../../../../database/database';
 import { getGroups } from '../../../shared/regex';
+import { CommandBatch } from '../application/CommandBatch';
 import { CurpId } from '../domain/CurpId';
 import { CurpIdRepository } from '../domain/CurpIdRepository';
 import { CurpResponse } from '../domain/CurpResponse';
+import { CURPResponseCommand } from './CURPResponseCommand';
 import moment = require('moment');
 
 export class CurpNotFound extends Error {
@@ -23,10 +24,10 @@ export class CurpIdScraper extends CurpIdRepository {
   private database = new Database();
   constructor() {
     super();
-    CommandBatch.getInstance().addCommand(new CURPResponseCommand(true));
   }
 
   async search(id: CurpId): Promise<CurpResponse> {
+    CommandBatch.getInstance().addCommand(new CURPResponseCommand());
     const htmlResponse: string = await get(
       `http://sipso.sedesol.gob.mx/consultarCurp/consultaCurpR.jsp?cveCurp=${id.value}`
     );

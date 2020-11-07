@@ -1,8 +1,8 @@
 import { StringObject } from '../../../../helpers/StringObject';
 
 export class BadSecuritySocialNumberFormat extends Error {
-    constructor(curp: string) {
-        super(`'${curp}' is a invalid security social number`);
+    constructor(nss: string) {
+        super(`'${nss}' is a invalid security social number`);
     }
 }
 
@@ -13,6 +13,9 @@ export class SecuritySocialNumber extends StringObject {
     }
 
     private ensureSecuritySocialNumber() {
+        if (!this.value) {
+            throw new BadSecuritySocialNumberFormat(this.value);
+        }
         const securitySocialNumber = this.value.match(/^(\d{2})(\d{2})(\d{2})\d{5}$/);
         if (!securitySocialNumber) {
             throw new BadSecuritySocialNumberFormat(this.value);

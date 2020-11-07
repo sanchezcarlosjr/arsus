@@ -43,13 +43,8 @@ func EnsureAPIKey(apiKey string) string {
 }
 
 func updateDocumentUsers(apiKey string) {
-	collection := fmt.Sprintf("users/%s/quota",apiKey)
-	_, err := updateCounter(collection, time.Now().Format("01-02-2006"), "quota")
-	if (err != nil) {
-		setDocument(collection, time.Now().Format("01-02-2006"), map[string]interface{}{
-			 "quota": 0,
-		})
-	}
+	collection := fmt.Sprintf("users/%s/quota", apiKey)
+	updateCounter(collection, time.Now().Format("01-02-2006"), "quota")
 }
 
 func setDocument(collection string, doc string, document map[string]interface{}) {
@@ -65,7 +60,7 @@ func updateCounter(collection string, doc string, value string) (*firestore.Writ
 	if err != nil {
 		log.Fatalln(err)
 	}
-	return client.Collection(collection).Doc(doc).Update(context.Background(),  []firestore.Update{
-		 {Path: "quota", Value: firestore.Increment(1)},
+	return client.Collection(collection).Doc(doc).Update(context.Background(), []firestore.Update{
+		{Path: "quota", Value: firestore.Increment(1)},
 	})
 }

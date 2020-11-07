@@ -1,6 +1,12 @@
+import { Timestamp } from "@firebase/firestore-types";
+
 export interface InfonavitResponse {
-    name: string,
-    money: string,
-    nss: string,
-    birthday: string,
+    creditFromInfonavit?: number,
+    housingSubAccountBalance?: number,
+    operatingExpenses?: number,
+    total?: number,
+    monthlySalaryDiscount?: number,
+    error?: string,
+    created_at?: Date | Timestamp,
+    creditForEcotechnologies?: number
 }

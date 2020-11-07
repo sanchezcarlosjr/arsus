@@ -8,7 +8,7 @@ import { CurpIdQueryFinder } from '../../../../../src/contexts/api/government/in
 import { CurpIdScraper } from '../../../../../src/contexts/api/government/infraestructure/CurpIdScraper';
 import { Database } from '../../../../../src/database/database';
 import { AdminWrapper } from '../../../../AdminWrapper';
-import { QuotaCounter } from './../../../../../src/apps/backend/controllers/Curp';
+import { QuotaCounter } from './../../../../../src/contexts/api/government/infraestructure/QuotaCounter';
 
 const examples: CurpResponse[] = [
   {

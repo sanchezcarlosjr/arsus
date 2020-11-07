@@ -14,12 +14,17 @@ export class StringObject {
 
 export class DateObject {
   protected readonly _value: string = '';
+  protected readonly _originalValue: string = '';
 
   constructor(value: string, format: string) {
+    this._originalValue = value;
     this._value = moment(value).add(1, 'days').format(format);
   }
 
   get value() {
     return this._value;
+  }
+  get originalValue() {
+    return new Date(this._originalValue);
   }
 }

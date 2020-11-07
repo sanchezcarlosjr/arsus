@@ -29,6 +29,7 @@ export * from './apps/backend/controllers/UserLocateController';
 export * from './apps/backend/controllers/UserStoreController';
 export * from './apps/backend/controllers/WriteUserCredentials';
 export * from './apps/backend/hooks/EmailSenderHook';
+export * from './apps/backend/hooks/InfonavitHook';
 export * from './apps/backend/hooks/MexicanFinderHook';
 export * from './apps/backend/hooks/NewUserHook';
 export * from './apps/backend/hooks/searcher';
