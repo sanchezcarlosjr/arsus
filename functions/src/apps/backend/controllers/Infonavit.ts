@@ -11,6 +11,8 @@ import { QuotaCounter } from '../../../contexts/api/government/infraestructure/Q
 import { InfonavitIdQueryFinder } from './../../../contexts/api/government/infraestructure/InfonavitIdQueryFinder';
 import { InfonavitScrapper } from './../../../contexts/api/government/infraestructure/InfonavitScrapper';
 
+const infonavitFinder = new InfonavitFinder(new InfonavitScrapper(), new InfonavitIdQueryFinder());
+
 export const infonavit = functions
     .runWith({
         timeoutSeconds: 300,
@@ -19,11 +21,10 @@ export const infonavit = functions
     .https.onRequest(async (req: https.Request | any, response: Response) => {
         try {
             await ensureIsValidApiKey(req.query.apiKey);
-            const infonavitResponse = await new InfonavitFinder(new InfonavitScrapper(), new InfonavitIdQueryFinder())
-                .find(
-                    new Birthday(req.query.birthday),
-                    new SecuritySocialNumber(req.query.nss)
-                );
+            const infonavitResponse = await infonavitFinder.find(
+                new Birthday(req.query.birthday),
+                new SecuritySocialNumber(req.query.nss)
+            );
             return CommandBatch.getInstance().
                 addCommand(new QuotaCounter(req.query.apiKey)).
                 addCommand(new JsonCommand(response)).

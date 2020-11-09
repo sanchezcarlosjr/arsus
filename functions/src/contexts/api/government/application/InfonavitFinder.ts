@@ -7,6 +7,6 @@ import { InfonavitIdQueryFinder } from './../infraestructure/InfonavitIdQueryFin
 export class InfonavitFinder {
     constructor(private curpIdRepository: InfonavitScrapper, private infonavitIdQueryFinder: InfonavitIdQueryFinder) { }
     async find(birthday: Birthday, id: SecuritySocialNumber): Promise<InfonavitResponse> {
-        return (await this.infonavitIdQueryFinder.find(id)) || (await this.curpIdRepository.find(id, birthday));
+        return (await this.infonavitIdQueryFinder.find(id)) || this.curpIdRepository.find(id, birthday);
     }
 }

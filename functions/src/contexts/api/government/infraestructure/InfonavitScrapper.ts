@@ -11,6 +11,7 @@ const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha')
 
 enum InfonavitPage {
     URL = 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CI',
+    URL_II = 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CII',
     INPUT_NSS = '//*[@id="precalif:nssTitular"]',
     INPUT_BIRTHDAY = '//*[@id="precalif:fechaTitular"]',
     DIV_ERROR_CAPTCHA = '/html/body/div[3]/div[2]/form/div[1]/div',
@@ -32,13 +33,13 @@ export class CaptchaError extends Error {
     }
 }
 
-interface Handler {
-    handle: (page: Page) => Promise<InfonavitResponse>;
+interface InfonavitProduct {
+    scrape: (page: Page) => Promise<InfonavitResponse>;
 }
 
-class Home implements Handler {
+export class Home implements InfonavitProduct {
     constructor(private securitySocialNumber: SecuritySocialNumber, private birthday: Birthday, private page: Page) { }
-    async handle() {
+    async search() {
         const nss = await this.page.$x(InfonavitPage.INPUT_NSS);
         await this.page.evaluate(
             (elementHandler, securitySocialNumber) => elementHandler.value = securitySocialNumber,
@@ -54,6 +55,12 @@ class Home implements Handler {
         const personWithoutCreditError = await this.getTextFrom(InfonavitPage.MODAL_SPAN_ERROR);
         let mexicanName = await this.getTextFrom(InfonavitPage.MODAL_SPAN_NAME);
         if (personWithoutCreditError) {
+            if (/no corresponde a la registrada/.test(personWithoutCreditError)) {
+                throw new Error(personWithoutCreditError);
+            }
+            if (personWithoutCreditError) {
+                return null;
+            }
             CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
             return {
                 error: personWithoutCreditError.toLowerCase().trim()
@@ -64,6 +71,10 @@ class Home implements Handler {
         mexicanName = await this.getTextFrom('/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[1]/tbody/tr/td[4]/strong');
         CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
         return await this.mapResponse();
+    }
+    async scrape() {
+        await this.page.goto(InfonavitPage.URL);
+        return
     }
     private async mapResponse() {
         const xPaths = [
@@ -82,7 +93,8 @@ class Home implements Handler {
             operatingExpenses: response[1],
             total: response[2],
             monthlySalaryDiscount: response[3],
-            creditForEcotechnologies: response[4]
+            creditForEcotechnologies: response[4],
+            product: 'CI'
         };
     }
     async click(xPath: string) {
@@ -101,9 +113,11 @@ class Home implements Handler {
     }
 }
 
-export class InfonavitScrapper {
-    async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
-        CommandBatch.getInstance().addCommand(new InfonavitResponseCommand(securitySocialNumber));
+export class PageCreator {
+    private static instance: PageCreator = null;
+    private constructor(private page: Page) {
+    }
+    private static async launch(url: string) {
         puppeteer.use(
             RecaptchaPlugin({
                 provider: {
@@ -133,10 +147,27 @@ export class InfonavitScrapper {
             'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
         );
         await page.setViewport({ width: 1680, height: 1050 });
-        await page.goto(InfonavitPage.URL);
-        const home = new Home(securitySocialNumber, birthday, page);
-        const response = await home.handle();
-        browser.close();
+        await page.goto(url);
+        return page;
+    }
+    static async getInstance(url: string) {
+        if (PageCreator.instance === null) {
+            const page = await PageCreator.launch(url);
+            PageCreator.instance = new PageCreator(page);
+        }
+        return PageCreator.instance;
+    }
+    getPage() {
+        return this.page;
+    }
+}
+
+export class InfonavitScrapper {
+    async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
+        const pageCreator = await PageCreator.getInstance(InfonavitPage.URL);
+        const home = new Home(securitySocialNumber, birthday, pageCreator.getPage());
+        const response = await home.scrape();
+        CommandBatch.getInstance().addCommand(new InfonavitResponseCommand(securitySocialNumber));
         return response;
     }
 }

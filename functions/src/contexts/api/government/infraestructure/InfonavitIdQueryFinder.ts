@@ -12,7 +12,7 @@ export class InfonavitIdQueryFinder {
                     return null;
                 }
                 const infonavitResponse = document.data();
-                const start = moment().subtract(3, 'week');
+                const start = moment().subtract(5, 'week');
                 const now = new Date();
                 if (!moment((infonavitResponse.created_at as Timestamp)?.toDate()).isBetween(start, now)) {
                     return null;

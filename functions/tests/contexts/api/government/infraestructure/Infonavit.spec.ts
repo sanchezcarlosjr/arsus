@@ -50,14 +50,14 @@ mocha.describe('Infonavit', () => {
         return expect(infonavit.find(new SecuritySocialNumber('07109209614')))
             .to.eventually.equal(null);
     });
-    it.only('should foramt birthday', () => {
+    it('should foramt birthday', () => {
         const date = '1995-03-24T00:00:00.000Z';
         const birthday = new Birthday(date);
         expect(birthday.value).to.equal('24/03/1995');
     });
-    it('should srappe infonavit site', () => {
+    it.only('should srappe infonavit site', () => {
         const infonavit = new InfonavitScrapper();
-        return expect(infonavit.find(new SecuritySocialNumber('07109209614'), new Birthday('1992-08-11T00:00:00.000Z')))
+        return expect(infonavit.find(new SecuritySocialNumber('63806210785'), new Birthday('1962-02-19T00:00:00.000Z')))
             .to.eventually.eql({
                 creditFromInfonavit: 316938.24,
                 housingSubAccountBalance: 45218.87,

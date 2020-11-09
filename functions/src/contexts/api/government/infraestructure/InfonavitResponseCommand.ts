@@ -26,7 +26,9 @@ export class MexicanGeneratorCommand implements Command {
 export class InfonavitResponseCommand implements Command {
     constructor(private id: SecuritySocialNumber) { }
     execute(infonavitResponse: InfonavitResponse) {
-        console.log(infonavitResponse);
+        if (!infonavitResponse) {
+            return null;
+        }
         return admin.firestore().collection('infonavit').doc(this.id.value).set({
             ...infonavitResponse,
             created_at: new Date()
