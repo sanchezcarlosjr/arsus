@@ -27,9 +27,12 @@ export class Transaction {
   transacteAll(query: FirebaseFirestore.Query) {
     return this.db.runTransaction(t =>
       t.get(query).then((snapshot) => {
-        snapshot.docs.forEach((doc) => t.update(doc.ref, {
-          isRegisteredInIMSS: false
-        }))
+        snapshot.docs.forEach(async (doc) => {
+          const data = (await this.db.collection('id').where('nss', '==', doc.id).get()).docs[0].data();
+          return t.update(doc.ref, {
+            mexicanName: `${data.name} ${data.fatherName} ${data.motherName}`
+          })
+        })
       })
     )
   }
@@ -59,6 +62,10 @@ export class Batch {
 mocha.describe('Download mexican key data', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
+  it('infonavit collection', async () => {
+    const transaction = new Transaction();
+    await transaction.transacteAll(admin.firestore().collection('infonavit'));
+  })
   it('Admin CLI', async () => {
     const transaction = new Transaction();
     const startAfter = 'RUEK810714MJCBSR01';

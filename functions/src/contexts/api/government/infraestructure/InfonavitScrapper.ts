@@ -34,12 +34,20 @@ export class CaptchaError extends Error {
 }
 
 interface InfonavitProduct {
-    scrape: (page: Page) => Promise<InfonavitResponse>;
+    scrape: () => Promise<InfonavitResponse>;
 }
 
-export class Home implements InfonavitProduct {
+
+abstract class Credit implements InfonavitProduct {
+    private nextInfonavitProduct: InfonavitProduct = undefined;
+    protected readonly URL: string;
+    protected readonly PRODUCT: string;
     constructor(private securitySocialNumber: SecuritySocialNumber, private birthday: Birthday, private page: Page) { }
-    async search() {
+    async scrape() {
+        await this.page.goto(this.URL);
+        return this.search();
+    }
+    private async search() {
         const nss = await this.page.$x(InfonavitPage.INPUT_NSS);
         await this.page.evaluate(
             (elementHandler, securitySocialNumber) => elementHandler.value = securitySocialNumber,
@@ -49,34 +57,30 @@ export class Home implements InfonavitProduct {
         await this.page.evaluate((elementHandler, birthday) => elementHandler.value = birthday, day[0], this.birthday.value);
         await (this.page as any).solveRecaptchas();
         await this.click(InfonavitPage.SUBMIT);
-        if ((await this.page.$x(InfonavitPage.DIV_ERROR_CAPTCHA))[0]) {
-            throw new CaptchaError();
-        }
         const personWithoutCreditError = await this.getTextFrom(InfonavitPage.MODAL_SPAN_ERROR);
-        let mexicanName = await this.getTextFrom(InfonavitPage.MODAL_SPAN_NAME);
         if (personWithoutCreditError) {
             if (/no corresponde a la registrada/.test(personWithoutCreditError)) {
                 throw new Error(personWithoutCreditError);
             }
-            if (personWithoutCreditError) {
-                return null;
+            if (this.nextInfonavitProduct !== undefined && /YA TUVO CREDITO/.test(personWithoutCreditError)) {
+                return this.nextInfonavitProduct.scrape();
             }
+            let mexicanName = await this.getTextFrom(InfonavitPage.MODAL_SPAN_NAME);
             CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
             return {
+                mexicanName,
                 error: personWithoutCreditError.toLowerCase().trim()
             }
         }
-        (await this.page.$x(InfonavitPage.UNAUTHORIZATION))[0].click();
-        await this.click('/html/body/div[3]/div[2]/form/div[2]/div/div/table[5]/tbody/tr/td/button');
-        mexicanName = await this.getTextFrom('/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[1]/tbody/tr/td[4]/strong');
+        if (this.PRODUCT == 'CI') {
+            (await this.page.$x(InfonavitPage.UNAUTHORIZATION))[0].click();
+            await this.click('/html/body/div[3]/div[2]/form/div[2]/div/div/table[5]/tbody/tr/td/button');
+        }
+        let mexicanName = await this.getTextFrom('/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[1]/tbody/tr/td[4]/strong');
         CommandBatch.getInstance().addCommand(new MexicanGeneratorCommand(mexicanName, this.birthday, this.securitySocialNumber));
-        return await this.mapResponse();
+        return this.mapResponse(mexicanName);
     }
-    async scrape() {
-        await this.page.goto(InfonavitPage.URL);
-        return
-    }
-    private async mapResponse() {
+    private async mapResponse(mexicanName: string) {
         const xPaths = [
             '/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[2]/tbody/tr[4]/td[3]',
             '/html/body/div[3]/div[2]/form[1]/div[2]/div/div/table[2]/tbody/tr[5]/td[3]',
@@ -86,16 +90,20 @@ export class Home implements InfonavitProduct {
         ];
         const promises = await Promise.all(xPaths.map((url) => this.getTextFrom(url)));
         promises.push(await this.getTextFrom('//*[@id="result:montoCreditoAux"]', 'value'));
-        const response = promises.map((value) => Number(value.replace(',', '')));
+        const response = promises.map((value) => Number(value.replace(/,/g, '')));
         return {
             creditFromInfonavit: response[5],
             housingSubAccountBalance: response[0],
             operatingExpenses: response[1],
+            mexicanName,
             total: response[2],
             monthlySalaryDiscount: response[3],
             creditForEcotechnologies: response[4],
-            product: 'CI'
+            product: this.PRODUCT
         };
+    }
+    setInfonavitProduct(infonavitProduct: InfonavitProduct) {
+        this.nextInfonavitProduct = infonavitProduct;
     }
     async click(xPath: string) {
         const element = await this.page.$x(xPath);
@@ -162,11 +170,23 @@ export class PageCreator {
     }
 }
 
+class CreditURL extends Credit {
+    constructor(securitySocialNumber: SecuritySocialNumber, birthday: Birthday, page: Page, protected URL: string, protected PRODUCT: string) {
+        super(securitySocialNumber, birthday, page);
+    }
+}
+
 export class InfonavitScrapper {
+    private getCredits(securitySocialNumber: SecuritySocialNumber, birthday: Birthday, page: Page) {
+        const credit1 = new CreditURL(securitySocialNumber, birthday, page, 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CI', 'CI');
+        const credit2 = new CreditURL(securitySocialNumber, birthday, page, 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CII', 'CII');
+        credit1.setInfonavitProduct(credit2);
+        return credit1
+    }
     async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
         const pageCreator = await PageCreator.getInstance(InfonavitPage.URL);
-        const home = new Home(securitySocialNumber, birthday, pageCreator.getPage());
-        const response = await home.scrape();
+        const credit = this.getCredits(securitySocialNumber, birthday, pageCreator.getPage());
+        const response = await credit.scrape();
         CommandBatch.getInstance().addCommand(new InfonavitResponseCommand(securitySocialNumber));
         return response;
     }

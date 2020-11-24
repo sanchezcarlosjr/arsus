@@ -5,6 +5,7 @@ export interface InfonavitResponse {
     housingSubAccountBalance?: number,
     operatingExpenses?: number,
     total?: number,
+    name?: string,
     monthlySalaryDiscount?: number,
     error?: string,
     created_at?: Date | Timestamp,

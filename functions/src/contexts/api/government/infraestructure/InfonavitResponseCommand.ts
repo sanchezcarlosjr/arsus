@@ -7,14 +7,6 @@ import { InfonavitResponse } from './../domain/InfonavitResponse';
 export class MexicanGeneratorCommand implements Command {
     constructor(private name: string, private birthday: Birthday, private id: SecuritySocialNumber) { }
     async execute() {
-        const existsCURP = await (await admin.firestore().collection('id').where('nss', '==', this.id.value).get()).docs[0];
-        if (existsCURP) {
-            return null;
-        }
-        const exists = await admin.firestore().collection('imss').doc(this.id.value).get().then(document => document.exists)
-        if (exists) {
-            return null;
-        }
         return admin.firestore().collection('imss').doc(this.id.value).set({
             name: this.name,
             birthday: this.birthday.originalValue,

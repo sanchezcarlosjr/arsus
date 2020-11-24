@@ -55,6 +55,19 @@ mocha.describe('Infonavit', () => {
         const birthday = new Birthday(date);
         expect(birthday.value).to.equal('24/03/1995');
     });
+    it('should scrappe about infonavit site when it is second client credit', () => {
+        const infonavit = new InfonavitScrapper();
+        return expect(infonavit.find(new SecuritySocialNumber('21048558601'), new Birthday('1985-11-24T00:00:00.000Z')))
+            .to.eventually.eql({
+                creditFromInfonavit: 1030049.28,
+                housingSubAccountBalance: 59219.53,
+                operatingExpenses: 51502.46,
+                total: 1037766.35,
+                product: 'CII',
+                monthlySalaryDiscount: 9532.15,
+                creditForEcotechnologies: 52823.00
+            });
+    })
     it.only('should srappe infonavit site', () => {
         const infonavit = new InfonavitScrapper();
         return expect(infonavit.find(new SecuritySocialNumber('63806210785'), new Birthday('1962-02-19T00:00:00.000Z')))
