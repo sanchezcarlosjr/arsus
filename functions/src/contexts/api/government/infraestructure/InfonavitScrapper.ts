@@ -107,10 +107,8 @@ abstract class Credit implements InfonavitProduct {
     }
     async click(xPath: string) {
         const element = await this.page.$x(xPath);
-        await Promise.all([
-            this.page.waitForNavigation(),
-            element[0].click()
-        ])
+        await element[0].click();
+        await this.page.waitForNavigation();
     }
     async getTextFrom(xPath: string, property = 'innerText'): Promise<string> {
         const spanElement = await this.page.$x(xPath);
