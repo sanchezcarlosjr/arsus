@@ -1,11 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
-import { LoadingController, Platform, ToastController } from '@ionic/angular';
-
+import { LoadingController, Platform } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { LoginAction } from '@store/auth/auth.actions';
+
 
 @Component({
   selector: 'app-login',
@@ -19,8 +18,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   isLoading = false;
 
   constructor(
-    private router: Router,
-    private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private platform: Platform,
     private loadingController: LoadingController,
@@ -33,9 +30,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     return !this.platform.is('cordova');
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
-  ngOnDestroy() {}
+  ngOnDestroy() { }
 
   async login(provider?: string) {
     const loading = await this.loadingController.create();
