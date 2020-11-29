@@ -16,6 +16,7 @@ import { ToastService } from './../../@shared/toast.service';
 export class PermissionsComponent implements OnInit {
   loginForm!: FormGroup;
   @ViewChild('slides') slides: IonSlides;
+  private responseAcc: any = null;
   slideOpts = {
     initialSlide: 0,
     allowTouchMove: false
@@ -39,11 +40,23 @@ export class PermissionsComponent implements OnInit {
       filter((uid) => !!uid),
       switchMap((uid) =>
         this.firestore.collection('users').doc(uid).get().pipe(
-          map((doc) => !!doc.data().CURP),
+          map((doc) => doc.data().CURP),
+          switchMap((curp: string) => {
+            if (curp) {
+              return this.http.get('https://us-west4-arsus-production.cloudfunctions.net/curp', {
+                params: {
+                  apiKey: uid,
+                  curp: curp
+                }
+              })
+            }
+            return null;
+          })
         )
       )
     ).subscribe((response) => {
       if (response) {
+        this.responseAcc = response;
         this.slides.slideNext();
       }
       loading.dismiss();
@@ -75,6 +88,7 @@ export class PermissionsComponent implements OnInit {
       )
     ).subscribe((response: any) => {
       loading.dismiss();
+      this.responseAcc = response;
       this.firestore.collection('users').doc(response.uid).update({
         CURP: response.curp
       });
@@ -85,7 +99,11 @@ export class PermissionsComponent implements OnInit {
     });
   }
 
-  login() { }
+  login() {
+    this.http.post(localStorage.getItem('webhook'), {
+      body: this.responseAcc
+    }).toPromise().then(() => document.location.href = localStorage.getItem('redirect_uri'));
+  }
 
   ngOnDestroy() { }
 
@@ -93,6 +111,7 @@ export class PermissionsComponent implements OnInit {
     this.loginForm = this.formBuilder.group({
       permissions: this.formBuilder.group({
         identifyByCURP: [true],
+        shareDataOfCURP: [true],
       }),
       curp: ['', [Validators.required, Validators.pattern(/^[A-Z]{1}[AEIXOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/)]],
     });

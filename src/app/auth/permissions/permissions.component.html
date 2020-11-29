@@ -46,9 +46,43 @@
                                 <ion-list formGroupName="permissions">
                                     <ion-item>
                                         <ion-checkbox formControlName="identifyByCURP" slot="start"></ion-checkbox>
-                                        <ion-label>Identificarte por CURP</ion-label>
+                                        <ion-label>Identificarte por la CURP</ion-label>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-checkbox formControlName="shareDataOfCURP" slot="start"></ion-checkbox>
+                                        <ion-label>Compartir información de la CURP</ion-label>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-checkbox disabled slot="start"></ion-checkbox>
+                                        <ion-label>Compartir información del RFC</ion-label>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-checkbox disabled slot="start"></ion-checkbox>
+                                        <ion-label>Compartir información del IMSS</ion-label>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-checkbox disabled  slot="start"></ion-checkbox>
+                                        <ion-label>Identificarte por la INE</ion-label>
+                                    </ion-item>
+                                    <ion-item>
+                                        <ion-checkbox disabled slot="start"></ion-checkbox>
+                                        <ion-label>Compartir información del INFONAVIT</ion-label>
                                     </ion-item>
                                 </ion-list>
+                                <div class="ion-padding-horizontal">
+                                    <ion-button (click)="login()" color="primary" expand="block" translate>
+                                        Continue
+                                    </ion-button>
+                                    <ion-button color="light" expand="block" translate>
+                                        Cancel
+                                    </ion-button>
+                                    <p style="font-size: 10px;">
+                                        <span translate>By continuing, you agree to</span>
+                                        <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate>Arsus's Conditions of Use</a>
+                                        <span translate> and </span>
+                                        <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
+                                    </p>
+                                </div>
                             </div>
                         </ion-slide>
                     </ion-slides>
