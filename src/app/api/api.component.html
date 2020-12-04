@@ -38,9 +38,57 @@
             </ion-col>
         </ion-row>
     </ion-grid>
-    <iframe height="900px" width="100%" src="https://repl.it/@CarlosSanchez14/API-Curp-1?lite=true" scrolling="no"
-        frameborder="no" allowtransparency="true" allowfullscreen="true"
-        sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"></iframe>
+    <form  (ngSubmit)="save()"[formGroup]="authorizedForm">
+        <ion-list>
+            <ion-list-header lines="inset">
+                <ion-label>Authorized JavaScript Origins</ion-label>
+            </ion-list-header>
+            <ng-container formArrayName="authorizedJavaScriptOrigins">
+                <ion-item lines="inset"
+                    *ngFor="let _ of authorizedForm.get('authorizedJavaScriptOrigins')?.controls; let i = index;">
+                    <ion-label position="stacked">URL</ion-label>
+                    <ion-icon name="trash" slot="end" (click)="remove('authorizedJavaScriptOrigins', i)"></ion-icon>
+                    <ion-input [formControlName]="i" type="text"></ion-input>
+                </ion-item>
+            </ng-container>
+            <ion-button  (click)="add('authorizedJavaScriptOrigins')" slot="icon-only" class="ion-padding">
+                <ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-list>
+        <ion-list>
+            <ion-list-header lines="inset">
+                <ion-label>Authorized Redirect URIs</ion-label>
+            </ion-list-header>
+            <ng-container formArrayName="authorizedRedirectURIs">
+                <ion-item lines="inset"
+                    *ngFor="let _ of authorizedForm.get('authorizedRedirectURIs')?.controls; let i = index;">
+                    <ion-label position="stacked">URL</ion-label>
+                    <ion-icon name="trash" slot="end" (click)="remove('authorizedRedirectURIs', i)"></ion-icon>
+                    <ion-input [formControlName]="i" type="text"></ion-input>
+                </ion-item>
+            </ng-container>
+            <ion-button (click)="add('authorizedRedirectURIs')" slot="icon-only" class="ion-padding">
+                <ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-list>
+        <ion-list>
+            <ion-list-header lines="inset">
+                <ion-label>Authorized Webhooks</ion-label>
+            </ion-list-header>
+            <ng-container formArrayName="authorizedWebhooks">
+                <ion-item lines="inset"
+                    *ngFor="let _ of authorizedForm.get('authorizedWebhooks')?.controls; let i = index;">
+                    <ion-label position="stacked">URL</ion-label>
+                    <ion-icon name="trash" slot="end" (click)="remove('authorizedWebhooks', i)"></ion-icon>
+                    <ion-input [formControlName]="i" type="text"></ion-input>
+                </ion-item>
+            </ng-container>
+            <ion-button (click)="add('authorizedWebhooks')" slot="icon-only" class="ion-padding">
+                <ion-icon name="add"></ion-icon>
+            </ion-button>
+        </ion-list>
+        <ion-button [disabled]="authorizedForm.invalid" class="ion-padding" type="submit">Save</ion-button>
+    </form>
     <df-messenger intent="WELCOME" chat-title="😀 Arsus Support" chat-icon="assets/icons/icon-72x72.png"
         agent-id="695979d8-2719-43a8-98b2-25747f9d2602" language-code="en"></df-messenger>
 </ion-content>
