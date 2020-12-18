@@ -45,7 +45,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
             map((user) => {
               if (!user && project.landing) {
                 project.url = project.landing;
-                localStorage.setItem('authURLAfterLogin', `/${project.title}/${project.uid}`);
+                sessionStorage.setItem('authURLAfterLogin', `/${project.title}/${project.uid}`);
                 return project;
               }
               return project;

@@ -5,7 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonSlides, LoadingController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { AuthStateModule } from '@store/auth/auth.state';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { filter, map, switchMap, take } from 'rxjs/operators';
 import { ToastService } from './../../@shared/toast.service';
 
 @Component({
@@ -16,7 +16,6 @@ import { ToastService } from './../../@shared/toast.service';
 export class PermissionsComponent implements OnInit {
   loginForm!: FormGroup;
   @ViewChild('slides') slides: IonSlides;
-  private responseAcc: any = null;
   slideOpts = {
     initialSlide: 0,
     allowTouchMove: false
@@ -34,32 +33,17 @@ export class PermissionsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    const loading = await this.loadingController.create();
-    await loading.present();
     this.store.select(AuthStateModule.uid).pipe(
       filter((uid) => !!uid),
       switchMap((uid) =>
         this.firestore.collection('users').doc(uid).get().pipe(
+          take(1),
           map((doc) => doc.data().CURP),
-          switchMap((curp: string) => {
-            if (curp) {
-              return this.http.get('https://us-west4-arsus-production.cloudfunctions.net/curp', {
-                params: {
-                  apiKey: uid,
-                  curp: curp
-                }
-              })
-            }
-            return null;
-          })
+          filter((curp: string) => !!curp)
         )
       )
-    ).subscribe((response) => {
-      if (response) {
-        this.responseAcc = response;
-        this.slides.slideNext();
-      }
-      loading.dismiss();
+    ).subscribe(() => {
+      this.slides.slideNext();
     });
   }
 
@@ -88,7 +72,6 @@ export class PermissionsComponent implements OnInit {
       )
     ).subscribe((response: any) => {
       loading.dismiss();
-      this.responseAcc = response;
       this.firestore.collection('users').doc(response.uid).update({
         CURP: response.curp
       });
@@ -99,10 +82,15 @@ export class PermissionsComponent implements OnInit {
     });
   }
 
+  cancel() {
+    const url = sessionStorage.getItem('redirect_uri');
+    document.location.href = `${url}`;
+  }
+
   login() {
-    this.http.post(localStorage.getItem('webhook'), {
-      body: this.responseAcc
-    }).toPromise().then(() => document.location.href = localStorage.getItem('redirect_uri'));
+    const url = sessionStorage.getItem('redirect_uri');
+    const state = sessionStorage.getItem('state');
+    document.location.href = `${url}?code=12314&state=${state}`;
   }
 
   ngOnDestroy() { }

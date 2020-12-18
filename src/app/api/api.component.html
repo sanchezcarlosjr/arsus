@@ -36,25 +36,16 @@
                     </a>
                 </ion-button>
             </ion-col>
+            <ion-col>
+                <ion-button>
+                    <a href="https://documenter.getpostman.com/view/6166162/TVep7mv6" target="_blank">
+                        <span>POSTMAN</span>
+                    </a>
+                </ion-button>
+            </ion-col>
         </ion-row>
     </ion-grid>
     <form  (ngSubmit)="save()"[formGroup]="authorizedForm">
-        <ion-list>
-            <ion-list-header lines="inset">
-                <ion-label>Authorized JavaScript Origins</ion-label>
-            </ion-list-header>
-            <ng-container formArrayName="authorizedJavaScriptOrigins">
-                <ion-item lines="inset"
-                    *ngFor="let _ of authorizedForm.get('authorizedJavaScriptOrigins')?.controls; let i = index;">
-                    <ion-label position="stacked">URL</ion-label>
-                    <ion-icon name="trash" slot="end" (click)="remove('authorizedJavaScriptOrigins', i)"></ion-icon>
-                    <ion-input [formControlName]="i" type="text"></ion-input>
-                </ion-item>
-            </ng-container>
-            <ion-button  (click)="add('authorizedJavaScriptOrigins')" slot="icon-only" class="ion-padding">
-                <ion-icon name="add"></ion-icon>
-            </ion-button>
-        </ion-list>
         <ion-list>
             <ion-list-header lines="inset">
                 <ion-label>Authorized Redirect URIs</ion-label>
@@ -68,22 +59,6 @@
                 </ion-item>
             </ng-container>
             <ion-button (click)="add('authorizedRedirectURIs')" slot="icon-only" class="ion-padding">
-                <ion-icon name="add"></ion-icon>
-            </ion-button>
-        </ion-list>
-        <ion-list>
-            <ion-list-header lines="inset">
-                <ion-label>Authorized Webhooks</ion-label>
-            </ion-list-header>
-            <ng-container formArrayName="authorizedWebhooks">
-                <ion-item lines="inset"
-                    *ngFor="let _ of authorizedForm.get('authorizedWebhooks')?.controls; let i = index;">
-                    <ion-label position="stacked">URL</ion-label>
-                    <ion-icon name="trash" slot="end" (click)="remove('authorizedWebhooks', i)"></ion-icon>
-                    <ion-input [formControlName]="i" type="text"></ion-input>
-                </ion-item>
-            </ng-container>
-            <ion-button (click)="add('authorizedWebhooks')" slot="icon-only" class="ion-padding">
                 <ion-icon name="add"></ion-icon>
             </ion-button>
         </ion-list>

@@ -6,6 +6,7 @@ import { ToastController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
 import { AuthStateModule } from '@store/auth/auth.state';
 import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
 const { Clipboard } = Plugins;
 
 @Component({
@@ -14,25 +15,31 @@ const { Clipboard } = Plugins;
   styleUrls: ['./api.component.scss']
 })
 export class ApiComponent implements OnInit {
-  authorizedForm: FormGroup;
+  authorizedForm: FormGroup = this.formBuilder.group({
+    authorizedRedirectURIs: new FormArray([this.createAFormControl()])
+  });
   @Select(AuthStateModule.uid) uid$: Observable<string>;
   constructor(private toast: ToastController, private store: Store, private formBuilder: FormBuilder, private firestore: AngularFirestore) { }
 
   ngOnInit(): void {
-    this.authorizedForm = this.formBuilder.group({
-      authorizedJavaScriptOrigins: new FormArray([this.createAFormControl()]),
-      authorizedRedirectURIs: new FormArray([this.createAFormControl()]),
-      authorizedWebhooks: new FormArray([this.createAFormControl()])
-    });
+    this.firestore.collection('users').doc(this.store.selectSnapshot(AuthStateModule.uid)).valueChanges().pipe(take(1)).subscribe((user: any) =>
+      this.load(user.authorizedRedirectURIs, 'authorizedRedirectURIs')
+    )
   }
 
-  createAFormControl() {
-    const pattern = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-    return new FormControl('', [Validators.required, Validators.pattern(pattern)]);
+  load(field: string, name: string) {
+    const input = field ? field.split(',') : [''];
+    (this.authorizedForm.get(name) as FormArray).at(0).setValue(input[0]);
+    input.slice(1).forEach((value) => this.add(name, value));
   }
 
-  add(formArrayName: string) {
-    (this.authorizedForm.get(formArrayName) as FormArray).push(this.createAFormControl())
+  createAFormControl(value = '') {
+    const pattern = /^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$/;
+    return new FormControl(value, [Validators.required, Validators.pattern(pattern)]);
+  }
+
+  add(formArrayName: string, value = '') {
+    (this.authorizedForm.get(formArrayName) as FormArray).push(this.createAFormControl(value))
   }
 
   remove(formArrayName: string, index: number) {
@@ -40,8 +47,9 @@ export class ApiComponent implements OnInit {
   }
 
   save() {
-    const value = this.authorizedForm.value;
-    console.log(value.authorizedJavaScriptOrigins);
+    this.firestore.collection('users').doc(this.store.selectSnapshot(AuthStateModule.uid)).update({
+      authorizedRedirectURIs: this.authorizedForm.value.authorizedRedirectURIs.join(','),
+    });
   }
 
   async writeInClipboardUserUID() {

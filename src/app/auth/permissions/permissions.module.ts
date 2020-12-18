@@ -4,6 +4,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { I18nModule } from '@app/i18n';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
+import { OAuthClientIdGuard } from './oauth-client-id.guard';
+import { OAuthQueryGuard } from './oauth-query.guard';
 import { PermissionsRoutingModule } from './permissions-routing.module';
 import { PermissionsComponent } from './permissions.component';
 
@@ -16,6 +18,10 @@ import { PermissionsComponent } from './permissions.component';
     IonicModule,
     I18nModule,
     PermissionsRoutingModule
+  ],
+  providers: [
+    OAuthQueryGuard,
+    OAuthClientIdGuard
   ]
 })
 export class PermissionsModule { }

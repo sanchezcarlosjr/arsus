@@ -1,7 +1,6 @@
-import { TestBed, async } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { InboxState, InboxStateModel } from './inbox.state';
-import { InboxAction } from './inbox.actions';
 
 describe('Inbox store', () => {
   let store: Store;
@@ -14,10 +13,9 @@ describe('Inbox store', () => {
 
   it('should create an action and add an item', () => {
     const expected: InboxStateModel = {
-      items: ['item-1'],
+      items: [],
     };
-    store.dispatch(new InboxAction('item-1'));
-    const actual = store.selectSnapshot(InboxState.getState);
-    expect(actual).toEqual(expected);
+    const actual = store.selectSnapshot(InboxState.items);
+    expect(actual).toEqual(expected.items);
   });
 });

@@ -83,7 +83,6 @@ export class AuthStateModule implements NgxsOnInit {
               });
             }
           });
-          localStorage.removeItem('authURLAfterLogin');
           const device = await UserRequest.device();
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({

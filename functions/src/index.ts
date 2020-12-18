@@ -9,6 +9,7 @@ export * from './apps/backend/controllers/bot/BotFulfillment';
 export * from './apps/backend/controllers/bot/SMS';
 export * from './apps/backend/controllers/Curp';
 export * from './apps/backend/controllers/EmailSendController';
+export * from './apps/backend/controllers/EnsureClientIdController';
 export * from './apps/backend/controllers/EnterpriseStoreController';
 export * from './apps/backend/controllers/EnterpriseUpdateController';
 export * from './apps/backend/controllers/InboxSender';

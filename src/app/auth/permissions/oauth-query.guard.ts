@@ -13,12 +13,17 @@ export function equals<T>(a: Set<T>, b: Set<T>) {
 @Injectable()
 export class OAuthQueryGuard implements CanActivate {
     constructor(private location: Location) { }
-    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean | UrlTree | Observable<boolean | UrlTree> | Promise<boolean | UrlTree> {
+    canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+        if (sessionStorage.getItem('state')) {
+            return true;
+        }
         const allowedQueryParams = new Set(['response_type', 'client_id', 'redirect_uri', 'scope', 'state', 'code_challenge', 'code_challenge_method']);
         const keysQueryParams: Set<string> = new Set(Object.keys(route.queryParams));
         const valuesQueryParams: Set<string> = new Set(Object.values(route.queryParams));
         const forbiddenKeysQueryParams = !equals<string>(allowedQueryParams, keysQueryParams);
-        const allValuesQueryParamsAreNull: boolean = valuesQueryParams.has('') || valuesQueryParams.has(null) || valuesQueryParams.has(undefined);
+        const allValuesQueryParamsAreNull: boolean = valuesQueryParams.has('') ||
+          valuesQueryParams.has(null) ||
+          valuesQueryParams.has(undefined);
         const allowedQuery = !forbiddenKeysQueryParams && !allValuesQueryParamsAreNull;
         if (!allowedQuery) {
             this.location.back();

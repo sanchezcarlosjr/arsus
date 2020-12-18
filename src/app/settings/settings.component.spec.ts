@@ -1,16 +1,12 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { ActionSheetController, AlertController, Platform } from '@ionic/angular';
-import { IonicModule } from '@ionic/angular';
-
-import { SharedModule } from '@shared';
 import { CoreModule } from '@core';
-import { AuthenticationService, CredentialsService } from '@app/auth';
-import { MockAuthenticationService } from '@app/auth/authentication.service.mock';
-import { MockCredentialsService } from '@app/auth/credentials.service.mock';
+import { ActionSheetController, AlertController, IonicModule, Platform } from '@ionic/angular';
+import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from '@shared';
 import { SettingsComponent } from './settings.component';
+
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -22,8 +18,6 @@ describe('SettingsComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [SettingsComponent],
       providers: [
-        { provide: AuthenticationService, useClass: MockAuthenticationService },
-        { provide: CredentialsService, useClass: MockCredentialsService },
         Platform,
         AlertController,
         ActionSheetController,
