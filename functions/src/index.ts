@@ -33,6 +33,7 @@ export * from './apps/backend/hooks/EmailSenderHook';
 export * from './apps/backend/hooks/InfonavitHook';
 export * from './apps/backend/hooks/MexicanFinderHook';
 export * from './apps/backend/hooks/NewUserHook';
+export * from './apps/backend/hooks/SatListWatcher';
 export * from './apps/backend/hooks/searcher';
 export * from './apps/backend/hooks/StorageHook';
 
