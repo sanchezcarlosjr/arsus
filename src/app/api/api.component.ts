@@ -9,14 +9,13 @@ const { Clipboard } = Plugins;
 @Component({
   selector: 'app-api',
   templateUrl: './api.component.html',
-  styleUrls: ['./api.component.scss']
+  styleUrls: ['./api.component.scss'],
 })
 export class ApiComponent implements OnInit {
   @Select(AuthStateModule.uid) uid$: Observable<string>;
-  constructor(private toast: ToastController, private store: Store) { }
+  constructor(private toast: ToastController, private store: Store) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   async writeInClipboardUserUID() {
     const toast = this.toast.create({
@@ -27,5 +26,4 @@ export class ApiComponent implements OnInit {
       string: this.store.selectSnapshot(AuthStateModule.uid),
     }).then(() => toast.then((res) => res.present()));
   }
-
 }

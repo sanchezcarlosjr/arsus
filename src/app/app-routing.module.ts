@@ -14,7 +14,7 @@ const routes: Routes = [
     },
     {
       path: 'api',
-      loadChildren: () => import('./api/api.module').then(m => m.ApiModule)
+      loadChildren: () => import('./api/api.module').then((m) => m.ApiModule),
     },
     {
       path: 'rss',
@@ -43,4 +43,4 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

@@ -3,7 +3,7 @@ import { Device, Geolocation } from '@capacitor/core';
 import { take } from 'rxjs/operators';
 
 export class UserRequest {
-  constructor(private cloudFunctions: AngularFireFunctions) { }
+  constructor(private cloudFunctions: AngularFireFunctions) {}
 
   static async device() {
     const info = await Device.getInfo();

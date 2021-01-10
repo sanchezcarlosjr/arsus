@@ -5,7 +5,8 @@
   padding-right: calc(30vw / 2);
 }
 
-:host ::ng-deep .main img, :not(a img) {
+:host ::ng-deep .main img,
+:not(a img) {
   border: 0;
   display: block;
   width: auto;

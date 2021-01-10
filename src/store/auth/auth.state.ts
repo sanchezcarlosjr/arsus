@@ -46,7 +46,7 @@ export class AuthStateModule implements NgxsOnInit {
     private firestore: AngularFirestore,
     private toast: ToastService,
     private router: Router
-  ) { }
+  ) {}
 
   @Selector()
   static photoURL(state: AuthenticationStateModel) {

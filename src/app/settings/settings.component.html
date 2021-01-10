@@ -9,9 +9,7 @@
       <ion-label translate>Account</ion-label>
     </ion-list-header>
     <ion-item (click)="writeInClipboardUserUID()" button lines="full">
-      <ion-label position="stacked">
-        <ion-icon name="server" slot="start"></ion-icon> API Key
-      </ion-label>
+      <ion-label position="stacked"> <ion-icon name="server" slot="start"></ion-icon> API Key </ion-label>
       <ion-input [value]="uid$ | async" readonly></ion-input>
     </ion-item>
     <ion-item button (click)="link('twitter')">

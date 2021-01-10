@@ -4,15 +4,9 @@ import { IonicModule } from '@ionic/angular';
 import { ApiRoutingModule } from './api-routing.module';
 import { ApiComponent } from './api.component';
 
-
-
 @NgModule({
   declarations: [ApiComponent],
-  imports: [
-    CommonModule,
-    ApiRoutingModule,
-    IonicModule
-  ],
+  imports: [CommonModule, ApiRoutingModule, IonicModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class ApiModule { }
+export class ApiModule {}
