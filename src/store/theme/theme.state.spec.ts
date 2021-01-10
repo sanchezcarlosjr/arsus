@@ -1,7 +1,7 @@
 import { async, TestBed } from '@angular/core/testing';
 import { NgxsModule, Store } from '@ngxs/store';
+import { SetThemeAction } from '@store/theme/theme.actions';
 import { ThemeStateModel, ThemeStateModule } from './theme.state';
-import { ThemeAction } from './theme.actions';
 
 describe('Theme store', () => {
   let store: Store;
@@ -14,10 +14,11 @@ describe('Theme store', () => {
 
   it('should create an action and add an item', () => {
     const expected: ThemeStateModel = {
-      items: ['item-1'],
+      isDarkTheme: true,
+      name: ''
     };
-    store.dispatch(new ThemeAction('item-1'));
-    const actual = store.selectSnapshot(ThemeStateModule.getState);
-    expect(actual).toEqual(expected);
+    store.dispatch(new SetThemeAction(expected.isDarkTheme));
+    const actual = store.selectSnapshot(ThemeStateModule.isDarkTheme);
+    expect(actual).toEqual(expected.isDarkTheme);
   });
 });

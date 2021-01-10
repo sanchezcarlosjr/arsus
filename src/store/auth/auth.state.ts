@@ -83,7 +83,6 @@ export class AuthStateModule implements NgxsOnInit {
               });
             }
           });
-          localStorage.removeItem('authURLAfterLogin');
           const device = await UserRequest.device();
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({
@@ -145,7 +144,6 @@ export class AuthStateModule implements NgxsOnInit {
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'google':
         provider = new auth.GoogleAuthProvider();
-        provider.addScope(GoogleApiService.SCOPE);
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'twitter':
         provider = new auth.TwitterAuthProvider();

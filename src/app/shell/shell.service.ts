@@ -11,7 +11,7 @@ export const redirectUnauthorizedTo: (redirect: any[]) => AuthPipe = (redirect) 
       if (loggedIn) {
         return loggedIn;
       }
-      localStorage.setItem('authURLAfterLogin', location.pathname);
+      sessionStorage.setItem('authURLAfterLogin', location.pathname);
       return redirect;
     })
   );

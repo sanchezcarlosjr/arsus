@@ -11,14 +11,20 @@ const routes: Routes = [
     canActivate: [AngularFireAuthGuard],
     data: {
       title: extract('Login'),
-      authGuardPipe: () => redirectLoggedInTo([localStorage.getItem('authURLAfterLogin') || 'tabs/home']),
-    },
+      authGuardPipe: () => redirectLoggedInTo([sessionStorage.getItem('authURLAfterLogin') || 'tabs/home']),
+    }
   },
+  {
+    path: 'oauth',
+    data: {
+      title: extract('OAuth'),
+    },
+    loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule)
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
-  providers: [],
+  exports: [RouterModule]
 })
-export class AuthRoutingModule {}
+export class AuthRoutingModule { }

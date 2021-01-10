@@ -1,9 +1,9 @@
-import { NgxsModule, Store } from '@ngxs/store';
 import { async, TestBed } from '@angular/core/testing';
-import { AuthenticationStateModel, AuthStateModule } from './auth.state';
+import { NgxsModule, Store } from '@ngxs/store';
 import { SetAuthData } from './auth.actions';
+import { AuthenticationStateModel, AuthStateModule } from './auth.state';
 
-fdescribe('[TEST]: AuthStore', () => {
+describe('[TEST]: AuthStore', () => {
   let store: Store;
 
   beforeEach(async(() => {
@@ -17,19 +17,14 @@ fdescribe('[TEST]: AuthStore', () => {
 
   it('Should be correct dispatch and value is empty', () => {
     const Authentication: AuthenticationStateModel = {
+      admin: false,
       uid: '',
       displayName: '',
       email: '',
       phoneNumber: '',
-      lastProvider: '',
       photoURL: '',
-      isNewUser: false,
       emailVerified: false,
-      creationTime: undefined,
-      lastSignInTime: undefined,
-      isOlder: false,
       providerId: '',
-      isAnonymous: true,
     };
     store.dispatch(new SetAuthData(Authentication));
   });

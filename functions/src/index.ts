@@ -2,13 +2,14 @@ import * as admin from 'firebase-admin';
 import 'firebase-functions';
 
 admin.initializeApp();
-admin.firestore().settings({ ignoreUndefinedProperties: true })
+admin.firestore().settings({ ignoreUndefinedProperties: true });
 export * from './apps/backend/controllers/AddSourceNewsController';
 export * from './apps/backend/controllers/ArticleSearchController';
 export * from './apps/backend/controllers/bot/BotFulfillment';
 export * from './apps/backend/controllers/bot/SMS';
 export * from './apps/backend/controllers/Curp';
 export * from './apps/backend/controllers/EmailSendController';
+export * from './apps/backend/controllers/EnsureClientIdController';
 export * from './apps/backend/controllers/EnterpriseStoreController';
 export * from './apps/backend/controllers/EnterpriseUpdateController';
 export * from './apps/backend/controllers/InboxSender';
@@ -32,6 +33,6 @@ export * from './apps/backend/hooks/EmailSenderHook';
 export * from './apps/backend/hooks/InfonavitHook';
 export * from './apps/backend/hooks/MexicanFinderHook';
 export * from './apps/backend/hooks/NewUserHook';
+export * from './apps/backend/hooks/SatListWatcher';
 export * from './apps/backend/hooks/searcher';
 export * from './apps/backend/hooks/StorageHook';
-

@@ -21,22 +21,22 @@ func JSON(statusCode int, message interface{}) (events.APIGatewayProxyResponse, 
 		IsBase64Encoded: false,
 		Body:            buf.String(),
 		Headers: map[string]string{
-			"Content-Type": "application/json",
+			"Content-Type":                 "application/json",
+			"Access-Control-Allow-Headers": "Content-Type",
+			"Access-Control-Allow-Origin":  "*",
+			"Access-Control-Allow-Methods": "GET",
 		},
 	}
 	return resp, nil
 }
 
-
-
 // Middleware is a generic JSON Lambda handler used to chain middleware.
 type Middleware func(events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error)
 
-
-// MiddlewareAuth ensures api key 
+// MiddlewareAuth ensures api key
 func MiddlewareAuth(next Middleware) Middleware {
-   return Middleware(func(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	   	err := EnsureAPIKey(request.QueryStringParameters["apiKey"])
+	return Middleware(func(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+		err := EnsureAPIKey(request.QueryStringParameters["apiKey"])
 		if err != "" {
 			return JSON(http.StatusUnauthorized, map[string]interface{}{
 				"error": err,
@@ -48,13 +48,13 @@ func MiddlewareAuth(next Middleware) Middleware {
 
 // MiddlewareForNoRequest validate query
 func MiddlewareForNoRequest(next Middleware) Middleware {
-   return Middleware(func(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+	return Middleware(func(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 		if request.QueryStringParameters["fatherName"] == "" ||
-		   request.QueryStringParameters["motherName"] == "" ||
-		   request.QueryStringParameters["name"] == "" ||
-		   request.QueryStringParameters["gender"] == "" ||
-		   request.QueryStringParameters["birthday"] == "" ||
-		   request.QueryStringParameters["birthState"] == ""  {
+			request.QueryStringParameters["motherName"] == "" ||
+			request.QueryStringParameters["name"] == "" ||
+			request.QueryStringParameters["gender"] == "" ||
+			request.QueryStringParameters["birthday"] == "" ||
+			request.QueryStringParameters["birthState"] == "" {
 			return JSON(http.StatusUnauthorized, map[string]interface{}{
 				"error": "bad request",
 			})
