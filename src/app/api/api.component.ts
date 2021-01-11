@@ -16,20 +16,24 @@ const { Clipboard } = Plugins;
 })
 export class ApiComponent implements OnInit {
   authorizedForm: FormGroup = this.formBuilder.group({
-    authorizedRedirectURIs: new FormArray([this.createAFormControl()])
+    authorizedRedirectURIs: new FormArray([this.createAFormControl()]),
   });
   @Select(AuthStateModule.uid) uid$: Observable<string>;
-<<<<<<< HEAD
-  constructor(private toast: ToastController, private store: Store) {}
 
-  ngOnInit(): void {}
-=======
-  constructor(private toast: ToastController, private store: Store, private formBuilder: FormBuilder, private firestore: AngularFirestore) { }
+  constructor(
+    private toast: ToastController,
+    private store: Store,
+    private formBuilder: FormBuilder,
+    private firestore: AngularFirestore
+  ) {}
 
   ngOnInit(): void {
-    this.firestore.collection('users').doc(this.store.selectSnapshot(AuthStateModule.uid)).valueChanges().pipe(take(1)).subscribe((user: any) =>
-      this.load(user.authorizedRedirectURIs, 'authorizedRedirectURIs')
-    )
+    this.firestore
+      .collection('users')
+      .doc(this.store.selectSnapshot(AuthStateModule.uid))
+      .valueChanges()
+      .pipe(take(1))
+      .subscribe((user: any) => this.load(user.authorizedRedirectURIs, 'authorizedRedirectURIs'));
   }
 
   load(field: string, name: string) {
@@ -44,7 +48,7 @@ export class ApiComponent implements OnInit {
   }
 
   add(formArrayName: string, value = '') {
-    (this.authorizedForm.get(formArrayName) as FormArray).push(this.createAFormControl(value))
+    (this.authorizedForm.get(formArrayName) as FormArray).push(this.createAFormControl(value));
   }
 
   remove(formArrayName: string, index: number) {
@@ -52,11 +56,13 @@ export class ApiComponent implements OnInit {
   }
 
   save() {
-    this.firestore.collection('users').doc(this.store.selectSnapshot(AuthStateModule.uid)).update({
-      authorizedRedirectURIs: this.authorizedForm.value.authorizedRedirectURIs.join(','),
-    });
+    this.firestore
+      .collection('users')
+      .doc(this.store.selectSnapshot(AuthStateModule.uid))
+      .update({
+        authorizedRedirectURIs: this.authorizedForm.value.authorizedRedirectURIs.join(','),
+      });
   }
->>>>>>> 56a8547ac4a5d56de270cff50e80d9ac212d3759
 
   async writeInClipboardUserUID() {
     const toast = this.toast.create({

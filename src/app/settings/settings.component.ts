@@ -4,7 +4,6 @@ import { Platform, ToastController } from '@ionic/angular';
 import { Select, Store } from '@ngxs/store';
 import { LinkAction, LogoutAction } from '@store/auth/auth.actions';
 import { AuthStateModule } from '@store/auth/auth.state';
-import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { Observable } from 'rxjs';
 
 const { Clipboard } = Plugins;
@@ -17,12 +16,7 @@ const { Clipboard } = Plugins;
 export class SettingsComponent implements OnInit {
   @Select(AuthStateModule.uid) uid$: Observable<string>;
 
-  constructor(
-    private platform: Platform,
-    private googleApiService: GoogleApiService,
-    private store: Store,
-    private toast: ToastController
-  ) {}
+  constructor(private platform: Platform, private store: Store, private toast: ToastController) {}
 
   ngOnInit() {}
 
@@ -40,9 +34,7 @@ export class SettingsComponent implements OnInit {
     }).then(() => toast.then((res) => res.present()));
   }
 
-  grantOfflineAccess() {
-    this.googleApiService.signInWithRedirect();
-  }
+  grantOfflineAccess() {}
 
   link(provider: string) {
     this.store.dispatch(new LinkAction(provider));

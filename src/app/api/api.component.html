@@ -4,55 +4,37 @@
       <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>API</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <a
+          href="https://www.notion.so/sanchezcarlosjr/CURP-Renapo-API-392135e5a30a4ff59162325c4f76a9ec"
+          target="_blank"
+        >
+          <span>CURP API DOCS</span>
+        </a>
+      </ion-button>
+      <ion-button>
+        <a
+          href="https://www.notion.so/sanchezcarlosjr/Mexican-Finder-API-faa3fbf0abbe42f5b9230342c95a2953"
+          target="_blank"
+        >
+          <span>Mexican API DOCS</span>
+        </a>
+      </ion-button>
+      <ion-button>
+        <a href="https://www.notion.so/sanchezcarlosjr/RFC-API-74a521e91993416da8df2224cd95b17a" target="_blank">
+          <span>RFC API DOCS</span>
+        </a>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 <ion-content>
-<<<<<<< HEAD
   <ion-item (click)="writeInClipboardUserUID()" button lines="full">
     <ion-label position="stacked"><ion-icon name="server" slot="start"></ion-icon> API Key</ion-label>
     <ion-input [value]="uid$ | async" readonly></ion-input>
   </ion-item>
-  <ion-grid>
-    <ion-row>
-      <ion-col>
-        <ion-button>
-          <a
-            href="https://www.notion.so/sanchezcarlosjr/CURP-Renapo-API-392135e5a30a4ff59162325c4f76a9ec"
-            target="_blank"
-          >
-            <span>CURP API DOCS</span>
-          </a>
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button>
-          <a
-            href="https://www.notion.so/sanchezcarlosjr/Mexican-Finder-API-faa3fbf0abbe42f5b9230342c95a2953"
-            target="_blank"
-          >
-            <span>Mexican API DOCS</span>
-          </a>
-        </ion-button>
-      </ion-col>
-      <ion-col>
-        <ion-button>
-          <a href="https://www.notion.so/sanchezcarlosjr/RFC-API-74a521e91993416da8df2224cd95b17a" target="_blank">
-            <span>RFC API DOCS</span>
-          </a>
-        </ion-button>
-      </ion-col>
-    </ion-row>
-  </ion-grid>
-  <iframe
-    height="900px"
-    width="100%"
-    src="https://repl.it/@CarlosSanchez14/API-Curp-1?lite=true"
-    scrolling="no"
-    frameborder="no"
-    allowtransparency="true"
-    allowfullscreen="true"
-    sandbox="allow-forms allow-pointer-lock allow-popups allow-same-origin allow-scripts allow-modals"
-  ></iframe>
+  <app-timeline></app-timeline>
   <df-messenger
     intent="WELCOME"
     chat-title="😀 Arsus Support"
@@ -61,65 +43,3 @@
     language-code="en"
   ></df-messenger>
 </ion-content>
-=======
-    <ion-item (click)="writeInClipboardUserUID()" button lines="full">
-        <ion-label position="stacked"><ion-icon name="server" slot="start"></ion-icon> API Key</ion-label>
-        <ion-input [value]="uid$ | async" readonly></ion-input>
-    </ion-item>
-    <ion-grid>
-        <ion-row>
-            <ion-col>
-                <ion-button>
-                    <a href="https://www.notion.so/sanchezcarlosjr/CURP-Renapo-API-392135e5a30a4ff59162325c4f76a9ec" target="_blank">
-                        <span>CURP API DOCS</span>
-                    </a>
-                </ion-button>
-            </ion-col>
-            <ion-col>
-                <ion-button>
-                    <a href="https://www.notion.so/sanchezcarlosjr/Mexican-Finder-API-faa3fbf0abbe42f5b9230342c95a2953"
-                        target="_blank">
-                        <span>Mexican API DOCS</span>
-                    </a>
-                </ion-button>
-            </ion-col>
-            <ion-col>
-                <ion-button>
-                    <a href="https://www.notion.so/sanchezcarlosjr/RFC-API-74a521e91993416da8df2224cd95b17a"
-                        target="_blank">
-                        <span>RFC API DOCS</span>
-                    </a>
-                </ion-button>
-            </ion-col>
-            <ion-col>
-                <ion-button>
-                    <a href="https://documenter.getpostman.com/view/6166162/TVep7mv6" target="_blank">
-                        <span>POSTMAN</span>
-                    </a>
-                </ion-button>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
-    <form  (ngSubmit)="save()"[formGroup]="authorizedForm">
-        <ion-list>
-            <ion-list-header lines="inset">
-                <ion-label>Authorized Redirect URIs</ion-label>
-            </ion-list-header>
-            <ng-container formArrayName="authorizedRedirectURIs">
-                <ion-item lines="inset"
-                    *ngFor="let _ of authorizedForm.get('authorizedRedirectURIs')?.controls; let i = index;">
-                    <ion-label position="stacked">URL</ion-label>
-                    <ion-icon name="trash" slot="end" (click)="remove('authorizedRedirectURIs', i)"></ion-icon>
-                    <ion-input [formControlName]="i" type="text"></ion-input>
-                </ion-item>
-            </ng-container>
-            <ion-button (click)="add('authorizedRedirectURIs')" slot="icon-only" class="ion-padding">
-                <ion-icon name="add"></ion-icon>
-            </ion-button>
-        </ion-list>
-        <ion-button [disabled]="authorizedForm.invalid" class="ion-padding" type="submit">Save</ion-button>
-    </form>
-    <df-messenger intent="WELCOME" chat-title="😀 Arsus Support" chat-icon="assets/icons/icon-72x72.png"
-        agent-id="695979d8-2719-43a8-98b2-25747f9d2602" language-code="en"></df-messenger>
-</ion-content>
->>>>>>> 56a8547ac4a5d56de270cff50e80d9ac212d3759

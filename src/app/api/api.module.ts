@@ -4,19 +4,11 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ApiRoutingModule } from './api-routing.module';
 import { ApiComponent } from './api.component';
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
-  declarations: [ApiComponent],
-<<<<<<< HEAD
-  imports: [CommonModule, ApiRoutingModule, IonicModule],
-=======
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    ApiRoutingModule,
-    IonicModule
-  ],
->>>>>>> 56a8547ac4a5d56de270cff50e80d9ac212d3759
+  declarations: [ApiComponent, TimelineComponent],
+  imports: [CommonModule, ReactiveFormsModule, ApiRoutingModule, IonicModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ApiModule {}
