@@ -6,7 +6,7 @@
     "ng": "ng",
     "build": "npm run env -s && ng build --prod && npm run scully",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
-    "deploy": "npm run env -s && npm run build && firebase deploy --only hosting",
+    "deploy": "npm run build && firebase deploy --only hosting",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
     "lint": "ng lint && stylelint \"src/**/*.scss\" --syntax scss && htmlhint \"src\" --config .htmlhintrc",
     "test": "npm run env -s && ng test",
