@@ -1,12 +1,9 @@
 import { config } from 'firebase-functions';
 import { get } from 'request-promise';
+import { warnByAPI } from '../../../shared/Error';
 
 export interface IMSSResponse {
     datosPersonales: any;
-}
-
-export function warnByAPI(className: string, line: number, message: string, errorType = 'API REQUEST') {
-    console.log('\x1b[33m%s\x1b[0m', `\t🔥 ERROR BY ${errorType} | In ${className} (LINE ${line}) | ${message.slice(0, 250)}`);
 }
 
 export class SecuritySocialNumberRapidapiFinder {

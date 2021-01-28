@@ -1,12 +1,13 @@
 import { config } from 'firebase-functions';
 import { get, post } from 'request-promise';
-import { warnByAPI } from './SecuritySocialNumberRapidapiFinder';
+import { warnByAPI } from '../../../shared/Error';
+
 const RFCFacil = require('rfc-facil');
 
 export interface RFC {
-    isLRFC: boolean,
-    rfc: string,
-    rfcBlockListStatus: string
+  isLRFC: boolean,
+  rfc: string,
+  rfcBlockListStatus: string
 }
 
 export interface List {

@@ -7,8 +7,8 @@ while maintaining lots of simplicity for local development and testing.
 
 ### Cookbook for maximum independence of deployment-specific configuration
 
-Disclaimer: If you have a full-stack app in a monorepo, keep separate `.env` files for server-side and client-side
-configs, and make sure `.env` files are .gitignore'd and that secrets never make it into client-side `.env` file.
+Disclaimer: If you have a full-stack app in a monorepo, keep separate `.env.ts` files for server-side and client-side
+configs, and make sure `.env.ts` files are .gitignore'd and that secrets never make it into client-side `.env.ts` file.
 
 For each configurable variable (e.g. BROWSER_URL, API_URL):
 
@@ -44,14 +44,14 @@ For each configurable variable (e.g. BROWSER_URL, API_URL):
   your package.json up), install the `dotenv-cli` package and update your development-related npm scripts to take advantage
   of it:
   ```shell
-  # environment.development.env.sh
+  # environment.development.env.ts.sh
   BROWSER_URL='http://localhost:4200'
   API_URL='http://localhost:4200'
   ```
   ```javascript
   {
     "scripts": {
-      "start": "dotenv -e environment.development.env.sh -- npm run env && ng serve --aot",
+      "start": "dotenv -e environment.development.env.ts.sh -- npm run env && ng serve --aot",
     }
   }
   ```
@@ -78,9 +78,15 @@ dev-server configuration by taking advantage of them:
 
 ```javascript
 {
-  "scripts": {
-    "start": "dotenv -e environment.development.env.sh -- npm run env && API_PROXY_HOST='http://localhost:9000' ng serve --aot",
-    "e2e": "ngtw build && npm run env && API_PROXY_HOST='http://localhost:7357' ng e2e --webdriverUpdate=false",
+  "scripts"
+:
+  {
+    "start"
+  :
+    "dotenv -e environment.development.env.ts.sh -- npm run env && API_PROXY_HOST='http://localhost:9000' ng serve --aot",
+      "e2e"
+  :
+    "ngtw build && npm run env && API_PROXY_HOST='http://localhost:7357' ng e2e --webdriverUpdate=false",
   }
 }
 ```
@@ -90,14 +96,14 @@ const proxyConfig = [
   {
     context: '/api',
     pathRewrite: { '^/api': '' },
-    target: `${process.env.API_PROXY_HOST}/api`,
+    target: `${process.env.ts.API_PROXY_HOST}/api`,
     changeOrigin: true,
     secure: false,
   },
   {
     context: '/auth',
     pathRewrite: { '^/auth': '' },
-    target: `${process.env.API_PROXY_HOST}/auth`,
+    target: `${process.env.ts.API_PROXY_HOST}/auth`,
     changeOrigin: true,
     secure: false,
   },
@@ -227,21 +233,21 @@ To add a deployment-specific configuration:
 2. add that variable name to the npm script's `env` task
 
 Now, as long as you have that environment variable set in the shell running the build, the `env` task will save it into
-the `.env.ts` file before building.
+the `.env.ts.ts` file before building.
 
-If you really want, you can take things even further to the twelve-factor extreme, and you can even eliminate the
-need for `fileReplacements` entirely, and make all configuration come from environment variables. Whether this will be
-the right approach for your project will be up to you.
+If you really want, you can take things even further to the twelve-factor extreme, and you can even eliminate the need
+for `fileReplacements` entirely, and make all configuration come from environment variables. Whether this will be the
+right approach for your project will be up to you.
 
 This makes separate deployments awesome and flexible, but unfortunately makes things a little bit of a hassle for your
 local development, test, etc. environments because you have the burden of providing all those keys, settings, etc. as
 environment variables.
 
-To avoid having to do that, you'll can create a .gitignore'd `.env` file with all the variables set, and source it
-with your shell (e.g. `source .env.sh && npm env` in bourne-like shells or `env.bat; npm env` in windows).
+To avoid having to do that, you'll can create a .gitignore'd `.env.ts` file with all the variables set, and source it
+with your shell (e.g. `source .env.ts.sh && npm env` in bourne-like shells or `env.bat; npm env` in windows).
 
 ```shell
-# bourne-like .env.sh
+# bourne-like .env.ts.sh
 export BROWSER_URL=localhost:4200
 ```
 
@@ -261,16 +267,18 @@ BROWSER_URL=localhost:4200
 ## When you can use environment variables directly without ngx-rocket `env`
 
 As a sidenote, ngx-rocket `env` isn't used for the proxy config file, because it isn't built and ran separately.
-Fortunately, for that same reason, you can directly use `process.env` within the proxy config file to avoid having
+Fortunately, for that same reason, you can directly use `process.env.ts` within the proxy config file to avoid having
 separate proxy configs in most cases.
 
-On that same note, the `server.ts` for SSR builds can also access `process.env` as it's set at runtime. But keep in mind
-that it stops there - the app itself is built, so even in SSR the client app can't access process environment variables.
+On that same note, the `server.ts` for SSR builds can also access `process.env.ts` as it's set at runtime. But keep in
+mind that it stops there - the app itself is built, so even in SSR the client app can't access process environment
+variables.
 
 ## Security Considerations
 
 Never forget that your entire Angular app goes to the client, including its configuration, including the environment
 variables you pass to the env task! As usual, you should **never add sensitive keys or secrets to the env task**.
 
-Finally, if your Angular project is the client-side of a full-stack monorepo, make sure to keep the client-side `.env`
-file separate from the server-side `.env` file, since your server-side is bound to have secrets.
+Finally, if your Angular project is the client-side of a full-stack monorepo, make sure to keep the
+client-side `.env.ts`
+file separate from the server-side `.env.ts` file, since your server-side is bound to have secrets.

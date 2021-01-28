@@ -12,10 +12,10 @@ import { Twitter } from '../../../../../src/contexts/blog/news/infraestructure/T
 import { Youtube } from '../../../../../src/contexts/blog/news/infraestructure/Youtube';
 import { ContentMailStrategy } from '../../../../../src/contexts/email/domain/ContentMailStrategy';
 import { AdminWrapper } from '../../../../AdminWrapper';
-import sinon = require('sinon');
+import * as sinon from 'sinon';
 
 const isValidSetDocuments = (actual: Article[]): boolean => {
-  const start = moment().subtract(30, 'minutes');
+  const start = moment().subtract(6, 'hours');
   const now = new Date();
   const insecureLinksPattern = /['"]http?:\/\/(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+['"]/g;
   const insecureSymbols = /"/g;
@@ -59,7 +59,7 @@ mocha.describe('Content Provider', () => {
     const articles = await newsApi.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
-  it('should request to Hackers News Api and return with articles format', async () => {
+  it.only('should request to Hackers News Api and return with articles format', async () => {
     const hackerNews = new HackerNews();
     const articles = await hackerNews.run();
     expect(isValidSetDocuments(articles)).to.equal(true);

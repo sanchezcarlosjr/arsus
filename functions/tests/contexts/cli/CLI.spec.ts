@@ -1,9 +1,9 @@
 import admin from 'firebase-admin';
 import * as mocha from 'mocha';
-import { warnByAPI } from '../../../src/contexts/api/government/infraestructure/SecuritySocialNumberRapidapiFinder';
 import { AdminWrapper } from '../../AdminWrapper';
 import { MexicanFinder } from './../../../src/contexts/api/government/application/MexicanFinder';
 import { CurpResponse } from './../../../src/contexts/api/government/domain/CurpResponse';
+import { warnByAPI } from '../../../src/contexts/shared/Error';
 
 
 export class Transaction {

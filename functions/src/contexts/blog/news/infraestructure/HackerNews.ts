@@ -2,6 +2,7 @@ import { CreatorContentProvider } from '../application/CreatorContentProvider';
 import { Article } from '../domain/Article';
 import { get } from 'request-promise';
 import { filterPublishedBetween, from, Operator } from '../application/FeederEvent';
+import { warnByAPI } from '../../../shared/Error';
 
 export interface Data {
   url: string;
@@ -38,7 +39,7 @@ const urlTemplate: Operator = (response: any) => {
   return response.map((uid: string) =>
     get({
       url: `https://hacker-news.firebaseio.com/v0/item/${uid}.json`,
-      json: true,
+      json: true
     })
   );
 };
@@ -47,14 +48,14 @@ const map: Operator = (items: Item[]) => {
   return items.map((item) => {
     return {
       source: {
-        name: item.by,
+        name: item.by
       },
       title: item.title,
       url: item.url || `https://news.ycombinator.com/item?id=${item.id}`,
       urlToImage: '',
       description: item.text || '',
       publishedAt: new Date(item.time * 1000),
-      type: 'newspaper',
+      type: 'newspaper'
     };
   });
 };
@@ -64,32 +65,37 @@ const switchMap: Operator = (response: Article[]): Promise<any>[] => {
     if (item.description) {
       return item;
     }
-    const article: ParseArticle = await get(
-      `https://us-central1-technews-251304.cloudfunctions.net/article-parser?url=${item.url}`,
-      {
-        json: true,
+    let article: ParseArticle = null;
+    try {
+      article = await get(
+        `https://us-central1-technews-251304.cloudfunctions.net/article-parser?url=${item.url}`,
+        {
+          json: true
+        }
+      );
+    } catch (e) {
+      warnByAPI('contexts/blog/news/infrastructure/HackerNews/switchMap', 70, e.message);
+      if (!article && !article?.data) {
+        return item;
       }
-    );
-    if (!article.data) {
-      return item;
     }
     return {
       source: {
-        name: article.data.author || article.data.source.replace(/.+\/\/|www.|\..+/g, '') || item.source.name,
+        name: article?.data.author || article?.data.source.replace(/.+\/\/|www.|\..+/g, '') || item.source.name
       },
       title: item.title,
-      url: article.data.url,
-      urlToImage: article.data.image,
-      description: article.data.content,
+      url: article?.data.url,
+      urlToImage: article?.data.image,
+      description: article?.data.content,
       publishedAt: item.publishedAt,
-      type: 'newspaper',
+      type: 'newspaper'
     };
   });
 };
 
 export class HackerNews implements CreatorContentProvider {
   async run(): Promise<Article[]> {
-    return from('https://hacker-news.firebaseio.com/v0/newstories.json')
+    return from('https://hacker-news.firebaseio.com/v0/topstories.json')
       .pipe((resp: number[]) => resp.slice(0, 10), urlTemplate, map, switchMap, filterPublishedBetween)
       .toPromise();
   }
