@@ -45,15 +45,21 @@
             <ion-label>
               <ion-grid>
                 <ion-row>
-                  <h1
-                    [routerLink]="
-                      article.type === 'newspaper' || article.type === 'email'
-                        ? ['/article', article.title, article.uid]
-                        : ''
-                    "
-                    class="ion-text-nowrap pointer"
-                  >
-                    <a (click)="article.type === 'podcast' ? playMusic(article.audio) : ''">
+                  <h1 class="ion-text-nowrap pointer">
+                    <a
+                      *ngIf="(article.type === 'newspaper' || article.type === 'email') && article.description"
+                      [routerLink]="['/article', article.title, article.uid]"
+                    >
+                      {{ article.title }}
+                    </a>
+                    <a
+                      *ngIf="(article.type === 'newspaper' || article.type === 'email') && !article.description"
+                      [href]="article.url"
+                      target="_blank"
+                    >
+                      {{ article.title }}
+                    </a>
+                    <a (click)="playMusic(article.audio)" *ngIf="article.type === 'podcast'">
                       {{ article.title }}
                     </a>
                   </h1>
