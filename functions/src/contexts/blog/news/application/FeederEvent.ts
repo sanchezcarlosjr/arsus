@@ -2,6 +2,7 @@ import admin from 'firebase-admin';
 import * as moment from 'moment';
 import { get } from 'request-promise';
 import * as xml from 'xml2js';
+import { warnByAPI } from '../../../shared/Error';
 
 export type Operator = (response: any) => any;
 
@@ -43,7 +44,7 @@ export function from<JsonResponse>(
 export class FeederEvent {
   private operators: Operator[] = [];
 
-  constructor(private event: Promise<any>) { }
+  constructor(private event: Promise<any>) {}
 
   pipe(...operators: Operator[]): this {
     this.operators.push(...operators);
@@ -51,9 +52,25 @@ export class FeederEvent {
   }
 
   async toObjectPromise() {
-    let event: any = await this.event;
+    let event: any = null;
+    try {
+      event = await this.event;
+    } catch (e) {
+      warnByAPI(
+        'contexts/blog/news/application/FeederEvent.toObjectPromise',
+        57,
+        `${e.message} by event=${event} and url=${e.options.url}`
+      );
+      if (!event) {
+        return {};
+      }
+    }
     for (const operator of this.operators) {
-      event = await operator(event);
+      try {
+        event = await operator(event);
+      } catch (e) {
+        warnByAPI('contexts/blog/news/application/FeederEvent.toObjectPromise', 63, e.message);
+      }
     }
     return event;
   }

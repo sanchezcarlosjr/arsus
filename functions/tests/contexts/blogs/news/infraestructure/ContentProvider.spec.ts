@@ -59,12 +59,12 @@ mocha.describe('Content Provider', () => {
     const articles = await newsApi.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
-  it.only('should request to Hackers News Api and return with articles format', async () => {
+  it('should request to Hackers News Api and return with articles format', async () => {
     const hackerNews = new HackerNews();
     const articles = await hackerNews.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
-  it('should request to Twitter Api and return with articles format', async () => {
+  it.only('should request to Twitter Api and return with articles format', async () => {
     const twitter = new Twitter();
     const articles = await twitter.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
