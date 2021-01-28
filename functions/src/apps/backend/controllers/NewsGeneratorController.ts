@@ -4,7 +4,6 @@ import { NewsCreator } from '../../../contexts/blog/news/application/NewsCreator
 import { FirestoreNewsSaveRepository } from '../../../contexts/blog/news/infraestructure/FirestoreNewsSaveRepository';
 import { HackerNews } from '../../../contexts/blog/news/infraestructure/HackerNews';
 import { Music } from '../../../contexts/blog/news/infraestructure/Music';
-import { Podcast } from '../../../contexts/blog/news/infraestructure/Podcast';
 import { Twitter } from '../../../contexts/blog/news/infraestructure/Twitter';
 import { Youtube } from '../../../contexts/blog/news/infraestructure/Youtube';
 import { NewsApi } from './../../../contexts/blog/news/infraestructure/NewsApi';
@@ -15,7 +14,6 @@ const providers: CreatorContentProvider[] = [
   new Twitter(),
   new Music(),
   new NewsApi(),
-  new Podcast(),
 ];
 
 export const NewsGeneratorController = functions

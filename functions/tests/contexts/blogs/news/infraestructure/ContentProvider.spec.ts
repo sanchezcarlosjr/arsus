@@ -47,11 +47,11 @@ const isValidSetDocuments = (actual: Article[]): boolean => {
 mocha.describe('Content Provider', () => {
   const admin = new AdminWrapper();
   admin.setRealEnvironment(false);
-  it('should save batch news', async () => {
+  it.only('should save batch news', async () => {
     const newsDatabaseRepository = sinon.createStubInstance(FirestoreNewsSaveRepository);
     newsDatabaseRepository.save.resolves();
     const newsCreator = new NewsCreator(newsDatabaseRepository);
-    await newsCreator.create([new Podcast()]);
+    await newsCreator.create([new HackerNews(), new Youtube(), new Twitter(), new Music(), new NewsApi()]);
     sinon.assert.calledWith(newsDatabaseRepository.save, sinon.match(isValidSetDocuments));
   });
   it('should request to News Api and return with articles format', async () => {
@@ -64,7 +64,7 @@ mocha.describe('Content Provider', () => {
     const articles = await hackerNews.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
-  it.only('should request to Twitter Api and return with articles format', async () => {
+  it('should request to Twitter Api and return with articles format', async () => {
     const twitter = new Twitter();
     const articles = await twitter.run();
     expect(isValidSetDocuments(articles)).to.equal(true);
@@ -77,6 +77,7 @@ mocha.describe('Content Provider', () => {
   it('should request to Podcast Api and return with articles format', async () => {
     const podcast = new Podcast();
     const articles = await podcast.run();
+    console.log(articles);
     expect(isValidSetDocuments(articles)).to.equal(true);
   });
   it('should request to Youtube Api and return with articles format', async () => {
