@@ -8,6 +8,7 @@ import { ModalController } from '@ionic/angular';
 import { BlobIframeComponent } from '@shared/iframe/blob-iframe/blob-iframe.component';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthStateModule } from '@store/auth/auth.state';
+import { MusicService } from '@app/portfolio/music/music.service';
 
 @Component({
   selector: 'app-portfolio',
@@ -17,8 +18,15 @@ import { AuthStateModule } from '@store/auth/auth.state';
 export class PortfolioComponent implements OnInit, OnDestroy {
   @Select(NewsState.articles) articles: Observable<Article[]>;
   userUID = '';
+  itHasFinishedPlaying = false;
   private subscription = new Subscription();
-  constructor(private store: Store, public modalController: ModalController, private firestore: AngularFirestore) {}
+
+  constructor(
+    private store: Store,
+    public modalController: ModalController,
+    private firestore: AngularFirestore,
+    private music: MusicService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetNews());
@@ -58,6 +66,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     });
     await modal.present();
     await this.interaction(articleUID);
+  }
+
+  async playMusic(src: string) {
+    this.itHasFinishedPlaying = !this.itHasFinishedPlaying;
+    await this.music.play(src);
   }
 
   loadData(event: any): void {

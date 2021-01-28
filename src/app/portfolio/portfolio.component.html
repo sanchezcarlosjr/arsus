@@ -13,36 +13,60 @@
             allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
             allowfullscreen
           ></iframe>
-          <ion-item *ngIf="article.type === 'newspaper' || article.type === 'email'" lines="none">
-            <ion-thumbnail
-              *ngIf="article.urlToImage"
-              slot="end"
-              [routerLink]="['/article', article.title, article.uid]"
-            >
-              <img [src]="article.urlToImage" />
+          <ion-item
+            *ngIf="article.type === 'newspaper' || article.type === 'email' || article.type === 'podcast'"
+            lines="none"
+          >
+            <ion-thumbnail *ngIf="article.urlToImage" slot="end" class="container">
+              <img [alt]="article.title" [src]="article.urlToImage" class="image" />
+              <div class="middle">
+                <ion-button
+                  *ngIf="article.type === 'newspaper' || article.type === 'email'"
+                  [routerLink]="['/article', article.title, article.uid]"
+                  color="dark"
+                  expand="full"
+                  fill="clear"
+                  size="large"
+                >
+                  <ion-icon name="expand" slot="icon-only"></ion-icon>
+                </ion-button>
+                <ion-button
+                  (click)="playMusic(article.audio)"
+                  *ngIf="article.type === 'podcast'"
+                  color="dark"
+                  expand="full"
+                  fill="clear"
+                  size="large"
+                >
+                  <ion-icon [name]="itHasFinishedPlaying ? 'pause' : 'play'" slot="icon-only"></ion-icon>
+                </ion-button>
+              </div>
             </ion-thumbnail>
             <ion-label>
-              <h1 class="ion-text-nowrap" [routerLink]="['/article', article.title, article.uid]">
-                {{ article.title }}
-              </h1>
-              <p>{{ article.summary }}</p>
-              <p>
-                <ion-grid>
-                  <ion-row>
-                    <ion-col>
-                      {{ article.publishedAt }}
-                    </ion-col>
-                    <ion-col>
-                      {{ article.readingTime }}
-                    </ion-col>
-                    <ion-col>
-                      <a [href]="article.url" target="_blank">
-                        <ion-icon class="expand" name="enter"></ion-icon>
-                      </a>
-                    </ion-col>
-                  </ion-row>
-                </ion-grid>
-              </p>
+              <ion-grid>
+                <ion-row>
+                  <h1
+                    [routerLink]="
+                      article.type === 'newspaper' || article.type === 'email'
+                        ? ['/article', article.title, article.uid]
+                        : ''
+                    "
+                    class="ion-text-nowrap pointer"
+                  >
+                    <a (click)="article.type === 'podcast' ? playMusic(article.audio) : ''">
+                      {{ article.title }}
+                    </a>
+                  </h1>
+                </ion-row>
+                <ion-row>
+                  <ion-col>
+                    <p>{{ article.source.name }} {{ article.publishedAt }}</p>
+                  </ion-col>
+                  <ion-col>
+                    {{ article.readingTime }}
+                  </ion-col>
+                </ion-row>
+              </ion-grid>
             </ion-label>
           </ion-item>
         </div>
