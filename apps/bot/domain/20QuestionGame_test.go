@@ -33,8 +33,17 @@ func TestItShouldMoveToNode(t *testing.T) {
 			answer{
 				"Bird",
 			},
-			answer{
-				"n",
+			question{
+				"Does it have a tail?",
+				answer{
+					"Mouse",
+				},
+				answer{
+					"Spider",
+				},
+				answer{
+					"Dragon",
+				},
 			},
 			answer{
 				"m",
@@ -61,6 +70,72 @@ func TestItShouldMoveToNode(t *testing.T) {
 			},
 			{
 				"Bird",
+				"y",
+			},
+		},
+	})
+	got.reply(&console{
+		t,
+		0,
+		[]UserResponseMock{
+			{
+				"Is it an animal?",
+				"y",
+			},
+			{
+				"Can it fly?",
+				"n",
+			},
+			{
+				"Does it have a tail?",
+				"y",
+			},
+			{
+				"Mouse",
+				"y",
+			},
+		},
+	})
+	got.reply(&console{
+		t,
+		0,
+		[]UserResponseMock{
+			{
+				"Is it an animal?",
+				"y",
+			},
+			{
+				"Can it fly?",
+				"n",
+			},
+			{
+				"Does it have a tail?",
+				"n",
+			},
+			{
+				"Spider",
+				"y",
+			},
+		},
+	})
+	got.reply(&console{
+		t,
+		0,
+		[]UserResponseMock{
+			{
+				"Is it an animal?",
+				"y",
+			},
+			{
+				"Can it fly?",
+				"n",
+			},
+			{
+				"Does it have a tail?",
+				"m",
+			},
+			{
+				"Dragon",
 				"y",
 			},
 		},
