@@ -15,7 +15,7 @@ type console struct {
 	queries []UserResponseMock
 }
 
-func (receiver *console) interact(response string) UserResponse {
+func (receiver *console) Interact(response string) UserResponse {
 	query := receiver.queries[receiver.index]
 	if response != query.want {
 		receiver.t.Errorf("Error: Should be %s, but it is %s", query.want, response)
@@ -26,37 +26,37 @@ func (receiver *console) interact(response string) UserResponse {
 }
 
 func TestItShouldMoveToNode(t *testing.T) {
-	got := question{
+	got := Question{
 		"Is it an animal?",
-		question{
+		Question{
 			"Can it fly?",
-			answer{
+			Answer{
 				"Bird",
 			},
-			question{
+			Question{
 				"Does it have a tail?",
-				answer{
+				Answer{
 					"Mouse",
 				},
-				answer{
+				Answer{
 					"Spider",
 				},
-				answer{
+				Answer{
 					"Dragon",
 				},
 			},
-			answer{
+			Answer{
 				"m",
 			},
 		},
-		answer{
+		Answer{
 			"Computer",
 		},
-		answer{
+		Answer{
 			"Superman",
 		},
 	}
-	got.reply(&console{
+	got.Reply(&console{
 		t,
 		0,
 		[]UserResponseMock{
@@ -74,7 +74,7 @@ func TestItShouldMoveToNode(t *testing.T) {
 			},
 		},
 	})
-	got.reply(&console{
+	got.Reply(&console{
 		t,
 		0,
 		[]UserResponseMock{
@@ -96,7 +96,7 @@ func TestItShouldMoveToNode(t *testing.T) {
 			},
 		},
 	})
-	got.reply(&console{
+	got.Reply(&console{
 		t,
 		0,
 		[]UserResponseMock{
@@ -118,7 +118,7 @@ func TestItShouldMoveToNode(t *testing.T) {
 			},
 		},
 	})
-	got.reply(&console{
+	got.Reply(&console{
 		t,
 		0,
 		[]UserResponseMock{
