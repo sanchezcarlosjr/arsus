@@ -1,4 +1,4 @@
-package main
+package infraestructure
 
 import (
 	"bufio"
@@ -7,26 +7,25 @@ import (
 )
 
 type FileRepository struct {
-	path  string
-	reply []string
+	database []string
 }
 
-func (receiver *FileRepository) getFileRepositoryInstance() {
+func (receiver *FileRepository) GetFileRepositoryInstance() {
 }
 
-func (receiver *FileRepository) getReply(index int) string {
-	return receiver.reply[index]
+func (receiver *FileRepository) Row(index int) string {
+	return receiver.database[index-1]
 }
 
-func (receiver *FileRepository) read() {
-	inFile, err := os.Open(receiver.path)
+func (receiver *FileRepository) Read(path string) {
+	inFile, err := os.Open(path)
 	if err != nil {
-		fmt.Println(err.Error() + `: ` + receiver.path)
+		fmt.Println(err.Error() + `: ` + path)
 		return
 	}
 	defer inFile.Close()
 	scanner := bufio.NewScanner(inFile)
 	for scanner.Scan() {
-		receiver.reply = append(receiver.reply, scanner.Text())
+		receiver.database = append(receiver.database, scanner.Text())
 	}
 }

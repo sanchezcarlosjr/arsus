@@ -1,22 +1,23 @@
 package domain
-
+import "DialogFlowFulfilment/infraestructure"
 type Question struct {
 	Response string
-	Yes      game
-	No       game
-	Maybe    game
+	ancestor game
+	Children []game
 }
 
-func (receiver Question) Reply(stream StreamRepository) {
-	userResponse := stream.Interact(receiver.Response)
-	switch userResponse {
-	case YES:
-		receiver.Yes.Reply(stream)
-		break
-	case NO:
-		receiver.No.Reply(stream)
-		break
-	case MAYBE:
-		receiver.Maybe.Reply(stream)
-	}
+func NewQuestion(response string, children ...game) Question{
+  return Question{
+    Response: response,
+    Children: children,
+  }
+}
+
+func (receiver *Question) Reply() {
+	userResponse := infraestructure.GetStreamRepositoy().Interact(receiver.Response)
+	receiver.Children[userResponse].Reply()
+}
+
+func (receiver *Question) Add(child game) {
+  receiver.Children = append(receiver.Children, child)
 }

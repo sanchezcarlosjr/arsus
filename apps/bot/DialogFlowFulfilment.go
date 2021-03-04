@@ -1,4 +1,4 @@
-package DialogFlowFulfilment
+package main
 
 import (
 	"fmt"

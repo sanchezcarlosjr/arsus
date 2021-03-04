@@ -2,20 +2,20 @@ Q:
 Is it an animal?
 Q:
 Can it fly?
+Q:
+Does it have wheels?
 A:
 bird
 Q:
 Does it have a tail?
 A:
-mouse
-A:
-spider
-Q:
-Does it have wheels?
-A:
 bicycle
 Q:
 Is it nice?
+A:
+mouse
+A:
+spider
 A:
 TA
 A:
