@@ -19,6 +19,10 @@ func (receiver *Question) save(child domain.Game) {
 
 func (receiver *Question) Reply() {
 	userResponse := infraestructure.StreamRepository().Interact(receiver.Response)
+	if domain.PREVIOUS == userResponse {
+		receiver.ancestor.Reply()
+		return
+	}
 	child := receiver.Children[userResponse]
 	child.Reply()
 }

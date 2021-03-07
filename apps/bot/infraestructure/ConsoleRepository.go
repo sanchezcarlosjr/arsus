@@ -13,8 +13,23 @@ func (receiver ConsoleRepository) InteractAsAnswer(response string) {
 }
 
 func (receiver ConsoleRepository) Interact(response string) domain.UserResponse {
-	userResponse := 0
-	fmt.Println(response + " " + "0/1?")
-	_, _ = fmt.Scanln(&userResponse)
-	return domain.UserResponse(userResponse)
+	userResponse := ""
+	fmt.Println(response + " " + "y/n, previous (p)")
+	_, _ = fmt.Scan(&userResponse)
+	return mapInputToUserResponse(userResponse)
+}
+
+func mapInputToUserResponse(userType string) domain.UserResponse {
+	switch userType {
+	case "y":
+		return domain.YES
+	case "n":
+		return domain.NO
+	case "m":
+		return domain.MAYBE
+	case "p":
+		return domain.PREVIOUS
+	default:
+		return domain.YES
+	}
 }
