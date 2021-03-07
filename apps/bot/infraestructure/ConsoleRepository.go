@@ -14,7 +14,7 @@ func (receiver ConsoleRepository) InteractAsAnswer(response string) {
 
 func (receiver ConsoleRepository) Interact(response string) domain.UserResponse {
 	userResponse := ""
-	fmt.Println(response + " " + "y/n, previous (p)")
+	fmt.Println(response + " " + "yes (y), no (n) or previous (p)")
 	_, _ = fmt.Scan(&userResponse)
 	return mapInputToUserResponse(userResponse)
 }
