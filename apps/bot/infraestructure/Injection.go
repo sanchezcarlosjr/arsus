@@ -1,9 +1,10 @@
 package infraestructure
 
 import (
-  "DialogFlowFulfilment/application"
+	"DialogFlowFulfilment/domain"
 )
 
-func GetStreamRepositoy() application.StreamRepository {
-  return &ConsoleRepository{}
+// TODO: Singleton pattern
+func StreamRepository() domain.StreamRepository {
+	return &ConsoleRepository{}
 }

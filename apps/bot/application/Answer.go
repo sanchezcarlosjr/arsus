@@ -1,13 +1,12 @@
-package domain
+package application
 
 import "DialogFlowFulfilment/infraestructure"
 
 type Answer struct {
 	Response string
-  ancestor game
+	ancestor game
 }
 
 func (receiver *Answer) Reply() {
-	infraestructure.GetStreamRepositoy().InteractAsAnswer(receiver.Response)
+	infraestructure.StreamRepository().InteractAsAnswer(receiver.Response)
 }
-

@@ -4,17 +4,17 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 type FileRepository struct {
 	database []string
 }
 
-func (receiver *FileRepository) GetFileRepositoryInstance() {
-}
-
-func (receiver *FileRepository) Row(index int) string {
-	return receiver.database[index]
+// Row by line. It returns response, responseType
+func (receiver *FileRepository) Row(index int) (string, string) {
+	line := strings.Split(receiver.database[index], ":")
+	return line[1], line[0]
 }
 
 func (receiver *FileRepository) Length() int {

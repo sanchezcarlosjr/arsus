@@ -1,4 +1,4 @@
-package application
+package domain
 
 type UserResponse int
 
@@ -10,6 +10,5 @@ const (
 
 type StreamRepository interface {
 	Interact(response string) UserResponse
-  InteractAsAnswer(response string)
+	InteractAsAnswer(response string)
 }
-

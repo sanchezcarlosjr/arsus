@@ -1,14 +1,14 @@
 package main
 
 import (
-	"DialogFlowFulfilment/domain"
+	"DialogFlowFulfilment/application"
 	"DialogFlowFulfilment/infraestructure"
 )
 
 func main() {
 	fileRepository := infraestructure.FileRepository{}
 	fileRepository.Read("./questions.txt")
-	gameManger := domain.GameManger{
+	gameManger := application.GameManger{
 		SizeChildren: 2,
 	}
 	gameManger.Start(fileRepository)

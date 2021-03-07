@@ -1,7 +1,8 @@
-package domain
+package application
 
 import (
 	"DialogFlowFulfilment/infraestructure"
+	"fmt"
 )
 
 type GameManger struct {
@@ -14,17 +15,20 @@ func (receiver *GameManger) Start(fileRepository infraestructure.FileRepository)
 	receiver.fileRepository = fileRepository
 	receiver.length = fileRepository.Length()
 	tree := receiver.createTree(nil, 0, nil)
-	tree.Reply()
+	fmt.Println(tree)
 }
 
 func (receiver *GameManger) createTree(root *Question, level int, ancestor *Question) *Question {
 	if level < receiver.length {
-		root = &Question{Response: receiver.fileRepository.Row(level), Children: receiver.defaultChildren(), ancestor: ancestor}
-		for index := 0; index < receiver.SizeChildren; index++ {
-			root.save(receiver.createTree(root.Children[index], 2*level+index+1, root))
-		}
+		root = receiver.newNode(level, ancestor)
 	}
 	return root
+}
+
+func (receiver *GameManger) newNode(level int, ancestor *Question) *Question {
+	response, responseType := receiver.fileRepository.Row(level)
+	fmt.Println(responseType)
+	return &Question{Response: response, Children: receiver.defaultChildren(), ancestor: ancestor}
 }
 
 func (receiver *GameManger) defaultChildren() []*Question {

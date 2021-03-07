@@ -1,4 +1,4 @@
-package domain
+package application
 
 import "DialogFlowFulfilment/infraestructure"
 
@@ -15,7 +15,7 @@ func (receiver *Question) save(child *Question) {
 }
 
 func (receiver *Question) Reply() {
-	userResponse := infraestructure.GetStreamRepositoy().Interact(receiver.Response)
+	userResponse := infraestructure.StreamRepository().Interact(receiver.Response)
 	child := *receiver.Children[userResponse]
 	child.Reply()
 }
