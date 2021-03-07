@@ -14,7 +14,11 @@ func (receiver *FileRepository) GetFileRepositoryInstance() {
 }
 
 func (receiver *FileRepository) Row(index int) string {
-	return receiver.database[index-1]
+	return receiver.database[index]
+}
+
+func (receiver *FileRepository) Length() int {
+	return len(receiver.database)
 }
 
 func (receiver *FileRepository) Read(path string) {
