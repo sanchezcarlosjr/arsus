@@ -6,27 +6,24 @@ import (
 )
 
 type GameManger struct {
-	fileRepository infraestructure.FileRepository
-	length         int
-	SizeChildren   int
+	length       int
+	SizeChildren int
 }
 
-func (receiver *GameManger) Start(fileRepository infraestructure.FileRepository) {
-	receiver.fileRepository = fileRepository
-	receiver.length = fileRepository.Length()
+func (receiver *GameManger) Start() {
 	tree := receiver.createTree(nil, 0, nil)
 	tree.Reply()
 }
 
 func (receiver *GameManger) createTree(root domain.Game, level int, ancestor domain.Game) domain.Game {
-	if level < receiver.length {
+	if level < infraestructure.DatabaseRepository().Length() {
 		root = receiver.factoryResponseType(level, ancestor)
 	}
 	return root
 }
 
 func (receiver *GameManger) factoryResponseType(level int, ancestor domain.Game) domain.Game {
-	response, discriminator := receiver.fileRepository.Row(level)
+	response, discriminator := infraestructure.DatabaseRepository().Row(level)
 	switch discriminator {
 	case "Q":
 		question := &Question{Response: response, ancestor: ancestor, Children: receiver.defaultChildren()}

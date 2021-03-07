@@ -1,6 +1,7 @@
 package infraestructure
 
 import (
+	"DialogFlowFulfilment/domain"
 	"bufio"
 	"fmt"
 	"os"
@@ -9,6 +10,13 @@ import (
 
 type FileRepository struct {
 	database []string
+	length   int
+}
+
+func NewFileRepository(filePath string) domain.DatabaseRepository {
+	file := FileRepository{}
+	file.Read(filePath)
+	return &file
 }
 
 // Row by line. It returns response, responseType
@@ -21,7 +29,7 @@ func (receiver *FileRepository) Row(index int) (string, string) {
 }
 
 func (receiver *FileRepository) Length() int {
-	return len(receiver.database)
+	return receiver.length
 }
 
 func (receiver *FileRepository) Read(path string) {
@@ -35,4 +43,5 @@ func (receiver *FileRepository) Read(path string) {
 	for scanner.Scan() {
 		receiver.database = append(receiver.database, scanner.Text())
 	}
+	receiver.length = len(receiver.database)
 }

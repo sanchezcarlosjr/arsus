@@ -2,9 +2,26 @@ package infraestructure
 
 import (
 	"DialogFlowFulfilment/domain"
+	"sync"
 )
 
-// TODO: Singleton pattern
+var (
+	streamRepository   domain.StreamRepository
+	databaseRepository domain.DatabaseRepository
+	once               sync.Once
+)
+
+func init() {
+	once.Do(func() {
+		streamRepository = &ConsoleRepository{}
+		databaseRepository = NewFileRepository("./questions.txt")
+	})
+}
+
 func StreamRepository() domain.StreamRepository {
-	return &ConsoleRepository{}
+	return streamRepository
+}
+
+func DatabaseRepository() domain.DatabaseRepository {
+	return databaseRepository
 }
