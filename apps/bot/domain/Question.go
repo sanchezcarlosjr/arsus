@@ -6,10 +6,10 @@ type Question struct {
 	Response     string
 	iteratorSize int
 	ancestor     *Question
-	Children     []*game
+	Children     []*Question
 }
 
-func (receiver *Question) save(child *game) {
+func (receiver *Question) save(child *Question) {
 	receiver.Children[receiver.iteratorSize] = child
 	receiver.iteratorSize++
 }
