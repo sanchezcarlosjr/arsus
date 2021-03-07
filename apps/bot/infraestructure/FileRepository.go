@@ -13,6 +13,9 @@ type FileRepository struct {
 
 // Row by line. It returns response, responseType
 func (receiver *FileRepository) Row(index int) (string, string) {
+	if receiver.database[index] == "" {
+		return "", ""
+	}
 	line := strings.Split(receiver.database[index], ":")
 	return line[1], line[0]
 }
