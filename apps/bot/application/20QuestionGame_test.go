@@ -12,6 +12,10 @@ func NewStreamMock(t *testing.T, mock []InteractionMock) {
 		index:       0,
 		interaction: mock,
 	})
+	gameManger := GameManger{
+		SizeChildren: 2,
+	}
+	gameManger.Start()
 }
 
 type InteractionMock struct {
@@ -25,13 +29,13 @@ type StreamMock struct {
 	interaction []InteractionMock
 }
 
-func (receiver StreamMock) InteractAsAnswer(response string) {
+func (receiver *StreamMock) InteractAsAnswer(response string) {
 	if response != receiver.interaction[receiver.index].want {
 		receiver.t.Errorf("Got %s, want %s", response, receiver.interaction[receiver.index].want)
 	}
 }
 
-func (receiver StreamMock) Interact(response string) domain.UserResponse {
+func (receiver *StreamMock) Interact(response string) domain.UserResponse {
 	if response != receiver.interaction[receiver.index].want {
 		receiver.t.Errorf("Got %s, want %s", response, receiver.interaction[receiver.index].want)
 	}
@@ -39,14 +43,39 @@ func (receiver StreamMock) Interact(response string) domain.UserResponse {
 	return receiver.interaction[receiver.index-1].userInteraction
 }
 
-func TestItShouldMoveToNode(t *testing.T) {
+func TestPaths(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.YES},
-		{"Can it fly", domain.YES},
+		{"Can it fly?", domain.YES},
 		{"bird", 0},
 	})
-	gameManger := GameManger{
-		SizeChildren: 2,
-	}
-	gameManger.Start()
+	NewStreamMock(t, []InteractionMock{
+		{"Is it an animal?", domain.YES},
+		{"Can it fly?", domain.NO},
+		{"Does it have a tail?", domain.YES},
+		{"mouse", 0},
+	})
+	NewStreamMock(t, []InteractionMock{
+		{"Is it an animal?", domain.YES},
+		{"Can it fly?", domain.NO},
+		{"Does it have a tail?", domain.NO},
+		{"spider", 0},
+	})
+	NewStreamMock(t, []InteractionMock{
+		{"Is it an animal?", domain.NO},
+		{"Does it have wheels?", domain.YES},
+		{"bicycle", 0},
+	})
+	NewStreamMock(t, []InteractionMock{
+		{"Is it an animal?", domain.NO},
+		{"Does it have wheels?", domain.NO},
+		{"Is it nice?", domain.NO},
+		{"teacher", 0},
+	})
+	NewStreamMock(t, []InteractionMock{
+		{"Is it an animal?", domain.NO},
+		{"Does it have wheels?", domain.NO},
+		{"Is it nice?", domain.YES},
+		{"TA", 0},
+	})
 }

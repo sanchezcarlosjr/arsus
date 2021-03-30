@@ -20,12 +20,12 @@ func NewFileRepository(filePath string) domain.DatabaseRepository {
 }
 
 // Row by line. It returns response, responseType
-func (receiver *FileRepository) Row(index int) (string, string) {
+func (receiver *FileRepository) Row(index int) (string, domain.Discriminator) {
 	if receiver.database[index] == "" {
 		return "", ""
 	}
 	line := strings.Split(receiver.database[index], ":")
-	return line[1], line[0]
+	return line[1], domain.Discriminator(line[0])
 }
 
 func (receiver *FileRepository) Length() int {
