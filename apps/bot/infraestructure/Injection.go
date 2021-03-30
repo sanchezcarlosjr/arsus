@@ -14,12 +14,16 @@ var (
 func init() {
 	once.Do(func() {
 		streamRepository = &ConsoleRepository{}
-		databaseRepository = NewFileRepository("./questions.txt")
+		databaseRepository = NewFileRepository("../questions.txt")
 	})
 }
 
 func StreamRepository() domain.StreamRepository {
 	return streamRepository
+}
+
+func SetStreamRepository(newStreamRepository domain.StreamRepository) {
+	streamRepository = newStreamRepository
 }
 
 func DatabaseRepository() domain.DatabaseRepository {

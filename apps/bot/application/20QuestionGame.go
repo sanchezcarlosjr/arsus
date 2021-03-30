@@ -25,13 +25,13 @@ func (receiver *GameManger) createTree(root domain.Game, level int, ancestor dom
 func (receiver *GameManger) factoryResponseType(level int, ancestor domain.Game) domain.Game {
 	response, discriminator := infraestructure.DatabaseRepository().Row(level)
 	switch discriminator {
-	case "Q":
+	case domain.QUESTION:
 		question := &Question{Response: response, ancestor: ancestor, Children: receiver.defaultChildren()}
 		for index := 0; index < receiver.SizeChildren; index++ {
 			question.save(receiver.createTree(question.Children[index], 2*level+index+1, question))
 		}
 		return question
-	case "A":
+	case domain.ANSWER:
 		return &Answer{Response: response}
 	}
 	return nil

@@ -5,11 +5,7 @@ A:bird
 Q:Does it have a tail?
 A:bicycle
 Q:Is it nice?
-
-
 A:mouse
 A:spider
-
-
 A:TA
 A:teacher
