@@ -11,6 +11,18 @@ type Question struct {
 	Children []domain.Game
 }
 
+func newQuestion(ancestor domain.Game, response string) *Question {
+	return &Question{Response: response, ancestor: ancestor, Children: defaultChildren()}
+}
+
+func defaultChildren() []domain.Game {
+	var t []domain.Game
+	for index := 0; index < 2; index++ {
+		t = append(t, nil)
+	}
+	return t
+}
+
 func (receiver *Question) Reply() {
 	userResponse := infraestructure.StreamRepository().Interact(receiver.Response)
 	if domain.PREVIOUS == userResponse {
