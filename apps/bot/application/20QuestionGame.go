@@ -3,7 +3,6 @@ package application
 import "DialogFlowFulfilment/infraestructure"
 
 type GameManger struct {
-	SizeChildren int
 }
 
 func (receiver *GameManger) Start() {

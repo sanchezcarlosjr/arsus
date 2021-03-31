@@ -5,8 +5,6 @@ import (
 )
 
 func main() {
-	gameManger := application.GameManger{
-		SizeChildren: 2,
-	}
+	gameManger := application.GameManger{}
 	gameManger.Start()
 }
