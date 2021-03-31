@@ -34,7 +34,7 @@ func NewFirestoreRepository(collection string) domain.DatabaseRepository {
 		client,
 		ctx,
 		collection,
-		"1",
+		"oKmiPVJUXM887aYTKYbK",
 		nil,
 		nil,
 	}
