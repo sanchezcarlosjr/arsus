@@ -11,25 +11,15 @@ type GameManger struct {
 }
 
 func (receiver *GameManger) Start() {
-	tree := receiver.createTree(nil, 0, nil)
+	tree := factoryResponseType(nil)
 	tree.Reply()
 }
 
-func (receiver *GameManger) createTree(root domain.Game, level int, ancestor domain.Game) domain.Game {
-	if level < infraestructure.DatabaseRepository().Length() {
-		root = receiver.factoryResponseType(level, ancestor)
-	}
-	return root
-}
-
-func (receiver *GameManger) factoryResponseType(level int, ancestor domain.Game) domain.Game {
-	response, discriminator := infraestructure.DatabaseRepository().Row(level)
+func factoryResponseType(ancestor domain.Game) domain.Game {
+	response, discriminator := infraestructure.DatabaseRepository().Actual()
 	switch discriminator {
 	case domain.QUESTION:
-		question := &Question{Response: response, ancestor: ancestor, Children: receiver.defaultChildren()}
-		for index := 0; index < receiver.SizeChildren; index++ {
-			question.save(receiver.createTree(question.Children[index], 2*level+index+1, question))
-		}
+		question := &Question{Response: response, ancestor: ancestor, Children: defaultChildren()}
 		return question
 	case domain.ANSWER:
 		return &Answer{Response: response}
@@ -37,9 +27,9 @@ func (receiver *GameManger) factoryResponseType(level int, ancestor domain.Game)
 	return nil
 }
 
-func (receiver *GameManger) defaultChildren() []domain.Game {
+func defaultChildren() []domain.Game {
 	var t []domain.Game
-	for index := 0; index < receiver.SizeChildren; index++ {
+	for index := 0; index < 2; index++ {
 		t = append(t, nil)
 	}
 	return t

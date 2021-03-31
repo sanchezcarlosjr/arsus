@@ -16,6 +16,7 @@ func NewStreamMock(t *testing.T, mock []InteractionMock) {
 		SizeChildren: 2,
 	}
 	gameManger.Start()
+	infraestructure.DatabaseRepository().First()
 }
 
 type InteractionMock struct {
@@ -43,35 +44,50 @@ func (receiver *StreamMock) Interact(response string) domain.UserResponse {
 	return receiver.interaction[receiver.index-1].userInteraction
 }
 
-func TestPaths(t *testing.T) {
+func TestPath1(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.YES},
 		{"Can it fly?", domain.YES},
 		{"bird", 0},
 	})
+}
+
+func TestPath2(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.YES},
 		{"Can it fly?", domain.NO},
 		{"Does it have a tail?", domain.YES},
 		{"mouse", 0},
 	})
+}
+
+func TestPath3(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.YES},
 		{"Can it fly?", domain.NO},
 		{"Does it have a tail?", domain.NO},
 		{"spider", 0},
 	})
+}
+
+func TestPath4(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.NO},
 		{"Does it have wheels?", domain.YES},
 		{"bicycle", 0},
 	})
+}
+
+func TestPath5(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.NO},
 		{"Does it have wheels?", domain.NO},
 		{"Is it nice?", domain.NO},
 		{"teacher", 0},
 	})
+}
+
+func TestPath6(t *testing.T) {
 	NewStreamMock(t, []InteractionMock{
 		{"Is it an animal?", domain.NO},
 		{"Does it have wheels?", domain.NO},

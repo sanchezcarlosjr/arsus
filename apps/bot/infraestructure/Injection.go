@@ -2,6 +2,7 @@ package infraestructure
 
 import (
 	"DialogFlowFulfilment/domain"
+	"os"
 	"sync"
 )
 
@@ -14,7 +15,7 @@ var (
 func init() {
 	once.Do(func() {
 		streamRepository = &ConsoleRepository{}
-		databaseRepository = NewFileRepository("../questions.txt")
+		databaseRepository = NewFileRepository(os.Getenv("QUESTIONS_FILEPATH"))
 	})
 }
 

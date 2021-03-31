@@ -8,6 +8,8 @@ const (
 )
 
 type DatabaseRepository interface {
-	Row(index int) (string, Discriminator)
-	Length() int
+	First()
+	Previous()
+	Next(response UserResponse)
+	Actual() (string, Discriminator)
 }

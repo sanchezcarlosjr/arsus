@@ -9,27 +9,35 @@ import (
 )
 
 type FileRepository struct {
-	database []string
-	length   int
+	database      []string
+	index         int
+	previousIndex int
 }
 
 func NewFileRepository(filePath string) domain.DatabaseRepository {
-	file := FileRepository{}
+	file := FileRepository{
+		index: 0,
+	}
 	file.Read(filePath)
 	return &file
 }
 
-// Row by line. It returns response, responseType
-func (receiver *FileRepository) Row(index int) (string, domain.Discriminator) {
-	if receiver.database[index] == "" {
-		return "", ""
-	}
-	line := strings.Split(receiver.database[index], ":")
-	return line[1], domain.Discriminator(line[0])
+func (receiver *FileRepository) Next(index domain.UserResponse) {
+	receiver.previousIndex = receiver.index
+	receiver.index = 2*receiver.index + int(index) + 1
 }
 
-func (receiver *FileRepository) Length() int {
-	return receiver.length
+func (receiver *FileRepository) Previous() {
+	receiver.index = receiver.previousIndex
+}
+
+func (receiver *FileRepository) First() {
+	receiver.index = 0
+}
+
+func (receiver *FileRepository) Actual() (string, domain.Discriminator) {
+	line := strings.Split(receiver.database[receiver.index], ":")
+	return line[1], domain.Discriminator(line[0])
 }
 
 func (receiver *FileRepository) Read(path string) {
@@ -43,5 +51,4 @@ func (receiver *FileRepository) Read(path string) {
 	for scanner.Scan() {
 		receiver.database = append(receiver.database, scanner.Text())
 	}
-	receiver.length = len(receiver.database)
 }
