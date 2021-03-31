@@ -17,6 +17,9 @@ func newQuestion(ancestor domain.Game, response string) *Question {
 
 func (receiver *Question) Reply() {
 	userResponse := infraestructure.StreamRepository().Interact(receiver.Response)
+	for userResponse == domain.PREVIOUS && receiver.ancestor == nil {
+		userResponse = infraestructure.StreamRepository().Interact(receiver.Response)
+	}
 	if domain.PREVIOUS == userResponse {
 		infraestructure.DatabaseRepository().Previous()
 		receiver.ancestor.Reply()
