@@ -14,7 +14,7 @@ var (
 func init() {
 	once.Do(func() {
 		streamRepository = &ConsoleRepository{}
-		databaseRepository = NewFirestoreRepository("20QuestionsGame")
+		databaseRepository = NewFileRepositoryFromStorage("https://firebasestorage.googleapis.com/v0/b/arsus-production.appspot.com/o/assets%2Fquestions.txt?alt=media", "questions.txt")
 	})
 }
 

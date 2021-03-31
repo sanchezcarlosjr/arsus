@@ -22,6 +22,12 @@ func NewFileRepository(filePath string) domain.DatabaseRepository {
 	return &file
 }
 
+func NewFileRepositoryFromStorage(url string, fileName string) domain.DatabaseRepository {
+	fileDownloader := FileDownloader{}
+	_ = fileDownloader.download(url, fileName)
+	return NewFileRepository(fileName)
+}
+
 func (receiver *FileRepository) Next(index domain.UserResponse) {
 	receiver.previousIndex = receiver.index
 	receiver.index = 2*receiver.index + int(index) + 1
