@@ -8,19 +8,11 @@ import (
 type Question struct {
 	Response string
 	ancestor domain.Game
-	Children []domain.Game
+	Children map[domain.UserResponse]domain.Game
 }
 
 func newQuestion(ancestor domain.Game, response string) *Question {
-	return &Question{Response: response, ancestor: ancestor, Children: defaultChildren()}
-}
-
-func defaultChildren() []domain.Game {
-	var t []domain.Game
-	for index := 0; index < 2; index++ {
-		t = append(t, nil)
-	}
-	return t
+	return &Question{Response: response, ancestor: ancestor, Children: make(map[domain.UserResponse]domain.Game)}
 }
 
 func (receiver *Question) Reply() {
