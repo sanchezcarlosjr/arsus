@@ -2,20 +2,24 @@ package infraestructure
 
 import (
 	"DialogFlowFulfilment/domain"
+	"cloud.google.com/go/firestore"
 	"context"
+	firebase "firebase.google.com/go/v4"
 	"log"
 	"os"
-
-	"cloud.google.com/go/firestore"
-	firebase "firebase.google.com/go/v4"
+	"strconv"
 )
 
 type Firestore struct {
-	docs   []*firestore.DocumentSnapshot
-	length int
+	client         *firestore.Client
+	context        context.Context
+	collection     string
+	idFistDocument string
+	documentData   map[string]interface{}
+	previousData   map[string]interface{}
 }
 
-func NewFirestoreRepository() {
+func NewFirestoreRepository(collection string) domain.DatabaseRepository {
 	conf := &firebase.Config{ProjectID: os.Getenv("GOOGLE_CLOUD_PROJECT")}
 	ctx := context.Background()
 	app, err := firebase.NewApp(ctx, conf)
@@ -26,26 +30,32 @@ func NewFirestoreRepository() {
 	if err != nil {
 		log.Fatalf("app.Firestore: %v", err)
 	}
-	_, err = client.Collection("20QuestionsGame").Documents(ctx).GetAll()
-	if err != nil {
-		log.Fatalf("Load 20QuestionsGame: %v", err)
+	return &Firestore{
+		client,
+		ctx,
+		collection,
+		"1",
+		nil,
+		nil,
 	}
+}
+
+func (receiver *Firestore) First() {
+	snapshot, _ := receiver.client.Collection(receiver.collection).Doc(receiver.idFistDocument).Get(receiver.context)
+	receiver.documentData = snapshot.Data()
+}
+
+func (receiver *Firestore) Previous() {
+	receiver.documentData = receiver.previousData
+}
+
+func (receiver *Firestore) Next(response domain.UserResponse) {
+	receiver.previousData = receiver.documentData
+	newDocument := receiver.documentData[strconv.Itoa(int(response))].(string)
+	snapshot, _ := receiver.client.Collection(receiver.collection).Doc(newDocument).Get(receiver.context)
+	receiver.documentData = snapshot.Data()
 }
 
 func (receiver *Firestore) Actual() (string, domain.Discriminator) {
-	if !receiver.docs[0].Exists() {
-		return "", ""
-	}
-	data := receiver.docs[0].Data()
-	return data["response"].(string), domain.Discriminator(data["discriminator"].(string))
-}
-
-func (receiver *Firestore) NextLevel() {
-
-}
-
-func (receiver *Firestore) NextIndex() {}
-
-func (receiver *Firestore) HasNext() bool {
-	return false
+	return receiver.documentData["response"].(string), domain.Discriminator(receiver.documentData["discriminator"].(string))
 }

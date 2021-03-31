@@ -2,7 +2,6 @@ package infraestructure
 
 import (
 	"DialogFlowFulfilment/domain"
-	"os"
 	"sync"
 )
 
@@ -15,7 +14,7 @@ var (
 func init() {
 	once.Do(func() {
 		streamRepository = &ConsoleRepository{}
-		databaseRepository = NewFileRepository(os.Getenv("QUESTIONS_FILEPATH"))
+		databaseRepository = NewFirestoreRepository("20QuestionsGame")
 	})
 }
 
