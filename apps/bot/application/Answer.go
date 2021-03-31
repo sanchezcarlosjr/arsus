@@ -13,7 +13,3 @@ type Answer struct {
 func (receiver *Answer) Reply() {
 	infraestructure.StreamRepository().InteractAsAnswer(receiver.Response)
 }
-
-func (receiver *Answer) SetAncestor(game domain.Game) {
-	receiver.ancestor = game
-}
