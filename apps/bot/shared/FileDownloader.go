@@ -1,4 +1,4 @@
-package infraestructure
+package shared
 
 import (
 	"errors"
@@ -10,7 +10,7 @@ import (
 type FileDownloader struct {
 }
 
-func (receiver FileDownloader) download(URL, fileName string) error {
+func (receiver FileDownloader) Download(URL, fileName string) error {
 	response, err := http.Get(URL)
 	if err != nil {
 		return err

@@ -2,6 +2,7 @@ package infraestructure
 
 import (
 	"DialogFlowFulfilment/domain"
+	"DialogFlowFulfilment/shared"
 	"bufio"
 	"fmt"
 	"os"
@@ -23,8 +24,8 @@ func NewFileRepository(filePath string) domain.DatabaseRepository {
 }
 
 func NewFileRepositoryFromStorage(url string, fileName string) domain.DatabaseRepository {
-	fileDownloader := FileDownloader{}
-	_ = fileDownloader.download(url, fileName)
+	fileDownloader := shared.FileDownloader{}
+	_ = fileDownloader.Download(url, fileName)
 	return NewFileRepository(fileName)
 }
 
