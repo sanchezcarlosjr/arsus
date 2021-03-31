@@ -2,3 +2,5 @@
 DialogFlowFulfilment
 DialogFlowFulfilment.exe
 /serviceAccountKey.json
+
+/bin/**
