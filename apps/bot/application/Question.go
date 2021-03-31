@@ -6,15 +6,9 @@ import (
 )
 
 type Question struct {
-	Response     string
-	iteratorSize int
-	ancestor     domain.Game
-	Children     []domain.Game
-}
-
-func (receiver *Question) save(child domain.Game) {
-	receiver.Children[receiver.iteratorSize] = child
-	receiver.iteratorSize++
+	Response string
+	ancestor domain.Game
+	Children []domain.Game
 }
 
 func (receiver *Question) Reply() {
