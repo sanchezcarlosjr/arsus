@@ -3,6 +3,7 @@ package shared
 import (
 	"errors"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
 )
@@ -10,8 +11,8 @@ import (
 type FileDownloader struct {
 }
 
-func (receiver FileDownloader) Download(URL, fileName string) error {
-	response, err := http.Get(URL)
+func (receiver FileDownloader) Download(url, fileName string) error {
+	response, err := http.Get(url)
 	if err != nil {
 		return err
 	}
@@ -30,4 +31,17 @@ func (receiver FileDownloader) Download(URL, fileName string) error {
 		return err
 	}
 	return nil
+}
+
+func (receiver *FileDownloader) Read(url string) (string, error) {
+	response, err := http.Get(url)
+	if err != nil {
+		return "", err
+	}
+	defer response.Body.Close()
+	bodyBytes, err := ioutil.ReadAll(response.Body)
+	if err != nil {
+		return "", err
+	}
+	return string(bodyBytes), nil
 }
