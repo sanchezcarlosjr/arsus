@@ -278,8 +278,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  final user =
-                                      await signInWithFacebook(context);
+                                  final user = null;
                                   if (user == null) {
                                     return;
                                   }
