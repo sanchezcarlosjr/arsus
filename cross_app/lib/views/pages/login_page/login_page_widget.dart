@@ -1,3 +1,6 @@
+import 'package:arsus/services/auth/email_auth.dart';
+import 'package:arsus/services/auth/google_auth.dart';
+
 import '../../apps/apps_page_widget.dart';
 import '../../flutter_flow/flutter_flow_theme.dart';
 import '../../flutter_flow/flutter_flow_widgets.dart';
@@ -12,15 +15,15 @@ class LoginPageWidget extends StatefulWidget {
 }
 
 class _LoginPageWidgetState extends State<LoginPageWidget> {
-  TextEditingController textController1;
-  TextEditingController textController2;
+  TextEditingController emailTextController;
+  TextEditingController passwordTextController;
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
   void initState() {
     super.initState();
-    textController1 = TextEditingController();
-    textController2 = TextEditingController();
+    emailTextController = TextEditingController();
+    passwordTextController = TextEditingController();
   }
 
   @override
@@ -65,7 +68,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                           child: TextFormField(
-                            controller: textController1,
+                            controller: emailTextController,
                             obscureText: false,
                             decoration: InputDecoration(
                               labelText: 'Correo electronico',
@@ -120,7 +123,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         child: Padding(
                           padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                           child: TextFormField(
-                            controller: textController2,
+                            controller: passwordTextController,
                             obscureText: true,
                             decoration: InputDecoration(
                               hintText: 'Contrasena',
@@ -163,11 +166,24 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                       padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                       child: FFButtonWidget(
                         onPressed: () async {
-                          await Navigator.push(
+                          var user = await signInWithEmail(
+                            context,
+                            emailTextController.text,
+                            passwordTextController.text,
+                          );
+                          if (user == null) {
+                            await createAccountWithEmail(
+                              context,
+                              emailTextController.text,
+                              passwordTextController.text,
+                            );
+                          }
+                          await Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(
                               builder: (context) => AppsPageWidget(),
                             ),
+                                (r) => false,
                           );
                         },
                         text: 'Inicia sesion',
@@ -267,11 +283,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               alignment: Alignment(0, 0),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
+                                  final user = await signInWithGoogle(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AppsPageWidget(),
                                     ),
+                                        (r) => false,
                                   );
                                 },
                                 text: 'Continua con Google',

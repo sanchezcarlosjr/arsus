@@ -48,7 +48,7 @@ class _InePageWidgetState extends State<InePageWidget> {
                 FFButtonWidget(
                   onPressed: () async {
                     final selectedMedia = await selectMedia(
-                      fromCamera: false,
+                      fromCamera: true,
                     );
                     if (selectedMedia != null &&
                         validateFileFormat(
