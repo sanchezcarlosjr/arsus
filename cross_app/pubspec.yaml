@@ -39,6 +39,7 @@ dependencies:
   rxdart: ^0.27.0
   sign_in_with_apple: ^3.0.0
   url_launcher:
+  flutter_svg:
   youtube_player_flutter: ^8.0.0
 
 
