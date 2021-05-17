@@ -37,7 +37,7 @@ class _AppsPageWidgetState extends State<AppsPageWidget> {
             options: FFButtonOptions(
                 width: 130,
                 height: 40,
-                color: Colors.white,
+                color: Color(0x00F5F5F5),
                 textStyle: FlutterFlowTheme.subtitle2.override(
                   fontFamily: 'IBM Plex Sans',
                   color: Color(0xBB000000),
