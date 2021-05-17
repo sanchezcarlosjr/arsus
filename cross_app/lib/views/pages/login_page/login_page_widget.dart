@@ -1,9 +1,10 @@
 import 'package:arsus/services/auth/email_auth.dart';
+import 'package:arsus/services/auth/facebook_auth.dart';
 import 'package:arsus/services/auth/google_auth.dart';
 
 import '../../apps/apps_page_widget.dart';
-import '../../flutter_flow/flutter_flow_theme.dart';
-import '../../flutter_flow/flutter_flow_widgets.dart';
+import 'package:arsus/views/theme/flutter_flow_theme.dart';
+import 'package:arsus/views/theme/flutter_flow_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -215,11 +216,16 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                               alignment: Alignment(0, 0),
                               child: FFButtonWidget(
                                 onPressed: () async {
-                                  await Navigator.push(
+                                  final user = await signInWithFacebook(context);
+                                  if (user == null) {
+                                    return;
+                                  }
+                                  await Navigator.pushAndRemoveUntil(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => AppsPageWidget(),
                                     ),
+                                        (r) => false,
                                   );
                                 },
                                 text: 'Continua con Facebook',

@@ -1,7 +1,7 @@
 import 'package:arsus/services/backend/firebase_storage/storage.dart';
-import 'package:arsus/views/flutter_flow/flutter_flow_theme.dart';
-import 'package:arsus/views/flutter_flow/flutter_flow_widgets.dart';
-import 'package:arsus/views/flutter_flow/upload_media.dart';
+import 'package:arsus/views/theme/flutter_flow_theme.dart';
+import 'package:arsus/views/theme/flutter_flow_widgets.dart';
+import 'package:arsus/views/theme/upload_media.dart';
 
 import 'i_n_e_success_page_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
