@@ -1,3 +1,4 @@
+import 'package:arsus/views/pages/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
@@ -30,8 +31,13 @@ class _AppsPageWidgetState extends State<AppsPageWidget> {
         ),
         actions: [
           FFButtonWidget(
-            onPressed: () {
-              print('Button pressed ...');
+            onPressed: () async {
+              await Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HomePageWidget(),
+                ),
+              );
             },
             text: 'PAPERS',
             options: FFButtonOptions(

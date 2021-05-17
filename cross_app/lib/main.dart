@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'services/auth/firebase_user_provider.dart';
-import 'package:arsus/views/pages/home_page/home_page_widget.dart';
+import 'package:arsus/views/pages/home_page/home_page.dart';
 import 'package:arsus/views/apps/apps_page_widget.dart';
 
 void main() async {

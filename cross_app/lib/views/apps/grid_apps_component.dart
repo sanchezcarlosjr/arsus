@@ -7,8 +7,7 @@ import 'package:flutter_svg/svg.dart';
 class GridApps extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    CollectionReference users =
-    FirebaseFirestore.instance.collection('projects');
+    CollectionReference users = FirebaseFirestore.instance.collection('projects');
     return StreamBuilder<QuerySnapshot>(
       stream: users.snapshots(),
       builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
