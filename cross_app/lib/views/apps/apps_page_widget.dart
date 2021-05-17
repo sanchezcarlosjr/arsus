@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:arsus/views/theme/flutter_flow_theme.dart';
-import 'package:arsus/views/theme/flutter_flow_widgets.dart';
+import 'package:arsus/views/theme/theme.dart';
+import 'package:arsus/views/theme/widgets.dart';
 import 'grid_apps_component.dart';
 
 class AppsPageWidget extends StatefulWidget {

@@ -3,8 +3,8 @@ import 'package:arsus/services/auth/facebook_auth.dart';
 import 'package:arsus/services/auth/google_auth.dart';
 
 import '../../apps/apps_page_widget.dart';
-import 'package:arsus/views/theme/flutter_flow_theme.dart';
-import 'package:arsus/views/theme/flutter_flow_widgets.dart';
+import 'package:arsus/views/theme/theme.dart';
+import 'package:arsus/views/theme/widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 

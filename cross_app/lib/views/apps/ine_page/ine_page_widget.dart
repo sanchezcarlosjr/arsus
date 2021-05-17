@@ -1,6 +1,6 @@
 import 'package:arsus/services/backend/firebase_storage/storage.dart';
-import 'package:arsus/views/theme/flutter_flow_theme.dart';
-import 'package:arsus/views/theme/flutter_flow_widgets.dart';
+import 'package:arsus/views/theme/theme.dart';
+import 'package:arsus/views/theme/widgets.dart';
 import 'package:arsus/views/theme/upload_media.dart';
 
 import 'i_n_e_success_page_widget.dart';
