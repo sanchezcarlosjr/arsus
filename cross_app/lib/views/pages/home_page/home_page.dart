@@ -1,9 +1,6 @@
-import 'package:arsus/views/pages/home_page/new_card_component.dart';
 import 'package:arsus/views/pages/home_page/news_component.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
-import 'package:auto_size_text/auto_size_text.dart';
-import 'package:cached_network_image/cached_network_image.dart';
 import '../login_page/login_page_widget.dart';
 import 'package:flutter/material.dart';
 
