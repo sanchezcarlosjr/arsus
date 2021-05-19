@@ -1,0 +1,19 @@
+{
+  "title": "SanchezCarlosJr 1.1 Mi canal de YouTube https://www.youtube.com/c/Arsustech/videos",
+  "instruction": "Responde con si (s), no (n) o anterior (a)",
+  "positiveFeedback": "Genial, ¡lo hiciste bien!",
+  "tryAgain": "¿Quieres jugar de nuevo? (s/n)",
+  "yes": {
+    "si": true,
+    "s": true
+  },
+  "no": {
+    "no": true,
+    "n": true
+  },
+  "previous": {
+    "anterior": true,
+    "a": true,
+    "-1": true
+  }
+}

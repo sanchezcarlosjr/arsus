@@ -12,9 +12,7 @@ func NewStreamMock(t *testing.T, mock []InteractionMock) {
 		index:       0,
 		interaction: mock,
 	})
-	gameManger := GameManger{
-		SizeChildren: 2,
-	}
+	gameManger := GameManger{}
 	gameManger.Start()
 	infraestructure.DatabaseRepository().First()
 }

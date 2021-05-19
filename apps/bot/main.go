@@ -1,24 +1,25 @@
 package main
 
 import (
-  "DialogFlowFulfilment/application"
-  "DialogFlowFulfilment/shared"
-  "fmt"
-  "time"
+	"DialogFlowFulfilment/application"
+	"DialogFlowFulfilment/infraestructure"
+	"DialogFlowFulfilment/shared"
+	"fmt"
+	"time"
 )
 
 func main() {
-	userResponse := "y"
-	for userResponse == "y" || userResponse == "yes" || userResponse == "0" {
+	userResponse := "0"
+	for infraestructure.Translation.Yes[userResponse] || userResponse == "0" {
 		fmt.Println("===========================================================================================================")
-		fmt.Println("\tSanchezCarlosJr 1.1 My YouTube channel https://www.youtube.com/c/Arsustech/videos")
+		fmt.Println("\t " + infraestructure.Translation.Title)
 		fmt.Println("===========================================================================================================")
 		gameManger := application.GameManger{}
-		fmt.Println("Answer with yes (y), no (n), or previous (p)")
+		fmt.Println(infraestructure.Translation.Instruction)
 		gameManger.Start()
-		fmt.Println("Great, I got it right!")
+		fmt.Println(infraestructure.Translation.PositiveFeedback)
 		time.Sleep(2 * time.Second)
-		fmt.Println("\nDo you want to go again? (y/n)")
+		fmt.Println("\n" + infraestructure.Translation.TryAgain)
 		_, _ = fmt.Scan(&userResponse)
 		shared.CallClear()
 	}
