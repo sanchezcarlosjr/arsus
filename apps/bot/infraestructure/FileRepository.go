@@ -31,7 +31,7 @@ func NewFileRepositoryFromStorage(url string, fileName string) domain.DatabaseRe
 
 func LoadFileRepositoryFromStorage() domain.DatabaseRepository {
 	fileDownloader := shared.FileDownloader{}
-	Translation = NewTranslation("es-MX")
+	Translation = NewTranslation()
 	fileInMemory, _ := fileDownloader.Read(Translation.DatabaseURL)
 	file := FileRepository{
 		index:    0,

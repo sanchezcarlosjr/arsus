@@ -21,7 +21,11 @@ type TranslationRepository struct {
 	DatabaseURL      string          `json:"databaseURL"`
 }
 
-func NewTranslation(language string) TranslationRepository {
+func NewTranslation() TranslationRepository {
+	language := os.Getenv("questions_game_language")
+	if language == "" {
+		language = "en-US"
+	}
 	jsonFile, err := os.Open("translations/" + language + ".json")
 	if err != nil {
 		fmt.Println(err)
