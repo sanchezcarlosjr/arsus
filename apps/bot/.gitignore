@@ -4,3 +4,4 @@ DialogFlowFulfilment.exe
 /serviceAccountKey.json
 
 /bin/**
+.idea
