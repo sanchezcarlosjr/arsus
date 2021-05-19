@@ -1,19 +1,26 @@
 {
   "title": "Juego de las 20 Preguntas 1.2 por SanchezCarlosJr Mi canal de YouTube https://www.youtube.com/c/Arsustech/videos",
-  "instruction": "Responde con si (s), no (n) o anterior (a)",
+  "instruction": "Responde con sí (s), no (n) o anterior (a)",
   "positiveFeedback": "Genial, ¡lo hiciste bien!",
   "tryAgain": "¿Quieres jugar de nuevo? (s/n)",
   "yes": {
     "si": true,
-    "s": true
+    "s": true,
+    "S": true,
+    "Sí": true,
+    "sí": true,
+    "SI": true
   },
   "no": {
     "no": true,
-    "n": true
+    "n": true,
+    "No": true,
+    "NO": true
   },
   "previous": {
     "anterior": true,
     "a": true,
+    "A": true,
     "-1": true
   }
 }
