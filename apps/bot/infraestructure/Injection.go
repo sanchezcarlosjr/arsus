@@ -14,7 +14,7 @@ var (
 func init() {
 	once.Do(func() {
 		streamRepository = &ConsoleRepository{}
-		databaseRepository = LoadFileRepositoryFromStorage("https://firebasestorage.googleapis.com/v0/b/arsus-production.appspot.com/o/assets%2Fquestions.txt?alt=media")
+		databaseRepository = LoadFileRepositoryFromStorage()
 	})
 }
 

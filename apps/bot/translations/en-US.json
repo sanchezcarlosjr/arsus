@@ -1,5 +1,6 @@
 {
-  "title": "20QuestionsGame 1.2 by SanchezCarlosJr My YouTube channel https://www.youtube.com/c/Arsustech/videos",
+  "databaseURL": "https://firebasestorage.googleapis.com/v0/b/arsus-production.appspot.com/o/assets%2F20questionsGame_en_US.txt?alt=media&token=54bd9cf9-2710-47df-8b40-f538ca273cd9",
+  "title": "20QuestionsGame 1.3 by SanchezCarlosJr My YouTube channel https://www.youtube.com/c/Arsustech/videos",
   "instruction": "Answer with yes (y), no (n), or previous (p)",
   "positiveFeedback": "Great, I got it right!",
   "tryAgain": "Do you want to go again? (y/n)",

@@ -1,5 +1,6 @@
 {
-  "title": "Juego de las 20 Preguntas 1.2 por SanchezCarlosJr Mi canal de YouTube https://www.youtube.com/c/Arsustech/videos",
+  "databaseURL": "https://firebasestorage.googleapis.com/v0/b/arsus-production.appspot.com/o/assets%2F20questionsGame_es_MX.txt?alt=media&token=2c3cd975-44ff-4a8c-bc6d-c9e71c5059e8",
+  "title": "Juego de las 20 Preguntas 1.3 por SanchezCarlosJr Mi canal de YouTube https://www.youtube.com/c/Arsustech/videos",
   "instruction": "Responde con sí (s), no (n) o anterior (a)",
   "positiveFeedback": "Genial, ¡lo hiciste bien!",
   "tryAgain": "¿Quieres jugar de nuevo? (s/n)",

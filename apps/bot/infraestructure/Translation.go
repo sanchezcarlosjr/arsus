@@ -9,10 +9,6 @@ import (
 
 var Translation TranslationRepository
 
-func init() {
-	Translation = NewTranslation("es-MX")
-}
-
 type TranslationRepository struct {
 	Title            string          `json:"title"`
 	Instruction      string          `json:"instruction"`
@@ -22,6 +18,7 @@ type TranslationRepository struct {
 	No               map[string]bool `json:"no"`
 	Previous         map[string]bool `json:"previous"`
 	Maybe            map[string]bool `json:"maybe"`
+	DatabaseURL      string          `json:"databaseURL"`
 }
 
 func NewTranslation(language string) TranslationRepository {
