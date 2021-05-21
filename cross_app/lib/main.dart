@@ -1,3 +1,4 @@
+import 'package:arsus/views/apps/ine_page/ine_page_widget.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'services/auth/firebase_user_provider.dart';
@@ -31,16 +32,13 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Arsus',
-      theme: ThemeData(primarySwatch: Colors.blue),
-      home: initialUser == null
-          ? const Center(
-              child: CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Color(0xff4b39ef)),
-              ),
-            )
-          : currentUser.loggedIn
-              ? AppsPageWidget()
-              : HomePageWidget(),
+      theme: ThemeData(primarySwatch: Colors.green),
+      routes: {
+        '/': (context) => HomePageWidget(),
+        '/apps/ine-validator': (context) => InePageWidget(),
+        '/apps': (context) => AppsPageWidget()
+      },
+      initialRoute: initialUser != null && currentUser.loggedIn ? "/apps" : "/"
     );
   }
 }

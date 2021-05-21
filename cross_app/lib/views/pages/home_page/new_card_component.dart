@@ -26,37 +26,37 @@ class _NewCardWidgetState extends State<NewCardWidget> {
             children: [
               Padding(
                   padding: EdgeInsets.fromLTRB(5, 15, 15, 25),
-                  child: Column(mainAxisSize: MainAxisSize.max, children: [
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Text(
-                          widget.data["title"],
-                          textAlign: TextAlign.start,
-                          style: FlutterFlowTheme.title1.override(
-                            fontFamily: 'IBM Plex Sans',
-                          ),
-                        )
-                      ],
-                    ),
-                    Padding(
-                      padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
+                  child:
+                  Column(
+                      mainAxisSize: MainAxisSize.max,
+                      children:
+                      [
                           Text(
-                            widget.data["source"]["name"],
+                            widget.data["title"],
                             textAlign: TextAlign.start,
-                            style: FlutterFlowTheme.subtitle2.override(
+                            style: FlutterFlowTheme.title1.override(
                               fontFamily: 'IBM Plex Sans',
                             ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  widget.data["source"]["name"],
+                                  textAlign: TextAlign.start,
+                                  style: FlutterFlowTheme.subtitle2.override(
+                                    fontFamily: 'IBM Plex Sans',
+                                  ),
+                                )
+                              ],
+                            ),
                           )
-                        ],
-                      ),
-                    )
-                  ]))
+                  ]
+                  )
+              )
             ]));
   }
 }
