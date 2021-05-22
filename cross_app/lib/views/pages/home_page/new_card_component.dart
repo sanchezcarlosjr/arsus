@@ -1,3 +1,4 @@
+import 'package:arsus/views/apps/app/EmbeddedWeb.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -20,43 +21,40 @@ class _NewCardWidgetState extends State<NewCardWidget> {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
         ),
-        child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                  padding: EdgeInsets.fromLTRB(5, 15, 15, 25),
-                  child:
-                  Column(
-                      mainAxisSize: MainAxisSize.max,
-                      children:
-                      [
-                          Text(
-                            widget.data["title"],
-                            textAlign: TextAlign.start,
-                            style: FlutterFlowTheme.title1.override(
-                              fontFamily: 'IBM Plex Sans',
-                            ),
+        child: InkWell(
+            onTap: widget.data["type"] == "newspaper" ? EmbeddedWeb({"url": 'https://sanchezcarlosjr.com/article/x/${widget.data["uid"]}'}).onTap(context) : () => {},
+            child: Column(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                      padding: EdgeInsets.fromLTRB(5, 15, 15, 25),
+                      child: Column(mainAxisSize: MainAxisSize.max, children: [
+                        Text(
+                          widget.data["title"],
+                          textAlign: TextAlign.start,
+                          style: FlutterFlowTheme.title1.override(
+                            fontFamily: 'IBM Plex Sans',
                           ),
-                          Padding(
-                            padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  widget.data["source"]["name"],
-                                  textAlign: TextAlign.start,
-                                  style: FlutterFlowTheme.subtitle2.override(
-                                    fontFamily: 'IBM Plex Sans',
-                                  ),
-                                )
-                              ],
-                            ),
-                          )
-                  ]
-                  )
-              )
-            ]));
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                widget.data["source"]["name"],
+                                textAlign: TextAlign.start,
+                                style: FlutterFlowTheme.subtitle2.override(
+                                  fontFamily: 'IBM Plex Sans',
+                                ),
+                              )
+                            ],
+                          ),
+                        )
+                      ]))
+                ]))
+    );
   }
 }
