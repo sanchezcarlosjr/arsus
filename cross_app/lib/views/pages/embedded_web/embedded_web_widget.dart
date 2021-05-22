@@ -2,12 +2,16 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewExample extends StatefulWidget {
+class EmbeddedWebPage extends StatefulWidget {
+  final String url;
+
+  EmbeddedWebPage({@required this.url});
+
   @override
-  WebViewExampleState createState() => WebViewExampleState();
+  _EmbeddedWebPageState createState() => _EmbeddedWebPageState();
 }
 
-class WebViewExampleState extends State<WebViewExample> {
+class _EmbeddedWebPageState extends State<EmbeddedWebPage> {
   @override
   void initState() {
     super.initState();
@@ -18,7 +22,8 @@ class WebViewExampleState extends State<WebViewExample> {
   @override
   Widget build(BuildContext context) {
     return WebView(
-      initialUrl: 'https://www.flutter.dev',
+        initialUrl: widget.url,
+        javascriptMode: JavascriptMode.unrestricted
     );
   }
 }

@@ -8,7 +8,7 @@ import 'SandboxMobile.dart';
 import 'SandboxWeb.dart';
 
 abstract class App extends StatelessWidget {
-  Map<String, dynamic> appData;
+  final Map<String, dynamic> appData;
   App({this.appData, Key key}) : super(key: key);
 
   static App factory(Map<String, dynamic> appData) {
