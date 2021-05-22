@@ -18,6 +18,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { NgxsStoreModule } from '@store/store.module';
 import { AngularFireAnalyticsModule } from '@angular/fire/analytics';
 import { ScullyLibModule } from '@scullyio/ng-lib';
+import { HrefDirective } from '@shared/href.directive';
 
 @NgModule({
   imports: [
@@ -38,7 +39,7 @@ import { ScullyLibModule } from '@scullyio/ng-lib';
     AppRoutingModule,
     ScullyLibModule, // must be imported as the last module as it contains the fallback route
   ],
-  declarations: [AppComponent],
+  declarations: [AppComponent, HrefDirective],
   providers: [],
   bootstrap: [AppComponent],
 })

@@ -17,7 +17,7 @@
     <ion-list-header>
       <ion-label color="primary">What's new</ion-label>
     </ion-list-header>
-    <ion-item *ngFor="let project of projects | async" button [routerLink]="['/', project.name, project.uid]">
+    <ion-item *ngFor="let project of projects | async" button (click)="goTo(project)">
       <ion-thumbnail slot="start">
         <img [src]="project.img" />
       </ion-thumbnail>

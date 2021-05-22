@@ -12,6 +12,8 @@ export interface Project {
   landing: string;
   img: string;
   title: string;
+  type: string;
+  typeWeb?: string;
   script?: string;
   html?: string;
 }
@@ -28,6 +30,7 @@ export class ProjectsComponent implements OnInit, OnDestroy {
     landing: '',
     url: '',
     uid: '',
+    type: '',
     img: '',
   };
   private subscription = new Subscription();
