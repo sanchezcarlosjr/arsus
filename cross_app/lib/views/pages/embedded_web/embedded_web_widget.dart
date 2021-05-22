@@ -4,8 +4,6 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class EmbeddedWebPage extends StatefulWidget {
   final String url;
-  final _key = UniqueKey();
-
   EmbeddedWebPage({@required this.url});
 
   @override
@@ -13,7 +11,6 @@ class EmbeddedWebPage extends StatefulWidget {
 }
 
 class _EmbeddedWebPageState extends State<EmbeddedWebPage> {
-  final scaffoldKey = GlobalKey<ScaffoldState>();
   bool isLoading = true;
 
   @override
@@ -25,28 +22,25 @@ class _EmbeddedWebPageState extends State<EmbeddedWebPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        key: scaffoldKey,
-        body: SafeArea(
-          child: Stack(
-            children: <Widget>[
-              WebView(
-                key: widget._key,
-                initialUrl: widget.url,
-                javascriptMode: JavascriptMode.unrestricted,
-                onPageFinished: (finish) {
-                  setState(() {
-                    isLoading = false;
-                  });
-                },
-              ),
-              isLoading
-                  ? Center(
-                      child: CircularProgressIndicator(),
-                    )
-                  : Stack(),
-            ],
+    return SafeArea(
+      child: Stack(
+        children: <Widget>[
+          WebView(
+            initialUrl: widget.url,
+            javascriptMode: JavascriptMode.unrestricted,
+            onPageFinished: (finish) {
+              setState(() {
+                isLoading = false;
+              });
+            },
           ),
-        ));
+          isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : Stack(),
+        ],
+      ),
+    );
   }
 }

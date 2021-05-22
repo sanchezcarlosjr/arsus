@@ -1,10 +1,10 @@
-import 'package:arsus/views/apps/app/EmbeddedWeb.dart';
+import 'package:arsus/views/apps/app/AppWeb.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'RedirectWeb.dart';
-import 'SandboxMobile.dart';
+import 'AppMobile.dart';
 import 'SandboxWeb.dart';
 
 abstract class App extends StatelessWidget {
@@ -13,14 +13,14 @@ abstract class App extends StatelessWidget {
 
   static App factory(Map<String, dynamic> appData) {
     switch(appData["type"]) {
-      case "embeddedWeb":
-        return EmbeddedWeb(appData);
+      case "appWeb":
+        return AppWeb(appData);
       case "redirectWeb":
         return RedirectWeb(appData);
       case "sandboxWeb":
         return SandboxWeb(appData);
-      case "sandboxMobile":
-        return SandboxMobile(appData);
+      case "appMobile":
+        return AppMobile(appData);
     }
     return null;
   }

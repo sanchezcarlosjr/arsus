@@ -1,4 +1,4 @@
-import 'package:arsus/views/apps/app/EmbeddedWeb.dart';
+import 'package:arsus/views/apps/app/AppWeb.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:flutter/material.dart';
 
@@ -22,7 +22,7 @@ class _NewCardWidgetState extends State<NewCardWidget> {
           borderRadius: BorderRadius.circular(0),
         ),
         child: InkWell(
-            onTap: widget.data["type"] == "newspaper" ? EmbeddedWeb({"url": 'https://sanchezcarlosjr.com/article/x/${widget.data["uid"]}'}).onTap(context) : () => {},
+            onTap: widget.data["type"] == "newspaper" ? AppWeb({"url": 'https://sanchezcarlosjr.com/article/x/${widget.data["uid"]}'}).onTap(context) : () => {},
             child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.center,
