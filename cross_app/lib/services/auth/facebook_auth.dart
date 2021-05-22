@@ -5,7 +5,7 @@ import 'auth_util.dart';
 
 Future<User> signInWithFacebook(BuildContext context) async {
   final signInFunc = () async {
-    final AccessToken result = await FacebookAuth.instance.login();
+    final AccessToken result = await FacebookAuth.instance.accessToken;
     final facebookAuthCredential = FacebookAuthProvider.credential(result.token);
     return FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
   };

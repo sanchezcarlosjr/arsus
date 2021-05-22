@@ -18,7 +18,7 @@ dependencies:
   cloud_firestore: ^2.1.0
   firebase_auth: ^1.1.4
   firebase_core: ^1.1.1
-  flutter_facebook_auth: "^1.0.0"
+  flutter_facebook_auth: ^3.4.0
   firebase_storage: ^8.0.6
   font_awesome_flutter:
   google_fonts:
@@ -27,7 +27,8 @@ dependencies:
   mime_type: ^1.0.0
   rxdart: ^0.27.0
   sign_in_with_apple: ^3.0.0
-  url_launcher:
+  url_launcher: ^6.0.4
+  webview_flutter: ^2.0.7
   flutter_svg:
   youtube_player_flutter: ^8.0.0
 
