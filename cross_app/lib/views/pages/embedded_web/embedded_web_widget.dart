@@ -12,6 +12,8 @@ class EmbeddedWebPage extends StatefulWidget {
 }
 
 class _EmbeddedWebPageState extends State<EmbeddedWebPage> {
+  final scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void initState() {
     super.initState();
@@ -21,9 +23,11 @@ class _EmbeddedWebPageState extends State<EmbeddedWebPage> {
 
   @override
   Widget build(BuildContext context) {
-    return WebView(
-        initialUrl: widget.url,
-        javascriptMode: JavascriptMode.unrestricted
-    );
+    return Scaffold(
+        key: scaffoldKey,
+        body: SafeArea(
+            child: WebView(
+                initialUrl: widget.url,
+                javascriptMode: JavascriptMode.unrestricted)));
   }
 }
