@@ -11,14 +11,14 @@ import { ToastService } from './../../@shared/toast.service';
 @Component({
   selector: 'app-permissions',
   templateUrl: './permissions.component.html',
-  styleUrls: ['./permissions.component.scss']
+  styleUrls: ['./permissions.component.scss'],
 })
 export class PermissionsComponent implements OnInit {
   loginForm!: FormGroup;
   @ViewChild('slides') slides: IonSlides;
   slideOpts = {
     initialSlide: 0,
-    allowTouchMove: false
+    allowTouchMove: false,
   };
 
   constructor(
@@ -33,53 +33,75 @@ export class PermissionsComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.store.select(AuthStateModule.uid).pipe(
-      filter((uid) => !!uid),
-      switchMap((uid) =>
-        this.firestore.collection('users').doc(uid).get().pipe(
-          take(1),
-          map((doc) => doc.data().CURP),
-          filter((curp: string) => !!curp)
+    this.store
+      .select(AuthStateModule.uid)
+      .pipe(
+        filter((uid) => !!uid),
+        switchMap((uid) =>
+          this.firestore
+            .collection('users')
+            .doc(uid)
+            .get()
+            .pipe(
+              take(1),
+              map((doc) => doc.data().CURP),
+              filter((curp: string) => !!curp)
+            )
         )
       )
-    ).subscribe(() => {
-      this.slides.slideNext();
-    });
+      .subscribe(() => {
+        this.slides.slideNext();
+      });
   }
 
   async saveCURP() {
     const loading = await this.loadingController.create();
     await loading.present();
-    this.store.select(AuthStateModule.uid).pipe(
-      switchMap((uid) => this.http.get('https://us-west4-arsus-production.cloudfunctions.net/curp', {
-        params: {
-          apiKey: uid,
-          curp: this.loginForm.value.curp
+    this.store
+      .select(AuthStateModule.uid)
+      .pipe(
+        switchMap((uid) =>
+          this.http
+            .get('https://us-west4-arsus-production.cloudfunctions.net/curp', {
+              params: {
+                apiKey: uid,
+                curp: this.loginForm.value.curp,
+              },
+            })
+            .pipe(
+              switchMap((response: { curp: string }) => {
+                return this.firestore
+                  .collection('users')
+                  .doc(uid)
+                  .get()
+                  .pipe(
+                    map((doc) => {
+                      if (doc.data().CURP === response.curp) {
+                        throw new Error('CURP linked to another user.');
+                      }
+                      return {
+                        curp: response.curp,
+                        uid,
+                      };
+                    })
+                  );
+              })
+            )
+        )
+      )
+      .subscribe(
+        (response: any) => {
+          loading.dismiss();
+          this.firestore.collection('users').doc(response.uid).update({
+            CURP: response.curp,
+          });
+          this.slides.slideNext();
+        },
+        (error) => {
+          loading.dismiss();
+          this.toast.showError(error?.error?.error || error.message);
         }
-      }).pipe(
-        switchMap((response: { curp: string }) => {
-          return this.firestore.collection('users').doc(uid).get().pipe(map((doc) => {
-            if (doc.data().CURP === response.curp) {
-              throw new Error('CURP linked to another user.');
-            }
-            return {
-              curp: response.curp,
-              uid
-            }
-          }))
-        })
-      )
-      )
-    ).subscribe((response: any) => {
-      loading.dismiss();
-      this.firestore.collection('users').doc(response.uid).update({
-        CURP: response.curp
-      });
-      this.slides.slideNext();
-    }, (error) => {
-      loading.dismiss();
-      this.toast.showError(error?.error?.error || error.message);
-    });
+      );
   }
 
   cancel() {
@@ -93,7 +115,7 @@ export class PermissionsComponent implements OnInit {
     document.location.href = `${url}?code=12314&state=${state}`;
   }
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 
   private createForm() {
     this.loginForm = this.formBuilder.group({
@@ -101,8 +123,15 @@ export class PermissionsComponent implements OnInit {
         identifyByCURP: [true],
         shareDataOfCURP: [true],
       }),
-      curp: ['', [Validators.required, Validators.pattern(/^[A-Z]{1}[AEIXOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/)]],
+      curp: [
+        '',
+        [
+          Validators.required,
+          Validators.pattern(
+            /^[A-Z]{1}[AEIXOU]{1}[A-Z]{2}[0-9]{2}(0[1-9]|1[0-2])(0[1-9]|1[0-9]|2[0-9]|3[0-1])[HM]{1}(AS|BC|BS|CC|CS|CH|CL|CM|DF|DG|GT|GR|HG|JC|MC|MN|MS|NT|NL|OC|PL|QT|QR|SP|SL|SR|TC|TS|TL|VZ|YN|ZS|NE)[B-DF-HJ-NP-TV-Z]{3}[0-9A-Z]{1}[0-9]{1}$/
+          ),
+        ],
+      ],
     });
   }
-
 }

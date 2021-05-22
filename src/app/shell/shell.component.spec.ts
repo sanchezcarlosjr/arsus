@@ -9,8 +9,6 @@ import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { ShellComponent } from './shell.component';
 
-
-
 describe('ShellComponent', () => {
   let component: ShellComponent;
   let fixture: ComponentFixture<ShellComponent>;
@@ -26,8 +24,7 @@ describe('ShellComponent', () => {
         SettingsModule,
         CoreModule,
       ],
-      providers: [
-      ],
+      providers: [],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [ShellComponent],
     }).compileComponents();

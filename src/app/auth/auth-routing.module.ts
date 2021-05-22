@@ -12,19 +12,19 @@ const routes: Routes = [
     data: {
       title: extract('Login'),
       authGuardPipe: () => redirectLoggedInTo([sessionStorage.getItem('authURLAfterLogin') || 'tabs/home']),
-    }
+    },
   },
   {
     path: 'oauth',
     data: {
       title: extract('OAuth'),
     },
-    loadChildren: () => import('./permissions/permissions.module').then(m => m.PermissionsModule)
-  }
+    loadChildren: () => import('./permissions/permissions.module').then((m) => m.PermissionsModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AuthRoutingModule { }
+export class AuthRoutingModule {}

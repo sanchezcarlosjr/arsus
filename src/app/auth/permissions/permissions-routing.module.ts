@@ -5,20 +5,19 @@ import { OAuthClientIdGuard } from './oauth-client-id.guard';
 import { OAuthQueryGuard } from './oauth-query.guard';
 import { PermissionsComponent } from './permissions.component';
 
-
 const routes: Routes = [
   {
     path: '',
     canActivate: [OAuthQueryGuard, OAuthClientIdGuard, AngularFireAuthGuard],
     component: PermissionsComponent,
     data: {
-      authGuardPipe: () => redirectUnauthorizedTo(['login'])
+      authGuardPipe: () => redirectUnauthorizedTo(['login']),
     },
-  }
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class PermissionsRoutingModule { }
+export class PermissionsRoutingModule {}

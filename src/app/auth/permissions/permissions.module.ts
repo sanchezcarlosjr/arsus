@@ -11,17 +11,7 @@ import { PermissionsComponent } from './permissions.component';
 
 @NgModule({
   declarations: [PermissionsComponent],
-  imports: [
-    CommonModule,
-    ReactiveFormsModule,
-    TranslateModule,
-    IonicModule,
-    I18nModule,
-    PermissionsRoutingModule
-  ],
-  providers: [
-    OAuthQueryGuard,
-    OAuthClientIdGuard
-  ]
+  imports: [CommonModule, ReactiveFormsModule, TranslateModule, IonicModule, I18nModule, PermissionsRoutingModule],
+  providers: [OAuthQueryGuard, OAuthClientIdGuard],
 })
-export class PermissionsModule { }
+export class PermissionsModule {}

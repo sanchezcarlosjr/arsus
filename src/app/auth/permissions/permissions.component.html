@@ -1,93 +1,109 @@
 <ion-content no-bounce>
-    <div class="login-background"></div>
-    <ion-grid class="ion-no-padding">
-        <ion-row class="ion-justify-content-center ion-no-padding">
-            <ion-col size-sm="8" size-lg="6" size-xl="4" class="ion-align-self-center ion-no-padding">
-                <div class="login-header ion-text-center">
-                    <h1 translate>Permissions</h1>
-                    <ion-list color="primary" lines="none" class="ion-no-padding">
-                        <app-language-selector type="select" itemClass="ion-color ion-color-primary item-lines-none">
-                        </app-language-selector>
-                    </ion-list>
+  <div class="login-background"></div>
+  <ion-grid class="ion-no-padding">
+    <ion-row class="ion-justify-content-center ion-no-padding">
+      <ion-col size-sm="8" size-lg="6" size-xl="4" class="ion-align-self-center ion-no-padding">
+        <div class="login-header ion-text-center">
+          <h1 translate>Permissions</h1>
+          <ion-list color="primary" lines="none" class="ion-no-padding">
+            <app-language-selector type="select" itemClass="ion-color ion-color-primary item-lines-none">
+            </app-language-selector>
+          </ion-list>
+        </div>
+        <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
+          <ion-slides pager="false" [options]="slideOpts" #slides>
+            <ion-slide>
+              <div class="login-container">
+                <ion-list>
+                  <ion-item lines="inset">
+                    <ion-label color="medium" position="stacked">CURP</ion-label>
+                    <ion-input
+                      oninput="this.value = this.value.toUpperCase()"
+                      type="text"
+                      formControlName="curp"
+                      autocomplete="curp"
+                    ></ion-input>
+                  </ion-item>
+                  <ion-text
+                    color="danger"
+                    [hidden]="loginForm.controls.curp.untouched || !loginForm.controls.curp.hasError('required')"
+                  >
+                    <span class="ion-padding" translate>CURP is required</span>
+                  </ion-text>
+                  <ion-text color="danger" [hidden]="!loginForm.controls.curp.hasError('pattern')">
+                    <span class="ion-padding" translate>CURP has a bad format</span>
+                  </ion-text>
+                </ion-list>
+                <div class="ion-padding-horizontal">
+                  <ion-button
+                    (click)="saveCURP()"
+                    [disabled]="loginForm.invalid"
+                    color="primary"
+                    expand="block"
+                    translate
+                  >
+                    Continue
+                  </ion-button>
+                  <p style="font-size: 10px;">
+                    <span translate>By continuing, you agree to</span>
+                    <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate
+                      >Arsus's Conditions of Use</a
+                    >
+                    <span translate> and </span>
+                    <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
+                  </p>
                 </div>
-                <form (ngSubmit)="login()" [formGroup]="loginForm" novalidate>
-                    <ion-slides pager="false" [options]="slideOpts" #slides>
-                        <ion-slide>
-                            <div class="login-container">
-                                <ion-list>
-                                    <ion-item lines="inset">
-                                        <ion-label color="medium" position="stacked">CURP</ion-label>
-                                        <ion-input oninput="this.value = this.value.toUpperCase()" type="text" formControlName="curp"
-                                            autocomplete="curp"></ion-input>
-                                    </ion-item>
-                                    <ion-text color="danger"
-                                        [hidden]="loginForm.controls.curp.untouched || !loginForm.controls.curp.hasError('required')">
-                                        <span class="ion-padding" translate>CURP is required</span>
-                                    </ion-text>
-                                    <ion-text color="danger" [hidden]="!loginForm.controls.curp.hasError('pattern')">
-                                        <span class="ion-padding" translate>CURP has a bad format</span>
-                                    </ion-text>
-                                </ion-list>
-                                <div class="ion-padding-horizontal">
-                                    <ion-button (click)="saveCURP()" [disabled]="loginForm.invalid" color="primary" expand="block" translate>
-                                        Continue
-                                    </ion-button>
-                                    <p style="font-size: 10px;">
-                                        <span translate>By continuing, you agree to</span>
-                                        <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate>Arsus's Conditions of Use</a>
-                                        <span translate> and </span>
-                                        <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </ion-slide>
-                        <ion-slide>
-                            <div class="login-container">
-                                <ion-list formGroupName="permissions">
-                                    <ion-item>
-                                        <ion-checkbox formControlName="identifyByCURP" slot="start"></ion-checkbox>
-                                        <ion-label>Identificarte por la CURP</ion-label>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-checkbox formControlName="shareDataOfCURP" slot="start"></ion-checkbox>
-                                        <ion-label>Compartir información de la CURP</ion-label>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-checkbox disabled slot="start"></ion-checkbox>
-                                        <ion-label>Compartir información del RFC</ion-label>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-checkbox disabled slot="start"></ion-checkbox>
-                                        <ion-label>Compartir información del IMSS</ion-label>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-checkbox disabled  slot="start"></ion-checkbox>
-                                        <ion-label>Identificarte por la INE</ion-label>
-                                    </ion-item>
-                                    <ion-item>
-                                        <ion-checkbox disabled slot="start"></ion-checkbox>
-                                        <ion-label>Compartir información del INFONAVIT</ion-label>
-                                    </ion-item>
-                                </ion-list>
-                                <div class="ion-padding-horizontal">
-                                    <ion-button (click)="login()" color="primary" expand="block" translate>
-                                        Continue
-                                    </ion-button>
-                                    <ion-button (click)="cancel()" color="light" expand="block" translate>
-                                        Cancel
-                                    </ion-button>
-                                    <p style="font-size: 10px;">
-                                        <span translate>By continuing, you agree to</span>
-                                        <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate>Arsus's Conditions of Use</a>
-                                        <span translate> and </span>
-                                        <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
-                                    </p>
-                                </div>
-                            </div>
-                        </ion-slide>
-                    </ion-slides>
-                </form>
-            </ion-col>
-        </ion-row>
-    </ion-grid>
+              </div>
+            </ion-slide>
+            <ion-slide>
+              <div class="login-container">
+                <ion-list formGroupName="permissions">
+                  <ion-item>
+                    <ion-checkbox formControlName="identifyByCURP" slot="start"></ion-checkbox>
+                    <ion-label>Identificarte por la CURP</ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-checkbox formControlName="shareDataOfCURP" slot="start"></ion-checkbox>
+                    <ion-label>Compartir información de la CURP</ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-checkbox disabled slot="start"></ion-checkbox>
+                    <ion-label>Compartir información del RFC</ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-checkbox disabled slot="start"></ion-checkbox>
+                    <ion-label>Compartir información del IMSS</ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-checkbox disabled slot="start"></ion-checkbox>
+                    <ion-label>Identificarte por la INE</ion-label>
+                  </ion-item>
+                  <ion-item>
+                    <ion-checkbox disabled slot="start"></ion-checkbox>
+                    <ion-label>Compartir información del INFONAVIT</ion-label>
+                  </ion-item>
+                </ion-list>
+                <div class="ion-padding-horizontal">
+                  <ion-button (click)="login()" color="primary" expand="block" translate>
+                    Continue
+                  </ion-button>
+                  <ion-button (click)="cancel()" color="light" expand="block" translate>
+                    Cancel
+                  </ion-button>
+                  <p style="font-size: 10px;">
+                    <span translate>By continuing, you agree to</span>
+                    <a style="text-decoration: underline;" routerLink="/terms-and-conditions" translate
+                      >Arsus's Conditions of Use</a
+                    >
+                    <span translate> and </span>
+                    <a style="text-decoration: underline;" routerLink="/privacy-policy" translate>Privacy Notice.</a>
+                  </p>
+                </div>
+              </div>
+            </ion-slide>
+          </ion-slides>
+        </form>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 </ion-content>

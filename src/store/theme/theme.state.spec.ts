@@ -15,7 +15,7 @@ describe('Theme store', () => {
   it('should create an action and add an item', () => {
     const expected: ThemeStateModel = {
       isDarkTheme: true,
-      name: ''
+      name: '',
     };
     store.dispatch(new SetThemeAction(expected.isDarkTheme));
     const actual = store.selectSnapshot(ThemeStateModule.isDarkTheme);

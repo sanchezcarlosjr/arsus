@@ -8,7 +8,6 @@ import { IonicModule, LoadingController, Platform } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
 import { LoginComponent } from './login.component';
 
-
 describe('LoginComponent', () => {
   let component: LoginComponent;
   let fixture: ComponentFixture<LoginComponent>;
@@ -24,10 +23,7 @@ describe('LoginComponent', () => {
         CoreModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      providers: [
-        Platform,
-        LoadingController,
-      ],
+      providers: [Platform, LoadingController],
       declarations: [LoginComponent],
     }).compileComponents();
   }));

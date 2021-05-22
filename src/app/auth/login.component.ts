@@ -5,7 +5,6 @@ import { LoadingController, Platform } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { LoginAction } from '@store/auth/auth.actions';
 
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -30,9 +29,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     return !this.platform.is('cordova');
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
-  ngOnDestroy() { }
+  ngOnDestroy() {}
 
   async login(provider?: string) {
     const loading = await this.loadingController.create();
