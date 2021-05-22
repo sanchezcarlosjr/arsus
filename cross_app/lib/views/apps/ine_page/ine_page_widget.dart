@@ -3,7 +3,7 @@ import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
 import 'package:arsus/views/theme/upload_media.dart';
 
-import 'i_n_e_success_page_widget.dart';
+import 'ine_success_page_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
