@@ -1,16 +1,3 @@
 ion-button a {
   color: var(--ion-text-color);
 }
-
-df-messenger {
-  --df-messenger-bot-message: var(--ion-background-color);
-  --df-messenger-button-titlebar-color: var(--ion-background-color);
-  --df-messenger-chat-background-color: var(--ion-background-color);
-  --df-messenger-font-color: var(--ion-color-dark);
-  --df-messenger-send-icon: var(--ion-color-tertiary);
-  --df-messenger-button-titlebar-font-color: var(--ion-color-dark);
-  --df-messenger-user-message: var(--ion-color-tertiary);
-  --df-messenger-input-font-color: var(--ion-color-step-600);
-  --df-messenger-minimized-chat-close-icon-color: var(--ion-color-dark);
-  --df-messenger-input-box-color: var(--ion-background-color);
-}
