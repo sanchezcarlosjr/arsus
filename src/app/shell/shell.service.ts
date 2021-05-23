@@ -20,7 +20,7 @@ export class Shell {
       children: routes,
       canActivate: [AngularFireAuthGuard],
       data: {
-        authGuardPipe: () => redirectUnauthorizedTo('login?a=d'),
+        authGuardPipe: () => redirectUnauthorizedTo(`login?redirectTo=${location.pathname}`),
       },
     };
   }
