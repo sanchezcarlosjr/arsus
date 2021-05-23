@@ -196,3 +196,8 @@ Check the routes in your app, rebuild and retry.
 When there are extraRoutes in your config, we will still try to render those.
 
 
+
+----------------------------------
+Using stored unhandled routes!.
+   To discover new routes in the angular app use "npm run scully -- --scanRoutes"
+----------------------------------
