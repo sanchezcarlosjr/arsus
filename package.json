@@ -1,10 +1,10 @@
 {
   "name": "arsus",
-  "version": "6.0.1",
+  "version": "12.0.0",
   "private": true,
   "scripts": {
     "ng": "ng",
-    "build": "npm run env -s && ng build --prod && npm run scully",
+    "build": "npm run env -s && ng build --configuration production && npm run scully",
     "start": "npm run env -s && ng serve --proxy-config proxy.conf.js",
     "deploy": "npm run build && firebase deploy --only hosting",
     "serve:sw": "npm run build -s && npx http-server ./dist -p 4200",
