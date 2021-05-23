@@ -5,6 +5,7 @@ admin.initializeApp();
 admin.firestore().settings({ ignoreUndefinedProperties: true });
 export * from './apps/backend/controllers/AddSourceNewsController';
 export * from './apps/backend/controllers/ArticleSearchController';
+export * from './apps/backend/controllers/INEValidatorController';
 export * from './apps/backend/controllers/bot/BotFulfillment';
 export * from './apps/backend/controllers/bot/SMS';
 export * from './apps/backend/controllers/Curp';

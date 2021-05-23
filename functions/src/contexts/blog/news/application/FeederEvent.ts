@@ -7,7 +7,7 @@ import { warnByAPI } from '../../../shared/Error';
 export type Operator = (response: any) => any;
 
 export const filterPublishedBetween: Operator = async (response: Promise<any[]>) => {
-  const start = moment().subtract(6, 'hours');
+  const start = moment().subtract(23, 'hours');
   const today = new Date();
   return (await response).filter((item) => moment(item.publishedAt).isBetween(start, today));
 };

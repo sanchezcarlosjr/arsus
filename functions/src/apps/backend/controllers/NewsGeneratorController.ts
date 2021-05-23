@@ -21,7 +21,7 @@ export const NewsGeneratorController = functions
     timeoutSeconds: 500,
     memory: '2GB',
   })
-  .pubsub.schedule('0 */6 * * *')
+  .pubsub.schedule('0 */23 * * *')
   .onRun(async (context: functions.EventContext) => {
     const database = new FirestoreNewsSaveRepository();
     const newsCreator = new NewsCreator(database);
