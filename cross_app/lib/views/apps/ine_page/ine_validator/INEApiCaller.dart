@@ -3,27 +3,7 @@ import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../ine_success_page_widget.dart';
-
-abstract class INEValidatorService {
-  Future<Map<String, dynamic>> validate(String obverseUrl, String backUrl);
-}
-
-class INEValidatorServiceMock extends INEValidatorService {
-  @override
-  Future<Map<String, dynamic>> validate(String obverseUrl, String backUrl) async {
-    return {"isValidINE": false, "url": "https://listanominal.ine.mx/scpln/images/vigencia-credencial.png"};
-  }
-}
-
-class INEValidatorCloudFunction extends INEValidatorService {
-  @override
-  Future<Map<String, dynamic>> validate(String obverseUrl, String backUrl) async {
-    HttpsCallable callable = FirebaseFunctions.instance.httpsCallable('validateINE');
-    final results = await callable();
-    return results.data;
-  }
-
-}
+import 'INEValidatorService.dart';
 
 class INEApiCaller {
   final INEValidatorService _ineValidatorService;

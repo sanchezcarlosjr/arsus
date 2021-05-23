@@ -1,14 +1,11 @@
-import 'package:arsus/services/backend/firebase_storage/storage.dart';
 import 'package:arsus/views/apps/ine_page/ine_uploading/CamaraPicker.dart';
-import 'package:arsus/views/apps/ine_page/ine_uploading/ImageUploaderState.dart';
-import 'package:arsus/views/apps/ine_page/ine_uploading/INEApiCaller.dart';
+import 'package:arsus/views/apps/ine_page/ine_validator/INEApiCaller.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
-import 'package:arsus/views/theme/upload_media.dart';
-
-import 'ine_success_page_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+
+import 'ine_validator/INEValidatorService.dart';
 
 class InePageWidget extends StatefulWidget {
   InePageWidget({Key key}) : super(key: key);
@@ -53,7 +50,7 @@ class _InePageWidgetState extends State<InePageWidget> {
                     Map<String, dynamic> backContext =
                         await CamaraPickerState("Reverso de INE")
                             .upload({"buildContext": context});
-                    await INEApiCaller(INEValidatorServiceMock()).validate({
+                    await INEApiCaller(INEValidatorCloudFunction()).validate({
                       "obverseUrl": obverseContext["downloadUrl"],
                       "backUrl": backContext["downloadUrl"],
                       "buildContext": context
