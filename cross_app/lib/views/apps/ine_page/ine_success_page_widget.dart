@@ -1,7 +1,13 @@
 import 'package:arsus/views/theme/theme.dart';
+import 'package:arsus/views/theme/upload_media.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:image_downloader/image_downloader.dart';
+import 'package:share/share.dart';
+import 'dart:io';
+import 'dart:convert';
 
 class INESuccessPageWidget extends StatefulWidget {
   final bool isValidINE;
@@ -18,6 +24,8 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
 
   @override
   Widget build(BuildContext context) {
+    String isValidINE =
+        this.widget.isValidINE ? 'Si esta vigente' : "NO esta vigente";
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(
@@ -42,12 +50,8 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
               children: [
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
-                  child: Text(
-                      this.widget.isValidINE
-                          ? 'Si esta vigente'
-                          : "NO esta vigente",
-                      textAlign: TextAlign.center,
-                      style: ArsusTheme.title1),
+                  child: Text(isValidINE,
+                      textAlign: TextAlign.center, style: ArsusTheme.title1),
                 )
               ],
             ),
@@ -58,14 +62,8 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: Image.network(
                     this.widget.url,
-                    width: MediaQuery
-                        .of(context)
-                        .size
-                        .width * 0.9,
-                    height: MediaQuery
-                        .of(context)
-                        .size
-                        .height * 0.4,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    height: MediaQuery.of(context).size.height * 0.4,
                     fit: BoxFit.cover,
                   ),
                 )
@@ -77,7 +75,8 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
               children: [
                 IconButton(
                   onPressed: () {
-                    print('IconButton pressed ...');
+                    Share.share(widget.url,
+                        subject: "Mi INE $isValidINE por Lista Nominal");
                   },
                   icon: Icon(
                     Icons.share,
@@ -87,8 +86,10 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                   iconSize: 30,
                 ),
                 IconButton(
-                  onPressed: () {
-                    print('IconButton pressed ...');
+                  onPressed: () async {
+                    showUploadMessage(context, "Descargando...", showLoading: true);
+                    await ImageDownloader.downloadImage(widget.url);
+                    showUploadMessage(context, "Descarga finalizada!", showLoading: false);
                   },
                   icon: Icon(
                     Icons.save,
@@ -98,8 +99,10 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                   iconSize: 30,
                 ),
                 IconButton(
-                  onPressed: () {
-                    print('IconButton pressed ...');
+                  onPressed: () async {
+                    ClipboardData data = ClipboardData(text: widget.url);
+                    await Clipboard.setData(data);
+                    showUploadMessage(context, "Copiado a portapapeles!", showLoading: false);
                   },
                   icon: FaIcon(
                     FontAwesomeIcons.clipboard,
