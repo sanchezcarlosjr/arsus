@@ -6,7 +6,7 @@ import { IonSlides, LoadingController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { AuthStateModule } from '@store/auth/auth.state';
 import { filter, map, switchMap, take } from 'rxjs/operators';
-import { ToastService } from './../../@shared/toast.service';
+import { ToastService } from '@shared/toast.service';
 
 @Component({
   selector: 'app-permissions',
@@ -44,7 +44,7 @@ export class PermissionsComponent implements OnInit {
             .get()
             .pipe(
               take(1),
-              map((doc) => doc.data().CURP),
+              map((doc) => (doc.data() as { CURP: string })?.CURP),
               filter((curp: string) => !!curp)
             )
         )
@@ -76,7 +76,7 @@ export class PermissionsComponent implements OnInit {
                   .get()
                   .pipe(
                     map((doc) => {
-                      if (doc.data().CURP === response.curp) {
+                      if ((doc.data() as { CURP: string })?.CURP === response.curp) {
                         throw new Error('CURP linked to another user.');
                       }
                       return {
@@ -114,8 +114,6 @@ export class PermissionsComponent implements OnInit {
     const state = sessionStorage.getItem('state');
     document.location.href = `${url}?code=12314&state=${state}`;
   }
-
-  ngOnDestroy() {}
 
   private createForm() {
     this.loginForm = this.formBuilder.group({

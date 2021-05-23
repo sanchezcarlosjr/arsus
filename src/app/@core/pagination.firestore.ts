@@ -5,12 +5,11 @@ import { NgxsFirestore } from '@ngxs-labs/firestore-plugin';
 
 class QueryPagination {
   private lastVisible: any = null;
+  private _query: QueryFn;
 
   constructor(queryFn: QueryFn, private orderBy: string, private limit: number, private orderByDirection?: any) {
     this.setQuery(queryFn);
   }
-
-  private _query: QueryFn;
 
   get query(): QueryFn {
     return this._query;
@@ -60,12 +59,12 @@ export abstract class NgxsFirestorePagination<T> extends NgxsFirestore<T> {
   }
 
   private snapshotChanges() {
-    return this.firestore
+    return this.adapter.firestore
       .collection(this.path, this.queryPagination.query)
       .snapshotChanges()
       .pipe(
-        map((arr) =>
-          arr.map((snap) => {
+        map((arr: any[]) =>
+          arr.map((snap: any) => {
             const data: any = snap.payload.doc.data();
             data.uid = snap.payload.doc.id;
             this.queryPagination.change(snap.payload.doc);

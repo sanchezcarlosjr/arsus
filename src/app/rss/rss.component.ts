@@ -4,8 +4,8 @@ import { AngularFireFunctions } from '@angular/fire/functions';
 import { AlertController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { AuthStateModule } from '@store/auth/auth.state';
-import { firestore } from 'firebase/app';
 import { switchMap } from 'rxjs/operators';
+import firebase from 'firebase';
 
 @Component({
   selector: 'app-rss',
@@ -13,7 +13,6 @@ import { switchMap } from 'rxjs/operators';
   styleUrls: ['./rss.component.scss'],
 })
 export class RssComponent implements OnInit {
-  private userUID: string;
   sources = this.store.selectOnce(AuthStateModule.uid).pipe(
     switchMap((userUID: string) => {
       this.userUID = userUID;
@@ -22,6 +21,7 @@ export class RssComponent implements OnInit {
         .valueChanges();
     })
   );
+  private userUID: string;
 
   constructor(
     private firestore: AngularFirestore,
@@ -37,7 +37,7 @@ export class RssComponent implements OnInit {
       .collection('sources')
       .doc(uid)
       .update({
-        subscribers: firestore.FieldValue.arrayRemove(this.userUID),
+        subscribers: firebase.firestore.FieldValue.arrayRemove(this.userUID),
       });
   }
 

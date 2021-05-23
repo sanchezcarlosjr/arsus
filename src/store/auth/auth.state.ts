@@ -7,12 +7,13 @@ import { Action, NgxsOnInit, Selector, State, StateContext } from '@ngxs/store';
 import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { UserRequest } from '@store/auth/user-request';
 import { SetUserName } from '@store/theme/theme.actions';
-import { auth, UserInfo } from 'firebase/app';
+import firebase from 'firebase/app';
 import { filter, tap } from 'rxjs/operators';
 import { ToastService } from './../../app/@shared/toast.service';
 import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
+import auth = firebase.auth;
 
-export interface AuthenticationStateModel extends UserInfo {
+export interface AuthenticationStateModel extends firebase.UserInfo {
   phoneNumber: string;
   uid: string;
   admin: boolean;
@@ -158,7 +159,7 @@ export class AuthStateModule implements NgxsOnInit {
         return this.angularFireAuth
           .createUserWithEmailAndPassword(email, password)
           .then(async (userCredential) => {
-            userCredential.user.sendEmailVerification();
+            await userCredential.user.sendEmailVerification();
             await this.toast.showInfo('Verify your email. Check your inbox.');
           })
           .catch(async (error) => {
@@ -171,7 +172,7 @@ export class AuthStateModule implements NgxsOnInit {
                   }
                   this.router.navigateByUrl('/tabs/home');
                 })
-                .catch((error) => this.toast.showError(error.message));
+                .catch((error2) => this.toast.showError(error2.message));
             }
             return this.toast.showError(error.message);
           });
