@@ -80,8 +80,7 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "sanchezcarlosjr:build",
-            "hmr": true,
-            "hmrWarning": false
+            "hmr": true
           },
           "configurations": {
             "production": {
