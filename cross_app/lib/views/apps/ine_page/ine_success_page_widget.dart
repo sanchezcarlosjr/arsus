@@ -4,7 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class INESuccessPageWidget extends StatefulWidget {
-  INESuccessPageWidget({Key key}) : super(key: key);
+  final bool isValidINE;
+  final String url;
+
+  INESuccessPageWidget({this.isValidINE, this.url, Key key}) : super(key: key);
 
   @override
   _INESuccessPageWidgetState createState() => _INESuccessPageWidgetState();
@@ -40,10 +43,11 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: Text(
-                    'Si esta vigente',
-                    textAlign: TextAlign.center,
-                    style: ArsusTheme.title1
-                  ),
+                      this.widget.isValidINE
+                          ? 'Si esta vigente'
+                          : "NO esta vigente",
+                      textAlign: TextAlign.center,
+                      style: ArsusTheme.title1),
                 )
               ],
             ),
@@ -53,9 +57,15 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                 Padding(
                   padding: EdgeInsets.fromLTRB(0, 0, 0, 20),
                   child: Image.network(
-                    'https://picsum.photos/seed/965/600',
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    height: MediaQuery.of(context).size.height * 0.4,
+                    this.widget.url,
+                    width: MediaQuery
+                        .of(context)
+                        .size
+                        .width * 0.9,
+                    height: MediaQuery
+                        .of(context)
+                        .size
+                        .height * 0.4,
                     fit: BoxFit.cover,
                   ),
                 )

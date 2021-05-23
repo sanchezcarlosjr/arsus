@@ -1,4 +1,7 @@
 import 'package:arsus/services/backend/firebase_storage/storage.dart';
+import 'package:arsus/views/apps/ine_page/ine_uploading/CamaraPicker.dart';
+import 'package:arsus/views/apps/ine_page/ine_uploading/ImageUploaderState.dart';
+import 'package:arsus/views/apps/ine_page/ine_uploading/INEApiCaller.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
 import 'package:arsus/views/theme/upload_media.dart';
@@ -6,7 +9,6 @@ import 'package:arsus/views/theme/upload_media.dart';
 import 'ine_success_page_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class InePageWidget extends StatefulWidget {
   InePageWidget({Key key}) : super(key: key);
@@ -45,30 +47,17 @@ class _InePageWidgetState extends State<InePageWidget> {
               children: [
                 FFButtonWidget(
                   onPressed: () async {
-                    final selectedMedia = await selectMedia(
-                      fromCamera: true,
-                    );
-                    if (selectedMedia != null &&
-                        validateFileFormat(
-                            selectedMedia.storagePath, context)) {
-                      showUploadMessage(context, 'Uploading file...',
-                          showLoading: true);
-                      final downloadUrl = await uploadData(
-                          selectedMedia.storagePath, selectedMedia.bytes);
-                      ScaffoldMessenger.of(context).hideCurrentSnackBar();
-                      if (downloadUrl != null) {
-                        setState(() => uploadedFileUrl = downloadUrl);
-                        showUploadMessage(context, 'Success!');
-                      } else {
-                        showUploadMessage(context, 'Failed to upload media');
-                      }
-                    }
-                    await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => INESuccessPageWidget(),
-                      ),
-                    );
+                    Map<String, dynamic> obverseContext =
+                        await CamaraPickerState("Anverso de INE")
+                            .upload({"buildContext": context});
+                    Map<String, dynamic> backContext =
+                        await CamaraPickerState("Reverso de INE")
+                            .upload({"buildContext": context});
+                    await INEApiCaller(INEValidatorServiceMock()).validate({
+                      "obverseUrl": obverseContext["downloadUrl"],
+                      "backUrl": backContext["downloadUrl"],
+                      "buildContext": context
+                    });
                   },
                   text: 'Verifica tu credencial con tu cámara',
                   options: FFButtonOptions(
