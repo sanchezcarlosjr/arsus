@@ -191,7 +191,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                         options: FFButtonOptions(
                           width: 300,
                           height: 50,
-                          color: FlutterFlowTheme.primaryColor,
+                          color: ArsusTheme.primaryColor,
                           textStyle: GoogleFonts.getFont(
                             'Open Sans',
                             color: Color(0xFFDEDEDE),
@@ -274,7 +274,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                     ),
                     Text(
                       'o',
-                      style: FlutterFlowTheme.bodyText1.override(
+                      style: ArsusTheme.bodyText1.override(
                         fontFamily: 'IBM Plex Sans',
                       ),
                     ),

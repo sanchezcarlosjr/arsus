@@ -48,7 +48,7 @@ abstract class App extends StatelessWidget {
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             softWrap: false,
-            style: FlutterFlowTheme.bodyText1.override(
+            style: ArsusTheme.bodyText1.override(
                 fontFamily: 'IBM Plex Sans',
                 fontSize: 7
             ),

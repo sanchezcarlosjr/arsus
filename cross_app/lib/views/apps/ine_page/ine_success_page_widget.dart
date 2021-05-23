@@ -22,9 +22,7 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           '¿Está vigente tu credencial?',
-          style: FlutterFlowTheme.title3.override(
-            fontFamily: 'IBM Plex Sans',
-          ),
+          style: ArsusTheme.title3,
         ),
         actions: [],
         centerTitle: false,
@@ -44,9 +42,7 @@ class _INESuccessPageWidgetState extends State<INESuccessPageWidget> {
                   child: Text(
                     'Si esta vigente',
                     textAlign: TextAlign.center,
-                    style: FlutterFlowTheme.title1.override(
-                      fontFamily: 'IBM Plex Sans',
-                    ),
+                    style: ArsusTheme.title1
                   ),
                 )
               ],

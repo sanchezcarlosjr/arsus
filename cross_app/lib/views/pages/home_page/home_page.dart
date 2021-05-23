@@ -24,9 +24,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         title: Text(
           'Arsus',
           textAlign: TextAlign.start,
-          style: FlutterFlowTheme.title2.override(
-            fontFamily: 'IBM Plex Sans',
-          ),
+          style: ArsusTheme.title2
         ),
         actions: [
           Align(
@@ -47,8 +45,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   width: 130,
                   height: 40,
                   color: Colors.white,
-                  textStyle: FlutterFlowTheme.subtitle2.override(
-                    fontFamily: 'IBM Plex Sans',
+                  textStyle: ArsusTheme.subtitle2.override(
                     color: Color(0xFFFFB24D),
                   ),
                   borderSide: BorderSide(

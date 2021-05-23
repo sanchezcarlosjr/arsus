@@ -73,9 +73,7 @@ class _AccountPageWidgetState extends State<AccountPageWidget> {
                               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                               child: Text(
                                 '[User Name Here]',
-                                style: FlutterFlowTheme.title1.override(
-                                  fontFamily: 'IBM Plex Sans',
-                                ),
+                                style: ArsusTheme.title1
                               ),
                             )
                           ],
@@ -87,9 +85,8 @@ class _AccountPageWidgetState extends State<AccountPageWidget> {
                               padding: EdgeInsets.fromLTRB(0, 8, 0, 0),
                               child: Text(
                                 'User.name@domainname.com',
-                                style: FlutterFlowTheme.bodyText1.override(
-                                  fontFamily: 'IBM Plex Sans',
-                                  color: FlutterFlowTheme.secondaryColor,
+                                style: ArsusTheme.bodyText1.override(
+                                  color: ArsusTheme.secondaryColor,
                                 ),
                               ),
                             )
@@ -121,9 +118,8 @@ class _AccountPageWidgetState extends State<AccountPageWidget> {
                             width: 90,
                             height: 40,
                             color: Colors.white,
-                            textStyle: FlutterFlowTheme.bodyText2.override(
-                              fontFamily: 'IBM Plex Sans',
-                              color: FlutterFlowTheme.primaryColor,
+                            textStyle: ArsusTheme.bodyText2.override(
+                              color: ArsusTheme.primaryColor,
                             ),
                             elevation: 3,
                             borderSide: BorderSide(

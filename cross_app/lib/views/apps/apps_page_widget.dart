@@ -25,7 +25,7 @@ class _AppsPageWidgetState extends State<AppsPageWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           'Apps',
-          style: FlutterFlowTheme.title2.override(
+          style: ArsusTheme.title2.override(
             fontFamily: 'IBM Plex Sans',
           ),
         ),
@@ -44,7 +44,7 @@ class _AppsPageWidgetState extends State<AppsPageWidget> {
                 width: 130,
                 height: 40,
                 color: Color(0x00F5F5F5),
-                textStyle: FlutterFlowTheme.subtitle2.override(
+                textStyle: ArsusTheme.subtitle2.override(
                   fontFamily: 'IBM Plex Sans',
                   color: Color(0xBB000000),
                 ),

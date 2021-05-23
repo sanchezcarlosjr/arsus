@@ -28,9 +28,7 @@ class _InePageWidgetState extends State<InePageWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           '¿Está vigente tu credencial?',
-          style: FlutterFlowTheme.title3.override(
-            fontFamily: 'IBM Plex Sans',
-          ),
+          style: ArsusTheme.title3,
         ),
         actions: [],
         centerTitle: false,
@@ -76,9 +74,8 @@ class _InePageWidgetState extends State<InePageWidget> {
                   options: FFButtonOptions(
                     width: 300,
                     height: 40,
-                    color: FlutterFlowTheme.primaryColor,
-                    textStyle: FlutterFlowTheme.subtitle2.override(
-                      fontFamily: 'IBM Plex Sans',
+                    color: ArsusTheme.primaryColor,
+                    textStyle: ArsusTheme.subtitle2.override(
                       color: Colors.white,
                     ),
                     borderSide: BorderSide(
@@ -89,12 +86,9 @@ class _InePageWidgetState extends State<InePageWidget> {
                   ),
                 ),
                 AutoSizeText(
-                  'Verifica tu INE en la lista nominal:\nmodelo  C, D, E, F, G y H. \nCualquier modelo anterior a 2008 no puede \nvotar ni  —por extensión legal— servir como \nidentificación oficial.',
-                  textAlign: TextAlign.start,
-                  style: FlutterFlowTheme.bodyText1.override(
-                    fontFamily: 'IBM Plex Sans',
-                  ),
-                )
+                    'Verifica tu INE en la lista nominal:\nmodelo  C, D, E, F, G y H. \nCualquier modelo anterior a 2008 no puede \nvotar ni  —por extensión legal— servir como \nidentificación oficial.',
+                    textAlign: TextAlign.start,
+                    style: ArsusTheme.bodyText1)
               ],
             )
           ],

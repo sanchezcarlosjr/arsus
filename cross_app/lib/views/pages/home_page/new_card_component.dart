@@ -33,9 +33,7 @@ class _NewCardWidgetState extends State<NewCardWidget> {
                         Text(
                           widget.data["title"],
                           textAlign: TextAlign.start,
-                          style: FlutterFlowTheme.title1.override(
-                            fontFamily: 'IBM Plex Sans',
-                          ),
+                          style: ArsusTheme.title1
                         ),
                         Padding(
                           padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
@@ -46,9 +44,7 @@ class _NewCardWidgetState extends State<NewCardWidget> {
                               Text(
                                 widget.data["source"]["name"],
                                 textAlign: TextAlign.start,
-                                style: FlutterFlowTheme.subtitle2.override(
-                                  fontFamily: 'IBM Plex Sans',
-                                ),
+                                style: ArsusTheme.subtitle2
                               )
                             ],
                           ),

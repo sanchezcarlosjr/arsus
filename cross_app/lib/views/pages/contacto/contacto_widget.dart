@@ -20,9 +20,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
         automaticallyImplyLeading: false,
         title: Text(
           'Contacto',
-          style: FlutterFlowTheme.title2.override(
-            fontFamily: 'IBM Plex Sans',
-          ),
+          style: ArsusTheme.title2
         ),
         actions: [],
         centerTitle: false,
@@ -58,7 +56,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(-0.1, -0.5),
                               child: Text(
                                 'Correo',
-                                style: FlutterFlowTheme.subtitle2.override(
+                                style: ArsusTheme.subtitle2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF15212B),
                                   fontSize: 18,
@@ -70,7 +68,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(2.64, 0.55),
                               child: Text(
                                 'Dec. 19, 1:30pm - 2:00pm',
-                                style: FlutterFlowTheme.bodyText2.override(
+                                style: ArsusTheme.bodyText2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF8B97A2),
                                   fontWeight: FontWeight.w500,
@@ -139,7 +137,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(-0.1, -0.5),
                               child: Text(
                                 'Build cool app',
-                                style: FlutterFlowTheme.subtitle2.override(
+                                style: ArsusTheme.subtitle2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF15212B),
                                   fontSize: 18,
@@ -151,7 +149,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(2.64, 0.55),
                               child: Text(
                                 'Dec. 19, 2:00pm - 2:30pm',
-                                style: FlutterFlowTheme.bodyText2.override(
+                                style: ArsusTheme.bodyText2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF8B97A2),
                                   fontWeight: FontWeight.w500,
@@ -220,7 +218,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(-0.1, -0.5),
                               child: Text(
                                 '???????',
-                                style: FlutterFlowTheme.subtitle2.override(
+                                style: ArsusTheme.subtitle2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF15212B),
                                   fontSize: 18,
@@ -232,7 +230,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(2.64, 0.55),
                               child: Text(
                                 'Dec. 19, 2:30pm - 3:00pm',
-                                style: FlutterFlowTheme.bodyText2.override(
+                                style: ArsusTheme.bodyText2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF8B97A2),
                                   fontWeight: FontWeight.w500,
@@ -301,7 +299,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(-0.1, -0.5),
                               child: Text(
                                 'Profit',
-                                style: FlutterFlowTheme.subtitle2.override(
+                                style: ArsusTheme.subtitle2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF15212B),
                                   fontSize: 18,
@@ -313,7 +311,7 @@ class _ContactoWidgetState extends State<ContactoWidget> {
                               alignment: Alignment(2.64, 0.55),
                               child: Text(
                                 'Dec. 19, 3:00pm - 3:30pm',
-                                style: FlutterFlowTheme.bodyText2.override(
+                                style: ArsusTheme.bodyText2.override(
                                   fontFamily: 'Montserrat',
                                   color: Color(0xFF8B97A2),
                                   fontWeight: FontWeight.w500,
