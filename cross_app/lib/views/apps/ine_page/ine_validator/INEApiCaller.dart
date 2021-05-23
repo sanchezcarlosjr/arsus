@@ -24,7 +24,7 @@ class INEApiCaller {
       MaterialPageRoute(
         builder: (context) => INESuccessPageWidget(
             isValidINE: ineValidatorResponse["isValidINE"],
-            url: ineValidatorResponse["isValidINE"]),
+            url: ineValidatorResponse["url"]),
       ),
     );
   }
