@@ -44,15 +44,15 @@ class _InePageWidgetState extends State<InePageWidget> {
               children: [
                 FFButtonWidget(
                   onPressed: () async {
-                    // Map<String, dynamic> obverseContext =
-                    //     await CamaraPickerState("Anverso de INE")
-                    //         .upload({"buildContext": context});
-                    // Map<String, dynamic> backContext =
-                    //     await CamaraPickerState("Reverso de INE")
-                    //         .upload({"buildContext": context});
+                    Map<String, dynamic> obverseContext =
+                        await CamaraPickerState("Anverso de INE")
+                            .upload({"buildContext": context});
+                    Map<String, dynamic> backContext =
+                        await CamaraPickerState("Reverso de INE")
+                            .upload({"buildContext": context});
                     await INEApiCaller(INEValidatorCloudFunction()).validate({
-                      "obverseUrl": "",
-                      "backUrl": "",
+                      "obverseUrl": obverseContext["downloadUrl"],
+                      "backUrl": backContext["downloadUrl"],
                       "buildContext": context
                     });
                   },
