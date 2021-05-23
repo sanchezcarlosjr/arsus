@@ -1,10 +1,9 @@
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { Device, Geolocation } from '@capacitor/core';
+import { Device } from '@capacitor/device';
+import { Geolocation } from '@capacitor/geolocation';
 import { take } from 'rxjs/operators';
 
 export class UserRequest {
-  constructor(private cloudFunctions: AngularFireFunctions) {}
-
   static async device() {
     const info = await Device.getInfo();
     const language = await Device.getLanguageCode();
@@ -21,6 +20,7 @@ export class UserRequest {
       lng: position.coords.longitude,
     };
   }
+  constructor(private cloudFunctions: AngularFireFunctions) {}
 
   public getRequest(userCredential: any) {
     const providerId = userCredential.additionalUserInfo.providerId.split('.')[0];

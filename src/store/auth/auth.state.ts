@@ -11,7 +11,6 @@ import firebase from 'firebase/app';
 import { filter, tap } from 'rxjs/operators';
 import { ToastService } from './../../app/@shared/toast.service';
 import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
-import auth = firebase.auth;
 
 export interface AuthenticationStateModel extends firebase.UserInfo {
   phoneNumber: string;
@@ -123,11 +122,11 @@ export class AuthStateModule implements NgxsOnInit {
     let provider = null;
     switch (context) {
       case 'google':
-        provider = new auth.GoogleAuthProvider();
+        provider = new firebase.auth.GoogleAuthProvider();
         provider.addScope(GoogleApiService.SCOPE);
         return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
       case 'twitter':
-        provider = new auth.TwitterAuthProvider();
+        provider = new firebase.auth.TwitterAuthProvider();
         return (await this.angularFireAuth.currentUser).linkWithRedirect(provider);
     }
   }
@@ -136,21 +135,21 @@ export class AuthStateModule implements NgxsOnInit {
     let provider = null;
     switch (context) {
       case 'microsoft':
-        provider = new auth.OAuthProvider('microsoft.com');
+        provider = new firebase.auth.OAuthProvider('microsoft.com');
         provider.addScope('User.Read.All');
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'facebook':
-        provider = new auth.FacebookAuthProvider();
+        provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('email');
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'google':
-        provider = new auth.GoogleAuthProvider();
+        provider = new firebase.auth.GoogleAuthProvider();
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'twitter':
-        provider = new auth.TwitterAuthProvider();
+        provider = new firebase.auth.TwitterAuthProvider();
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'yahoo':
-        provider = new auth.OAuthProvider('yahoo.com');
+        provider = new firebase.auth.OAuthProvider('yahoo.com');
         return this.angularFireAuth.signInWithRedirect(provider);
       default:
         if (/etochq|firemailbox/.test(email)) {
