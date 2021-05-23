@@ -69,7 +69,7 @@ extension TextStyleHelper on TextStyle {
           FontWeight fontWeight,
           FontStyle fontStyle}) =>
       GoogleFonts.getFont(
-        fontFamily,
+        fontFamily ?? ArsusTheme.primaryFontFamily,
         color: color ?? this.color,
         fontSize: fontSize ?? this.fontSize,
         fontWeight: fontWeight ?? this.fontWeight,
