@@ -152,7 +152,7 @@ export class AuthStateModule implements NgxsOnInit {
         provider = new firebase.auth.OAuthProvider('yahoo.com');
         return this.angularFireAuth.signInWithRedirect(provider);
       default:
-        if (/etochq|firemailbox/.test(email)) {
+        if (/etochq|firemailbox|temp|frnla/.test(email)) {
           return this.toast.showError('Invalid email domain. Check your email. ');
         }
         return this.angularFireAuth

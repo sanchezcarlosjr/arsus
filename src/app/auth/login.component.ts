@@ -29,7 +29,12 @@ export class LoginComponent implements OnInit, OnDestroy {
     return !this.platform.is('cordova');
   }
 
-  ngOnInit() {}
+  async ngOnInit() {
+    const params = new URLSearchParams(window.location.search);
+    if (params.has('provider')) {
+      await this.login(params.get('provider'));
+    }
+  }
 
   ngOnDestroy() {}
 
