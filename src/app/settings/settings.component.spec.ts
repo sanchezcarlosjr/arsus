@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { CoreModule } from '@core';
 import { ActionSheetController, AlertController, IonicModule, Platform } from '@ionic/angular';
@@ -11,14 +11,16 @@ describe('SettingsComponent', () => {
   let component: SettingsComponent;
   let fixture: ComponentFixture<SettingsComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [RouterTestingModule, TranslateModule.forRoot(), IonicModule.forRoot(), CoreModule, SharedModule],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [SettingsComponent],
-      providers: [Platform, AlertController, ActionSheetController],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [RouterTestingModule, TranslateModule.forRoot(), IonicModule.forRoot(), CoreModule, SharedModule],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        declarations: [SettingsComponent],
+        providers: [Platform, AlertController, ActionSheetController],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SettingsComponent);

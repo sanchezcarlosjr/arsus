@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicModule } from '@ionic/angular';
@@ -10,14 +10,16 @@ describe('LanguageSelectorComponent', () => {
   let component: LanguageSelectorComponent;
   let fixture: ComponentFixture<LanguageSelectorComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [TranslateModule.forRoot(), IonicModule.forRoot()],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [LanguageSelectorComponent],
-      providers: [I18nService],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [TranslateModule.forRoot(), IonicModule.forRoot()],
+        schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        declarations: [LanguageSelectorComponent],
+        providers: [I18nService],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LanguageSelectorComponent);
