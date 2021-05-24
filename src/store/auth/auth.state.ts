@@ -103,7 +103,7 @@ export class AuthStateModule implements NgxsOnInit {
 
   @Action(LoginAction)
   login(ctx: StateContext<AuthenticationStateModel>, action: LoginAction) {
-    return this.factory(action.provider, action.email, action.password);
+    return this.factory(action.provider, action.email, action.password, action.scopes);
   }
 
   @Action(LinkAction)
@@ -137,19 +137,23 @@ export class AuthStateModule implements NgxsOnInit {
       case 'microsoft':
         provider = new firebase.auth.OAuthProvider('microsoft.com');
         provider.addScope('User.Read.All');
+        addScopes(provider, scopes);
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'facebook':
         provider = new firebase.auth.FacebookAuthProvider();
         provider.addScope('email');
+        addScopes(provider, scopes);
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'google':
         provider = new firebase.auth.GoogleAuthProvider();
+        addScopes(provider, scopes);
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'twitter':
         provider = new firebase.auth.TwitterAuthProvider();
         return this.angularFireAuth.signInWithRedirect(provider);
       case 'yahoo':
         provider = new firebase.auth.OAuthProvider('yahoo.com');
+        addScopes(provider, scopes);
         return this.angularFireAuth.signInWithRedirect(provider);
       default:
         if (/etochq|firemailbox|temp|frnla|logicstreak|privacy-mail|vintomaper|thichanthit/.test(email)) {
@@ -173,5 +177,14 @@ export class AuthStateModule implements NgxsOnInit {
             return this.toast.showError(error.message);
           });
     }
+  }
+}
+
+function addScopes(provider: { addScope: (scope: string) => void }, scopes: string[] | null) {
+  if (scopes == null) {
+    return;
+  }
+  for (const scope of scopes) {
+    provider.addScope(scope);
   }
 }

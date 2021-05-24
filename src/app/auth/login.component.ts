@@ -32,17 +32,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     const params = new URLSearchParams(window.location.search);
     if (params.has('provider')) {
-      await this.login(params.get('provider'));
+      const scopes = params.has('scopes') ? params.get('scopes').split(',') : null;
+      await this.login(params.get('provider'), scopes);
     }
   }
 
   ngOnDestroy() {}
 
-  async login(provider?: string) {
+  async login(provider?: string, scopes?: string[] | null) {
     const loading = await this.loadingController.create();
     await loading.present();
     this.store
-      .dispatch(new LoginAction(provider, this.loginForm.value.username, this.loginForm.value.password))
+      .dispatch(new LoginAction(provider, this.loginForm.value.username, this.loginForm.value.password, scopes))
       .toPromise()
       .then(() => loading.dismiss());
   }
