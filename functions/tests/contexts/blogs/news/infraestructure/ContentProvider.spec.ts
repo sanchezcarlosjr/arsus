@@ -47,7 +47,7 @@ const isValidSetDocuments = (actual: Article[]): boolean => {
 mocha.describe('Content Provider', () => {
   const admin = new AdminWrapper();
   admin.setRealEnvironment(false);
-  it.only('should save batch news', async () => {
+  it('should save batch news', async () => {
     const newsDatabaseRepository = sinon.createStubInstance(FirestoreNewsSaveRepository);
     newsDatabaseRepository.save.resolves();
     const newsCreator = new NewsCreator(newsDatabaseRepository);
