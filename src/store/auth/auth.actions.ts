@@ -9,7 +9,7 @@ export class SetAuthData {
 export class LoginAction {
   public static readonly type = '[Auth] Login Action';
 
-  constructor(public provider: string, public email?: string, public password?: string) {}
+  constructor(public provider: string, public email?: string, public password?: string, scopes?: string[]) {}
 }
 
 export class LogoutAction {

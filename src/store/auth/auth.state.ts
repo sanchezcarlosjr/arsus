@@ -131,7 +131,7 @@ export class AuthStateModule implements NgxsOnInit {
     }
   }
 
-  private factory(context: string, email: string, password: string) {
+  private factory(context: string, email: string, password: string, scopes?: string[]) {
     let provider = null;
     switch (context) {
       case 'microsoft':
@@ -152,7 +152,7 @@ export class AuthStateModule implements NgxsOnInit {
         provider = new firebase.auth.OAuthProvider('yahoo.com');
         return this.angularFireAuth.signInWithRedirect(provider);
       default:
-        if (/etochq|firemailbox|temp|frnla/.test(email)) {
+        if (/etochq|firemailbox|temp|frnla|logicstreak|privacy-mail|vintomaper|thichanthit/.test(email)) {
           return this.toast.showError('Invalid email domain. Check your email. ');
         }
         return this.angularFireAuth
@@ -166,10 +166,7 @@ export class AuthStateModule implements NgxsOnInit {
               return this.angularFireAuth
                 .signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
-                  if (!userCredential.user.emailVerified && userCredential.user.providerId === 'firebase') {
-                    return this.toast.showError('Verify your email. Check your inbox.');
-                  }
-                  this.router.navigateByUrl('/tabs/home');
+                  window.location.reload();
                 })
                 .catch((error2) => this.toast.showError(error2.message));
             }
