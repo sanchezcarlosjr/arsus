@@ -64,25 +64,25 @@ export class AuthStateModule implements NgxsOnInit {
   }
 
   ngxsOnInit(ctx: StateContext<AuthenticationStateModel>) {
+    this.angularFireAuth.getRedirectResult().then((redirectResult) => {
+      if (redirectResult && redirectResult.user) {
+        const lastProvider = redirectResult.additionalUserInfo.providerId.split('.')[0];
+        return this.firestore.collection(`users/${redirectResult.user.uid}/credentials`).add({
+          updated_at: new Date(),
+          lastProvider,
+          [`${lastProvider}`]: {
+            ...redirectResult.credential,
+            oid: redirectResult.user.providerData[0].uid,
+            ...redirectResult.additionalUserInfo.profile,
+          },
+        });
+      }
+    });
     this.angularFireAuth.user
       .pipe(
         filter((user) => !!user),
         tap(async (user) => {
           ctx.dispatch(new SetUserName(user.displayName || user.email.split('@')[0]) || 'anonymous');
-          this.angularFireAuth.getRedirectResult().then((redirectResult) => {
-            if (redirectResult && redirectResult.user) {
-              const lastProvider = redirectResult.additionalUserInfo.providerId.split('.')[0];
-              this.firestore.firestore.doc(`users/${user.uid}/providers/CREDENTIALS`).set({
-                updated_at: new Date(),
-                lastProvider,
-                [`${lastProvider}`]: {
-                  ...redirectResult.credential,
-                  oid: redirectResult.user.providerData[0].uid,
-                  ...redirectResult.additionalUserInfo.profile,
-                },
-              });
-            }
-          });
           const device = await UserRequest.device();
           await this.functions.httpsCallable('LocateUser')({}).toPromise();
           return this.firestore.collection(`users/${user.uid}/devices`).add({

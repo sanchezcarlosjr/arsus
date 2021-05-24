@@ -40,7 +40,7 @@ const switchMap: Operator = (subscriptions: YoutubeDocument) =>
         .toObjectPromise()
     )
   );
-
+1;
 export class Youtube implements CreatorContentProvider {
   async run(): Promise<Article[]> {
     return from(`users/${functions.config().google.userid}/providers/YOUTUBE`, 'database')

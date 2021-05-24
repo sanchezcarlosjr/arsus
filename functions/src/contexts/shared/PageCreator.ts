@@ -1,8 +1,5 @@
 import { Page } from 'puppeteer-extra/dist/puppeteer';
-import { config } from 'firebase-functions';
 import puppeteer from 'puppeteer-extra';
-
-const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 
 export class PageCreator {
   private static instance: PageCreator = null;
@@ -17,17 +14,7 @@ export class PageCreator {
     return PageCreator.instance;
   }
 
-  private static async launch(
-    url: string,
-    captcha: { provider: { id: string; token: any }; visualFeedback: boolean } = {
-      provider: {
-        id: '2captcha',
-        token: config().captcha2.key,
-      },
-      visualFeedback: false,
-    }
-  ) {
-    puppeteer.use(RecaptchaPlugin(captcha));
+  private static async launch(url: string) {
     const browser = await puppeteer.launch({
       headless: true,
       args: [
@@ -38,7 +25,7 @@ export class PageCreator {
         '--no-sandbox',
         '--no-zygote',
         '--single-process',
-        "--proxy-server='direct://'",
+        '--proxy-server="direct://"',
         '--proxy-bypass-list=*',
         '--deterministic-fetch',
       ],
@@ -57,6 +44,7 @@ export class PageCreator {
   }
 
   async type(xPath: string, value: string) {
+    await this.page.waitForXPath(xPath);
     const input = await this.getPage().$x(xPath);
     await this.getPage().evaluate((elementHandler, user) => (elementHandler.value = user), input[0], value);
   }
