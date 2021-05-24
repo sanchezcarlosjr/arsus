@@ -2,12 +2,11 @@ import * as mocha from 'mocha';
 import { AdminWrapper } from '../../AdminWrapper';
 import { UABCScrapper } from '../../../src/contexts/uabc_scheduler/infraestructure/UABCScrapper';
 import { GoogleCalendar } from '../../../src/contexts/uabc_scheduler/infraestructure/GoogleCalendar';
-import * as admin from 'firebase-admin';
 
 mocha.describe('UABCScheduler', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
-  it('should scrape UABC Site', async () => {
+  it.only('should scrape UABC Site', async () => {
     const uabc = new UABCScrapper('', '');
     const subjects = await uabc.scrape();
     console.log(subjects);

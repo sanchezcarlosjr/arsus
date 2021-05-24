@@ -23,7 +23,7 @@ export class UABCScrapper {
       '/html/body/div[1]/div/section/div/div/div/div/section/div/div[2]/div/div/form/fieldset/div[2]/button'
     );
     const scheduler: any[][] = [];
-    for (let day = 0; day < 6; day++) {
+    for (let day = 1; day < 6; day++) {
       const total = await page.count(
         `/html/body/div[1]/div/section/div/section[4]/div/div/div/div/div/section/div/div/div/div/div[1]/div/div/div[2]/ul/li[${day}]/ul/li`
       );

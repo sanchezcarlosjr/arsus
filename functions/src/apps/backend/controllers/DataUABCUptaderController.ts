@@ -27,12 +27,12 @@ export const updateDataUABC = functions
     const msg = {
       to: credentials.google.email,
       from: {
-        name: 'Ana from Arsus',
+        name: 'Ana desde Arsus',
         email: 'ana@sanchezcarlosjr.com',
       },
       templateId: 'd-516dd7d5d6034192b638dad09cb27bb6',
       dynamic_template_data: {
-        response: `Hola, proceso completo. Ya puedes puedes ver tu calendario en <a href="https://calendar.google.com/calendar/">Google Calendar</a>`,
+        response: `Hola, proceso completo. Ya puedes ver tu horario y el calendario UABC en https://calendar.google.com/calendar/`,
         subject: `De Calendario UABC a Google Calendar`,
       },
     };
