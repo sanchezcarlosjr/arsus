@@ -12,7 +12,7 @@ const routes: Routes = [
     data: {
       title: extract('Login'),
       authGuardPipe: () =>
-        redirectLoggedInTo([new URLSearchParams(window.location.search).get('redirectTo') || 'tabs/home']),
+        redirectLoggedInTo([new URLSearchParams(window.location.search).get('continue') || 'tabs/home']),
     },
   },
   {

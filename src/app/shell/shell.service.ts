@@ -1,7 +1,5 @@
-import { AngularFireAuthGuard, AuthPipe, loggedIn, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
+import { AngularFireAuthGuard, redirectUnauthorizedTo } from '@angular/fire/auth-guard';
 import { Route, Routes } from '@angular/router';
-import { pipe } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { ShellComponent } from './shell.component';
 
 /**
@@ -20,7 +18,7 @@ export class Shell {
       children: routes,
       canActivate: [AngularFireAuthGuard],
       data: {
-        authGuardPipe: () => redirectUnauthorizedTo(`login?redirectTo=${location.pathname}`),
+        authGuardPipe: () => redirectUnauthorizedTo(`login?continue=${location.pathname}`),
       },
     };
   }

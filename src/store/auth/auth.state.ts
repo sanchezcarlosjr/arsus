@@ -9,8 +9,9 @@ import { UserRequest } from '@store/auth/user-request';
 import { SetUserName } from '@store/theme/theme.actions';
 import firebase from 'firebase/app';
 import { filter, tap } from 'rxjs/operators';
-import { ToastService } from './../../app/@shared/toast.service';
+import { ToastService } from '@shared/toast.service';
 import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 export interface AuthenticationStateModel extends firebase.UserInfo {
   phoneNumber: string;
@@ -44,6 +45,7 @@ export class AuthStateModule implements NgxsOnInit {
     private angularFireAuth: AngularFireAuth,
     private functions: AngularFireFunctions,
     private firestore: AngularFirestore,
+    private translate: TranslateService,
     private toast: ToastService,
     private router: Router
   ) {}
@@ -162,14 +164,24 @@ export class AuthStateModule implements NgxsOnInit {
         return this.angularFireAuth
           .createUserWithEmailAndPassword(email, password)
           .then(async (userCredential) => {
-            await userCredential.user.sendEmailVerification();
-            await this.toast.showInfo('Verify your email. Check your inbox.');
+            userCredential.user.sendEmailVerification();
+            this.translate
+              .get('Verify your email. Check your inbox.')
+              .toPromise()
+              .then((message) => this.toast.showInfo(message));
           })
           .catch(async (error) => {
             if (error.code === 'auth/email-already-in-use') {
               return this.angularFireAuth
                 .signInWithEmailAndPassword(email, password)
                 .then((userCredential) => {
+                  if (!userCredential.user.emailVerified && userCredential.user.providerId === 'firebase') {
+                    userCredential.user.sendEmailVerification();
+                    return this.translate
+                      .get('Verify your email. Check your inbox.')
+                      .toPromise()
+                      .then((message) => this.toast.showInfo(message));
+                  }
                   window.location.reload();
                 })
                 .catch((error2) => this.toast.showError(error2.message));
