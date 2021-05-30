@@ -45,7 +45,7 @@ class _NewCardWidgetState extends State<NewCardWidget> {
                               Container(),
                           fit: BoxFit.fitWidth)
                       : widget.data["type"] == "video"
-                          ? YoutubePlayer(
+                          ? CustomYoutubePlayer(
                               url: widget.data["urlToImage"],
                               autoPlay: false,
                               looping: false,
