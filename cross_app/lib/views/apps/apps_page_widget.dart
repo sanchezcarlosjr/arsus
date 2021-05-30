@@ -1,4 +1,5 @@
 import 'package:arsus/views/pages/home_page/home_page.dart';
+import 'package:arsus/views/theme/util.dart';
 import 'package:flutter/material.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
@@ -23,21 +24,25 @@ class _AppsPageWidgetState extends State<AppsPageWidget> {
         centerTitle: false,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: Text(
-          'Apps',
-          style: ArsusTheme.title2.override(
-            fontFamily: 'IBM Plex Sans',
-          ),
-        ),
-        actions: [
-          FFButtonWidget(
-            onPressed: () async {
+        title: InkWell(
+            onTap: () async {
               await Navigator.push(
                 context,
                 MaterialPageRoute(
                   builder: (context) => HomePageWidget(),
                 ),
               );
+            },
+            child: Text(
+              'Apps',
+              style: ArsusTheme.title2,
+            )
+        ),
+        actions: [
+          FFButtonWidget(
+            onPressed: () async {
+              launchURL(
+                  "https://www.notion.so/sanchezcarlosjr/d113793bea054a0290ad6c50ba796fab?v=a25ad083b7a745bf90099d0e60392d08");
             },
             text: 'PAPERS',
             options: FFButtonOptions(
