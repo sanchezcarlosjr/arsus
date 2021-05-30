@@ -72,9 +72,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             controller: emailTextController,
                             obscureText: false,
                             decoration: InputDecoration(
-                              labelText: 'Correo electronico',
-                              labelStyle: GoogleFonts.getFont(
-                                'Open Sans',
+                              labelText: 'Correo electrónico',
+                              labelStyle: ArsusTheme.bodyText1.override(
                                 color: Color(0xFF455A64),
                                 fontWeight: FontWeight.normal,
                               ),
@@ -103,8 +102,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 ),
                               ),
                             ),
-                            style: GoogleFonts.getFont(
-                              'Open Sans',
+                            style: ArsusTheme.bodyText1.override(
                               color: Color(0xFF455A64),
                               fontWeight: FontWeight.normal,
                             ),
@@ -127,11 +125,10 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                             controller: passwordTextController,
                             obscureText: true,
                             decoration: InputDecoration(
-                              hintText: 'Contrasena',
-                              hintStyle: GoogleFonts.getFont(
-                                'Open Sans',
+                              hintText: 'Contraseña',
+                              hintStyle: ArsusTheme.bodyText1.override(
                                 color: Color(0xFF455A64),
-                                fontWeight: FontWeight.normal,
+                                fontWeight: FontWeight.normal
                               ),
                               enabledBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(
@@ -154,8 +151,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 ),
                               ),
                             ),
-                            style: GoogleFonts.getFont(
-                              'Open Sans',
+                            style:  ArsusTheme.bodyText1.override(
                               color: Color(0xFF455A64),
                               fontWeight: FontWeight.normal,
                             ),
@@ -187,13 +183,12 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                 (r) => false,
                           );
                         },
-                        text: 'Inicia sesion',
+                        text: 'Inicia sesión',
                         options: FFButtonOptions(
                           width: 300,
                           height: 50,
                           color: ArsusTheme.primaryColor,
-                          textStyle: GoogleFonts.getFont(
-                            'Open Sans',
+                          textStyle:  ArsusTheme.bodyText1.override(
                             color: Color(0xFFDEDEDE),
                             fontSize: 16,
                           ),
@@ -238,10 +233,8 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                   width: 300,
                                   height: 44,
                                   color: Colors.white,
-                                  textStyle: GoogleFonts.getFont(
-                                    'Roboto',
+                                  textStyle:  ArsusTheme.bodyText1.override(
                                     color: Color(0xFF1877F2),
-                                    fontWeight: FontWeight.w500,
                                     fontSize: 17,
                                   ),
                                   elevation: 0,
@@ -311,8 +304,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                                   width: 300,
                                   height: 44,
                                   color: Colors.white,
-                                  textStyle: GoogleFonts.getFont(
-                                    'Roboto',
+                                  textStyle:  ArsusTheme.bodyText1.override(
                                     color: Color(0xFF606060),
                                     fontSize: 17,
                                   ),
