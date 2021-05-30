@@ -1,11 +1,12 @@
-import 'package:arsus/services/auth/firebase_user_provider.dart';
 import 'package:arsus/views/apps/apps_page_widget.dart';
 import 'package:arsus/views/pages/home_page/news_component.dart';
 import 'package:arsus/views/theme/theme.dart';
 import 'package:arsus/views/theme/widgets.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import '../login_page/login_page_widget.dart';
 import 'package:flutter/material.dart';
+
+import '../login_page/login_page_widget.dart';
 
 class HomePageWidget extends StatefulWidget {
   HomePageWidget({Key key}) : super(key: key);
@@ -26,65 +27,68 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         automaticallyImplyLeading: false,
         title:
             Text('Arsus', textAlign: TextAlign.start, style: ArsusTheme.title2),
-        actions: [
-          Align(
-            alignment: Alignment(0, 0),
-            child: Padding(
-              padding: EdgeInsets.fromLTRB(0, 0, 1, 0),
-              child: FirebaseAuth.instance.currentUser != null
-                  ? Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        InkWell(
-                            onTap: () async {
-                              await Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => AppsPageWidget(),
-                                ),
-                              );
-                            },
-                            child: Icon(Icons.apps,
-                                color: Colors.black12,
-                                size: 30.0,
-                                semanticLabel: 'Apps')),
-                        InkWell(
-                            onTap: () async {
-                              await FirebaseAuth.instance.signOut();
-                            },
-                            child: Icon(Icons.logout,
-                                color: Colors.black12,
-                                size: 30.0,
-                                semanticLabel: 'Sign out'))
-                      ],
-                    )
-                  : FFButtonWidget(
+        actions: FirebaseAuth.instance.currentUser != null
+            ? [
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 11, 11),
+                    child: IconButton(
                       onPressed: () async {
                         await Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => LoginPageWidget(),
+                            builder: (context) => AppsPageWidget(),
                           ),
                         );
                       },
-                      text: 'Inicia sesión',
-                      options: FFButtonOptions(
-                        width: 130,
-                        height: 40,
-                        color: Colors.white,
-                        textStyle: ArsusTheme.subtitle2.override(
-                          color: Color(0xFFFFB24D),
-                        ),
-                        borderSide: BorderSide(
-                          color: Color(0xFFFFB24D),
-                          width: 1,
-                        ),
-                        borderRadius: 0,
+                      icon: Icon(
+                        Icons.apps,
+                        color: Colors.black,
+                        size: 30,
                       ),
+                      iconSize: 30,
+                    )),
+                Padding(
+                    padding: EdgeInsets.fromLTRB(0, 0, 11, 11),
+                    child: InkWell(
+                        onTap: () async {
+                          await FirebaseAuth.instance.signOut();
+                        },
+                        child: Container(
+                            width: 40,
+                            height: 40,
+                            clipBehavior: Clip.antiAlias,
+                            decoration: BoxDecoration(shape: BoxShape.circle),
+                            child: CachedNetworkImage(
+                                imageUrl:
+                                    FirebaseAuth.instance.currentUser.photoURL,
+                                fit: BoxFit.contain)))),
+              ]
+            : [
+                FFButtonWidget(
+                  onPressed: () async {
+                    await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => LoginPageWidget(),
+                      ),
+                    );
+                  },
+                  text: 'Inicia sesión',
+                  options: FFButtonOptions(
+                    width: 130,
+                    height: 40,
+                    color: Colors.white,
+                    textStyle: ArsusTheme.subtitle2.override(
+                      color: Color(0xFFFFB24D),
                     ),
-            ),
-          )
-        ],
+                    borderSide: BorderSide(
+                      color: Color(0xFFFFB24D),
+                      width: 1,
+                    ),
+                    borderRadius: 0,
+                  ),
+                ),
+              ],
         centerTitle: false,
         elevation: 0,
       ),
