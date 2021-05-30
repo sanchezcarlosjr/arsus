@@ -4,8 +4,8 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 const kYoutubeAspectRatio = 16 / 9;
 
-class FlutterFlowYoutubePlayer extends StatefulWidget {
-  const FlutterFlowYoutubePlayer({
+class YoutubePlayer extends StatefulWidget {
+  const YoutubePlayer({
     @required this.url,
     this.width,
     this.height,
@@ -24,11 +24,11 @@ class FlutterFlowYoutubePlayer extends StatefulWidget {
   final bool showControls;
 
   @override
-  State<FlutterFlowYoutubePlayer> createState() =>
-      _FlutterFlowYoutubePlayerState();
+  State<YoutubePlayer> createState() =>
+      _YoutubePlayerState();
 }
 
-class _FlutterFlowYoutubePlayerState extends State<FlutterFlowYoutubePlayer> {
+class _YoutubePlayerState extends State<YoutubePlayer> {
   YoutubePlayerController _controller;
 
   @override
