@@ -1,12 +1,10 @@
 import { expect } from 'chai';
 import * as mocha from 'mocha';
 import { mockEnv } from '../../../../env';
-import {
-  GoogleCloudVision,
-  INEGoogleCloudVision,
-  INEModelType,
-} from '../../../../../src/contexts/api/government/infraestructure/INEGoogleCloudVision';
+import { INEGoogleCloudVision } from '../../../../../src/contexts/api/government/application/INEGoogleCloudVision';
 import { BucketFile } from '../../../../../src/models/file';
+import { GoogleCloudVision } from '../../../../../src/contexts/api/government/infraestructure/GoogleCloudVision';
+import { INEModelType } from '../../../../../src/contexts/api/government/domain/INEModelType';
 
 mocha.describe('INE Validator', () => {
   it('should derive INE MODEL EFGH', async () => {
@@ -23,7 +21,7 @@ mocha.describe('INE Validator', () => {
     const ineModelType = new INEModelType('INSTITUTO NACIONAL ELECTORAL').factory().match('', mockEnv.backText);
     expect(ineModelType.toString()).eql(`INEModelEFGH ${mockEnv.cic} ${mockEnv.id}`);
   });
-  it.only('should derive INE MODEL D', async () => {
+  it('should derive INE MODEL D', async () => {
     const ineVision = new INEGoogleCloudVision(
       new GoogleCloudVision(),
       new BucketFile('assets/ifeD-observe.png'),
