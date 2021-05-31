@@ -1,5 +1,5 @@
 import { Intent } from './intent';
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 import { PermissionFactory } from './conversation';
 
 export class Permission extends Intent {

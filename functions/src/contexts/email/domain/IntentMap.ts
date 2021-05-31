@@ -1,5 +1,5 @@
 import { Intent } from './intent';
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 
 export class IntentMap {
   private intentMap = new Map<string, (agent: Agent) => void>();

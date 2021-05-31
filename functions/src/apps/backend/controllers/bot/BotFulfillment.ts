@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
 import { Response } from 'express';
-import { Agent } from '../../../../contexts/email/infraestructure/webhook-client';
+import { Agent } from '../../../../contexts/email/infrastructure/webhook-client';
 import admin from 'firebase-admin';
 
 const { WebhookClient } = require('dialogflow-fulfillment');

@@ -1,7 +1,7 @@
 import { INEVision } from '../domain/INEVision';
 import { BucketFile } from '../../../../models/file';
 import { CurpId } from '../domain/CurpId';
-import { GoogleCloudVision } from '../infraestructure/GoogleCloudVision';
+import { GoogleCloudVision } from '../infrastructure/GoogleCloudVision';
 import { INEModelType } from '../domain/INEModelType';
 import { INEVisionResponse } from '../domain/INEVisionResponse';
 

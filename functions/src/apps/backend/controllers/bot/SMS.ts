@@ -1,9 +1,9 @@
 import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
 import { Response } from 'express';
-import { Dialogflow } from '../../../../contexts/email/infraestructure/Dialogflow';
+import { Dialogflow } from '../../../../contexts/email/infrastructure/Dialogflow';
 import { TelecommunicationCreator } from '../../../../contexts/blog/bot/application/TelecommunicationCreator';
-import { FirestoreCommunicationStoreRepository } from '../../../../contexts/email/infraestructure/FirestoreCommunicationStoreRepository';
+import { FirestoreCommunicationStoreRepository } from '../../../../contexts/email/infrastructure/FirestoreCommunicationStoreRepository';
 
 export interface BodyTwilio {
   SmsMessageSid: string;

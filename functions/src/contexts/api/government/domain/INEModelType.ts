@@ -1,8 +1,8 @@
 import { StringObject } from '../../../../helpers/StringObject';
 import { INEModel } from './INEModel';
-import { INEModelEFGH } from '../infraestructure/INEModelEFGH';
-import { INEModelD } from '../infraestructure/INEModelD';
-import { INEModelC } from '../infraestructure/INEModelC';
+import { INEModelEFGH } from '../infrastructure/INEModelEFGH';
+import { INEModelD } from '../infrastructure/INEModelD';
+import { INEModelC } from '../infrastructure/INEModelC';
 
 export class INEModelType extends StringObject {
   constructor(value: string) {

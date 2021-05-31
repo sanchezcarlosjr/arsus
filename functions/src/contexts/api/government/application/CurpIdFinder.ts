@@ -1,7 +1,7 @@
 import { CurpResponse } from '../domain/CurpResponse';
 import { CurpIdRepository } from '../domain/CurpIdRepository';
 import { CurpId } from '../domain/CurpId';
-import { CurpIdQueryFinder } from '../infraestructure/CurpIdQueryFinder';
+import { CurpIdQueryFinder } from '../infrastructure/CurpIdQueryFinder';
 
 export class CurpIdFinder {
   constructor(private curpIdRepository: CurpIdRepository, private curpIdQueryFinder: CurpIdQueryFinder) {}

@@ -4,11 +4,11 @@ import { CurpIdFinder } from '../../../../../src/contexts/api/government/applica
 import { ensureIsValidApiKey } from '../../../../../src/contexts/api/government/domain/ApiKey';
 import { CurpId } from '../../../../../src/contexts/api/government/domain/CurpId';
 import { CurpResponse } from '../../../../../src/contexts/api/government/domain/CurpResponse';
-import { CurpIdQueryFinder } from '../../../../../src/contexts/api/government/infraestructure/CurpIdQueryFinder';
-import { CurpIdScraper } from '../../../../../src/contexts/api/government/infraestructure/CurpIdScraper';
+import { CurpIdQueryFinder } from '../../../../../src/contexts/api/government/infrastructure/CurpIdQueryFinder';
+import { CurpIdScraper } from '../../../../../src/contexts/api/government/infrastructure/CurpIdScraper';
 import { Database } from '../../../../../src/database/database';
 import { AdminWrapper } from '../../../../AdminWrapper';
-import { QuotaCounter } from './../../../../../src/contexts/api/government/infraestructure/QuotaCounter';
+import { QuotaCounter } from '../../../../../src/contexts/api/government/infrastructure/QuotaCounter';
 
 const examples: CurpResponse[] = [
   {

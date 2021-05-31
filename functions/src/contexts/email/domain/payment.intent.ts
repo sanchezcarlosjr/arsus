@@ -1,5 +1,5 @@
 import { Intent } from './intent';
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 import { Order } from '../../../models/order';
 import { Database } from '../../../database/database';
 import { Conversation } from './conversation';

@@ -1,5 +1,5 @@
 import { Intent } from './intent';
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 import { Database } from '../../../database/database';
 import { random } from '../../../providers/random';
 import { Conversation } from './conversation';

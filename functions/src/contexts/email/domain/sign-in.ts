@@ -1,5 +1,5 @@
 import { Intent } from './intent';
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 import { DialogflowConversation, GoogleCloudDialogflowV2WebhookRequest, Suggestions } from 'actions-on-google';
 import { Database } from '../../../database/database';
 

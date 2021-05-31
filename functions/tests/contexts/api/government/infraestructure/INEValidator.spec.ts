@@ -3,9 +3,9 @@ import * as mocha from 'mocha';
 import { mockEnv } from '../../../../env';
 import { INEGoogleCloudVision } from '../../../../../src/contexts/api/government/application/INEGoogleCloudVision';
 import { BucketFile } from '../../../../../src/models/file';
-import { GoogleCloudVision } from '../../../../../src/contexts/api/government/infraestructure/GoogleCloudVision';
+import { GoogleCloudVision } from '../../../../../src/contexts/api/government/infrastructure/GoogleCloudVision';
 import { INEModelType } from '../../../../../src/contexts/api/government/domain/INEModelType';
-import { INEModelEFGH } from '../../../../../src/contexts/api/government/infraestructure/INEModelEFGH';
+import { INEModelEFGH } from '../../../../../src/contexts/api/government/infrastructure/INEModelEFGH';
 
 mocha.describe('INE Validator', () => {
   it('should derive INE MODEL EFGH', async () => {

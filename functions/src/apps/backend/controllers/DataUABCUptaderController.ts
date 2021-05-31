@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
-import { UABCScrapper } from '../../../contexts/uabc_scheduler/infraestructure/UABCScrapper';
-import { GoogleCalendar } from '../../../contexts/uabc_scheduler/infraestructure/GoogleCalendar';
+import { UABCScrapper } from '../../../contexts/uabc_scheduler/infrastructure/UABCScrapper';
+import { GoogleCalendar } from '../../../contexts/uabc_scheduler/infrastructure/GoogleCalendar';
 import admin from 'firebase-admin';
 import * as sgMail from '@sendgrid/mail';
 

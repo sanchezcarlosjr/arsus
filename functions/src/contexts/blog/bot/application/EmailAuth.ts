@@ -1,5 +1,5 @@
 import { Intent } from '../../../email/domain/intent';
-import { Agent } from '../../../email/infraestructure/webhook-client';
+import { Agent } from '../../../email/infrastructure/webhook-client';
 import admin from 'firebase-admin';
 
 export class EmailAuth extends Intent {

@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
 import { Database } from '../../../database/database';
-import { Sendgrid } from '../../../contexts/email/infraestructure/Sendgrid';
+import { Sendgrid } from '../../../contexts/email/infrastructure/Sendgrid';
 import { Whatsapp } from '../../../contexts/blog/inbox/infraestructure/Whatsapp';
 
 export const InboxSender = functions

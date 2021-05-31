@@ -1,7 +1,7 @@
 import * as mocha from 'mocha';
 import { AdminWrapper } from '../../AdminWrapper';
-import { UABCScrapper } from '../../../src/contexts/uabc_scheduler/infraestructure/UABCScrapper';
-import { GoogleCalendar } from '../../../src/contexts/uabc_scheduler/infraestructure/GoogleCalendar';
+import { UABCScrapper } from '../../../src/contexts/uabc_scheduler/infrastructure/UABCScrapper';
+import { GoogleCalendar } from '../../../src/contexts/uabc_scheduler/infrastructure/GoogleCalendar';
 
 mocha.describe('UABCScheduler', () => {
   const adminWrapper = new AdminWrapper();

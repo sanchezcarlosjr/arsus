@@ -1,4 +1,4 @@
-import { Agent } from '../infraestructure/webhook-client';
+import { Agent } from '../infrastructure/webhook-client';
 
 export abstract class Intent {
   constructor(private name: string) {}

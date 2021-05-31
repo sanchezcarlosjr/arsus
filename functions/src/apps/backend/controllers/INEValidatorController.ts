@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { https } from 'firebase-functions';
 import { INEValidator } from '../../../contexts/api/government/application/INEValidator';
 import { INEGoogleCloudVision } from '../../../contexts/api/government/application/INEGoogleCloudVision';
-import { GoogleCloudVision } from '../../../contexts/api/government/infraestructure/GoogleCloudVision';
+import { GoogleCloudVision } from '../../../contexts/api/government/infrastructure/GoogleCloudVision';
 import { BucketFile } from '../../../models/file';
 
 interface INERequest {

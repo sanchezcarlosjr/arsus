@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as express from 'express';
-import { EmailPostWebHook } from '../../../contexts/email/infraestructure/EmailPostWebHook';
+import { EmailPostWebHook } from '../../../contexts/email/infrastructure/EmailPostWebHook';
 
 const app = express();
 
