@@ -1,13 +1,16 @@
 import { Page } from 'puppeteer-extra/dist/puppeteer';
-import puppeteer from 'puppeteer-extra';
+import puppeteer, { PuppeteerExtraPlugin } from 'puppeteer-extra';
+import * as admin from 'firebase-admin';
+import * as fs from 'fs';
 
 export class PageCreator {
   private static instance: PageCreator = null;
 
   private constructor(private page: Page) {}
 
-  static async getInstance(url: string) {
+  static async getInstance(url: string, ...plugins: PuppeteerExtraPlugin[]) {
     if (PageCreator.instance === null) {
+      plugins.forEach((plugin) => puppeteer.use(plugin));
       const page = await PageCreator.launch(url);
       PageCreator.instance = new PageCreator(page);
     }
@@ -28,13 +31,14 @@ export class PageCreator {
         '--proxy-server="direct://"',
         '--proxy-bypass-list=*',
         '--deterministic-fetch',
+        '--user-agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/65.0.3312.0 Safari/537.36"',
       ],
     });
     const page = await browser.newPage();
-    await page.setUserAgent(
-      'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36'
-    );
-    await page.setViewport({ width: 1680, height: 1050 });
+    await page.setViewport({
+      width: 1200,
+      height: 800,
+    });
     await page.goto(url);
     return page;
   }
@@ -51,8 +55,7 @@ export class PageCreator {
 
   async click(xPath: string) {
     const element = await this.page.$x(xPath);
-    await element[0].click();
-    await this.page.waitForNavigation();
+    return Promise.all([this.page.waitForNavigation(), element[0].click()]);
   }
 
   async count(xPath: string) {
@@ -62,5 +65,31 @@ export class PageCreator {
   async read(xPath: string) {
     const element = await this.page.waitForXPath(xPath);
     return await element.evaluate((el) => el.textContent);
+  }
+
+  async solveCaptchas() {
+    await (this.page as any).solveRecaptchas();
+  }
+
+  async screenshot(destination: string): Promise<string> {
+    const bucket = admin.storage().bucket('gs://arsus-production.appspot.com');
+    const options = {
+      destination,
+      metadata: {
+        contentType: 'image/png',
+      },
+    };
+    await this.page.waitForXPath('/html/body/div[1]/section[3]/div/div[1]/img');
+    const pathString = 'screenshot.png';
+    bucket.upload(pathString, options, (err, file) => {});
+    const fileFromBucket = await bucket.file(destination);
+    const today = new Date();
+    today.setUTCMonth(today.getUTCMonth() + 1);
+    const urls = await fileFromBucket.getSignedUrl({
+      action: 'read',
+      expires: today,
+    });
+    fs.unlinkSync(pathString);
+    return urls[0];
   }
 }

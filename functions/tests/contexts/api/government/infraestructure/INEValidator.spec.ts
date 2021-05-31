@@ -5,6 +5,7 @@ import { INEGoogleCloudVision } from '../../../../../src/contexts/api/government
 import { BucketFile } from '../../../../../src/models/file';
 import { GoogleCloudVision } from '../../../../../src/contexts/api/government/infraestructure/GoogleCloudVision';
 import { INEModelType } from '../../../../../src/contexts/api/government/domain/INEModelType';
+import { INEModelEFGH } from '../../../../../src/contexts/api/government/infraestructure/INEModelEFGH';
 
 mocha.describe('INE Validator', () => {
   it('should derive INE MODEL EFGH', async () => {
@@ -29,5 +30,10 @@ mocha.describe('INE Validator', () => {
     );
     const ine = await ineVision.derive();
     expect(ine.type.toString()).eql(`INEModelD 183657717 0747116375842`);
+  });
+  it.only('should scrape INEModelEFGH', async () => {
+    const ine = new INEModelEFGH(mockEnv.cic, mockEnv.id);
+    const data = await ine.scrape(mockEnv.uid);
+    console.log(data);
   });
 });

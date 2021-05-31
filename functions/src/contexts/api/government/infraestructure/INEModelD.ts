@@ -9,7 +9,7 @@ export class INEModelD extends INEModel {
     return `INEModelD ${this.cic} ${this.ocr}`;
   }
 
-  scrape(): any {
+  scrape(userId: string): any {
     console.log(this.ocr);
     console.log(this.cic);
   }

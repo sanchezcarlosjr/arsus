@@ -5,7 +5,7 @@ const path = require('path');
 const os = require('os');
 
 export class StreamWrapper {
-  constructor(private filePath: string, private stream: any) {
+  constructor(private readonly filePath: string, private stream: any) {
     this.filePath = path.join(os.tmpdir(), filePath);
   }
 
@@ -14,9 +14,9 @@ export class StreamWrapper {
     this.stream.pipe(file);
     const bucket = admin.storage().bucket();
     await bucket.upload(this.filePath, {
-      destination: destination,
+      destination,
       metadata: {
-        contentType: contentType,
+        contentType,
       },
     });
     const fileFromBucket = await bucket.file(destination);
