@@ -2,7 +2,7 @@ import { EventContext } from 'firebase-functions';
 import { ObjectMetadata } from 'firebase-functions/lib/providers/storage';
 
 import { BucketFile } from '../models/file';
-import { UserId } from '../models/user-id';
+import { MexicanId } from '../contexts/api/government/application/mexican-id';
 
 export const triggerStorageHandler = async (object: ObjectMetadata, context: EventContext) => {
   const pathFile = object.name;
@@ -11,9 +11,9 @@ export const triggerStorageHandler = async (object: ObjectMetadata, context: Eve
   await file.download();
   switch (pathFile) {
     case `users/${userUID}/INE`:
-      return new UserId(userUID, file.tempPathName).store();
+      return new MexicanId(file.tempPathName).store(`users/${userUID}/providers`, 'INE');
     case `users/${userUID}/REVERSE_INE`:
-      return new UserId(userUID, file.tempPathName).storeReverse();
+      return new MexicanId(file.tempPathName).store(`users/${userUID}/providers`, 'REVERSE_INE');
     default:
       return null;
   }

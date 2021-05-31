@@ -1,7 +1,3 @@
-import { Database } from '../database/database';
-
-const vision = require('@google-cloud/vision');
-
 export interface Vertex {
   x: number;
   y: number;
@@ -110,6 +106,7 @@ export interface Symbol {
 export interface Word {
   property: Property4;
   boundingBox: BoundingBox3;
+  // tslint:disable-next-line:ban-types
   symbols: Symbol[];
 }
 
@@ -141,40 +138,4 @@ export interface FullTextAnnotation {
 export interface Respons {
   textAnnotations: TextAnnotation[];
   fullTextAnnotation: FullTextAnnotation;
-}
-
-export class UserId {
-  private database = new Database();
-
-  constructor(private userUID: string, private temp: any) {}
-
-  public async storeReverse(): Promise<null> {
-    const client = new vision.ImageAnnotatorClient();
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response: any = await client.textDetection(this.temp);
-        const respons: any = response[0];
-        return this.database.collection(`users/${this.userUID}/providers`).storeWith('REVERSE_INE', {
-          fullTextAnnotation: respons.fullTextAnnotation.text,
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  public async store(): Promise<null> {
-    const client = new vision.ImageAnnotatorClient();
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response: any = await client.textDetection(this.temp);
-        const respons: any = response[0];
-        return this.database.collection(`users/${this.userUID}/providers`).storeWith('INE', {
-          fullTextAnnotation: respons.fullTextAnnotation.text,
-        });
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
 }

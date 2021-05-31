@@ -8,6 +8,7 @@ export class StreamWrapper {
   constructor(private filePath: string, private stream: any) {
     this.filePath = path.join(os.tmpdir(), filePath);
   }
+
   async write(destination: string, contentType?: string) {
     const file = fs.createWriteStream(this.filePath);
     this.stream.pipe(file);
@@ -42,6 +43,10 @@ export class BucketFile {
     return this._tempPathName;
   }
 
+  get uid() {
+    return this._uid;
+  }
+
   readAsStream() {
     return fs.createReadStream(this.tempPathName);
   }
@@ -50,17 +55,13 @@ export class BucketFile {
     return parse(fs.readFileSync(this.tempPathName));
   }
 
-  get uid() {
-    return this._uid;
-  }
-
   remove() {
     fs.unlinkSync(this.tempPathName);
   }
 
   async download() {
     const fileName = path.basename(this.filePath);
-    const bucket = admin.storage().bucket();
+    const bucket = admin.storage().bucket('gs://arsus-production.appspot.com');
     this._tempPathName = path.join(os.tmpdir(), fileName);
     try {
       await bucket.file(this.filePath).download({ destination: this._tempPathName });

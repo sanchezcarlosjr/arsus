@@ -6,7 +6,7 @@ import { GoogleCalendar } from '../../../src/contexts/uabc_scheduler/infraestruc
 mocha.describe('UABCScheduler', () => {
   const adminWrapper = new AdminWrapper();
   adminWrapper.setRealEnvironment(false);
-  it.only('should scrape UABC Site', async () => {
+  it('should scrape UABC Site', async () => {
     const uabc = new UABCScrapper('', '');
     const subjects = await uabc.scrape();
     console.log(subjects);

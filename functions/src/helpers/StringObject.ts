@@ -1,14 +1,20 @@
-import * as moment from "moment";
+import * as moment from 'moment';
 
 export class StringObject {
-  protected readonly _value: string = '';
+  protected id = '';
 
   constructor(...values: string[]) {
     this._value = values[0];
   }
 
+  protected _value = '';
+
   get value() {
     return this._value;
+  }
+
+  set value(value: string) {
+    this._value = value;
   }
 }
 
@@ -24,6 +30,7 @@ export class DateObject {
   get value() {
     return this._value;
   }
+
   get originalValue() {
     return new Date(this._originalValue);
   }
