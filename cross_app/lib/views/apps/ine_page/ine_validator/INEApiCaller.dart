@@ -13,6 +13,7 @@ class INEApiCaller {
     if (stateContext["obverseUrl"] == null ||
         stateContext["backUrl"] == null) {
       showUploadMessage(stateContext["buildContext"], 'Por favor ingrese ambas partes de tu credencial!');
+      return;
     }
     Map<String, dynamic> ineValidatorResponse = await this
         ._ineValidatorService
