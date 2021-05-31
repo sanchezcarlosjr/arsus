@@ -12,7 +12,7 @@ class INEApiCaller {
   Future<void> validate(Map<String, dynamic> stateContext) async {
     if (stateContext["obverseUrl"] == null ||
         stateContext["backUrl"] == null) {
-      showUploadMessage(stateContext["buildContext"], 'Por favor ingrese ambas partes de tu credencial!');
+      showUploadMessage(stateContext["buildContext"], 'Ingrese ambas partes!');
       return;
     }
     Map<String, dynamic> ineValidatorResponse = await this
