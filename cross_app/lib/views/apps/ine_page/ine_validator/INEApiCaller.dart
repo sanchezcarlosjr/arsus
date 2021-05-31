@@ -1,5 +1,4 @@
 import 'package:arsus/views/theme/upload_media.dart';
-import 'package:cloud_functions/cloud_functions.dart';
 import 'package:flutter/material.dart';
 
 import '../ine_success_page_widget.dart';
@@ -11,6 +10,10 @@ class INEApiCaller {
   INEApiCaller(this._ineValidatorService);
 
   Future<void> validate(Map<String, dynamic> stateContext) async {
+    if (stateContext["obverseUrl"] == null ||
+        stateContext["backUrl"] == null) {
+      showUploadMessage(stateContext["buildContext"], 'Por favor ingrese ambas partes de tu credencial!');
+    }
     Map<String, dynamic> ineValidatorResponse = await this
         ._ineValidatorService
         .validate(stateContext["obverseUrl"], stateContext["backUrl"]);
