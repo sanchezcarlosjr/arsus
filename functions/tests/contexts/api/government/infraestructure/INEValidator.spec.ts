@@ -34,6 +34,9 @@ mocha.describe('INE Validator', () => {
   it.only('should scrape INEModelEFGH', async () => {
     const ine = new INEModelEFGH(mockEnv.cic, mockEnv.id);
     const data = await ine.scrape(mockEnv.uid);
-    console.log(data);
+    expect(data.url).matches(
+      /https:\/\/storage.googleapis.com\/arsus-production.appspot.com\/users\/.*\/nominal-list-ine/
+    );
+    expect(data.isValidINE).eq(true);
   });
 });

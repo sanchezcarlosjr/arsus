@@ -55,7 +55,12 @@ export class PageCreator {
 
   async click(xPath: string) {
     const element = await this.page.$x(xPath);
-    return Promise.all([this.page.waitForNavigation(), element[0].click()]);
+    return Promise.all([
+      this.page.waitForNavigation({
+        waitUntil: 'networkidle0',
+      }),
+      element[0].click(),
+    ]);
   }
 
   async count(xPath: string) {
@@ -79,17 +84,17 @@ export class PageCreator {
         contentType: 'image/png',
       },
     };
-    await this.page.waitForXPath('/html/body/div[1]/section[3]/div/div[1]/img');
-    const pathString = 'screenshot.png';
-    bucket.upload(pathString, options, (err, file) => {});
+    const path = 'screenshot.png';
+    await this.getPage().screenshot({ path, fullPage: true });
+    await bucket.upload(path, options);
     const fileFromBucket = await bucket.file(destination);
     const today = new Date();
-    today.setUTCMonth(today.getUTCMonth() + 1);
+    today.setHours(today.getHours() + 2);
     const urls = await fileFromBucket.getSignedUrl({
       action: 'read',
       expires: today,
     });
-    fs.unlinkSync(pathString);
+    fs.unlinkSync(path);
     return urls[0];
   }
 }
