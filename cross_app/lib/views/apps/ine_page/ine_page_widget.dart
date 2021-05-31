@@ -26,7 +26,7 @@ class _InePageWidgetState extends State<InePageWidget> {
         backgroundColor: Color(0x00F5F5F5),
         automaticallyImplyLeading: false,
         title: Text(
-          '¿Está vigente tu credencial?',
+          'Verifica tu credencial',
           style: ArsusTheme.title3,
         ),
         actions: [],
