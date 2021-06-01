@@ -85,7 +85,7 @@ export class PageCreator {
         contentType: 'image/png',
       },
     };
-    const path = os.tmpdir() + 'screenshot.png';
+    const path = os.tmpdir() + '/screenshot.png';
     await this.getPage().screenshot({ path, fullPage: true });
     await bucket.upload(path, options);
     const fileFromBucket = await bucket.file(destination);

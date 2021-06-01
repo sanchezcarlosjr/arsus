@@ -14,8 +14,7 @@ interface INERequest {
 export const validateINE = functions
   .runWith({
     timeoutSeconds: 300,
-    // @ts-ignore
-    memory: '8GB',
+    memory: '2GB',
   })
   .https.onCall(async (data: INERequest, context: https.CallableContext) => {
     const validator = new INEValidator(
