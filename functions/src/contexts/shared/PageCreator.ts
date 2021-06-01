@@ -2,6 +2,7 @@ import { Page } from 'puppeteer-extra/dist/puppeteer';
 import puppeteer, { PuppeteerExtraPlugin } from 'puppeteer-extra';
 import * as admin from 'firebase-admin';
 import * as fs from 'fs';
+import * as os from 'os';
 
 export class PageCreator {
   private static instance: PageCreator = null;
@@ -84,7 +85,7 @@ export class PageCreator {
         contentType: 'image/png',
       },
     };
-    const path = 'screenshot.png';
+    const path = os.tmpdir() + 'screenshot.png';
     await this.getPage().screenshot({ path, fullPage: true });
     await bucket.upload(path, options);
     const fileFromBucket = await bucket.file(destination);
