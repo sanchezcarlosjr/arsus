@@ -5,9 +5,18 @@ import { INEModelD } from '../infrastructure/INEModelD';
 import { INEModelC } from '../infrastructure/INEModelC';
 
 export class INEModelType extends StringObject {
-  constructor(value: string) {
-    super(value);
-    this.value = !!value.match(/NACIO/) ? 'INEModelEFGH' : 'INEModelD';
+  constructor(observe: string) {
+    let model = '';
+    if (!!observe.match(/NACIO/)) {
+      model = 'INEModelEFGH';
+    }
+    if (!!observe.match(/VIGENCIA/)) {
+      model = 'INEModelD';
+    }
+    if (!!observe.match(/VIGENTE/)) {
+      model = 'INEModelC';
+    }
+    super(model);
   }
 
   factory(): INEModel {
@@ -19,7 +28,7 @@ export class INEModelType extends StringObject {
       case 'INEModelC':
         return new INEModelC('', '', '');
       default:
-        return null;
+        throw new Error('No es una credencial válida.');
     }
   }
 }
