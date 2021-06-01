@@ -37,8 +37,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         automaticallyImplyLeading: false,
         title:
             Text('Arsus', textAlign: TextAlign.start, style: ArsusTheme.title2),
-        actions: initialUser != null
-            ? [
+        actions: initialUser != null && initialUser.loggedIn ?
+        [
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 11, 11),
                     child: IconButton(
@@ -70,7 +70,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             decoration: BoxDecoration(shape: BoxShape.circle),
                             child: CachedNetworkImage(
                                 imageUrl:
-                                    FirebaseAuth.instance.currentUser.photoURL,
+                                initialUser.user != null ? initialUser.user.photoURL : 'https://image.flaticon.com/icons/png/512/2494/2494552.png',
                                 fit: BoxFit.contain)))),
               ]
             : [
