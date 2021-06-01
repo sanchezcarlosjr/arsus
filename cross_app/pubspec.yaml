@@ -3,7 +3,7 @@ description: Blog about tech and other functions
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+2
+version: 1.0.0+4
 
 environment:
   sdk: '>=2.7.0 <3.0.0'

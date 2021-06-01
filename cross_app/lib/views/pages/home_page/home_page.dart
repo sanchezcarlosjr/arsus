@@ -1,3 +1,4 @@
+import 'package:arsus/services/auth/firebase_user_provider.dart';
 import 'package:arsus/views/apps/apps_page_widget.dart';
 import 'package:arsus/views/pages/home_page/news_component.dart';
 import 'package:arsus/views/theme/theme.dart';
@@ -17,6 +18,15 @@ class HomePageWidget extends StatefulWidget {
 
 class _HomePageWidgetState extends State<HomePageWidget> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  Stream<ArsusFirebaseUser> userStream;
+  ArsusFirebaseUser initialUser;
+
+  @override
+  void initState() {
+    super.initState();
+    userStream = arsusFirebaseUserStream()
+      ..listen((user) => initialUser ?? setState(() => initialUser = user));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +37,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
         automaticallyImplyLeading: false,
         title:
             Text('Arsus', textAlign: TextAlign.start, style: ArsusTheme.title2),
-        actions: FirebaseAuth.instance.currentUser != null
+        actions: initialUser != null
             ? [
                 Padding(
                     padding: EdgeInsets.fromLTRB(0, 0, 11, 11),
