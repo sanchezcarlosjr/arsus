@@ -4,6 +4,7 @@ import { INEValidator } from '../../../contexts/api/government/application/INEVa
 import { INEGoogleCloudVision } from '../../../contexts/api/government/application/INEGoogleCloudVision';
 import { GoogleCloudVision } from '../../../contexts/api/government/infrastructure/GoogleCloudVision';
 import { BucketFile } from '../../../models/file';
+import { INEUrl } from '../../../contexts/api/government/domain/INEUrl';
 
 interface INERequest {
   obverseUrl: string;
@@ -18,7 +19,11 @@ export const validateINE = functions
   .https.onCall(async (data: INERequest, context: https.CallableContext) => {
     const validator = new INEValidator(
       context.auth.uid,
-      new INEGoogleCloudVision(new GoogleCloudVision(), new BucketFile(data.obverseUrl), new BucketFile(data.backUrl))
+      new INEGoogleCloudVision(
+        new GoogleCloudVision(),
+        new BucketFile(new INEUrl(data.obverseUrl).value),
+        new BucketFile(new INEUrl(data.backUrl).value)
+      )
     );
     return validator.validate();
   });
