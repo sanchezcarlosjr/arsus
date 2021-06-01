@@ -47,10 +47,10 @@ export class PageCreator {
     return this.page;
   }
 
-  async type(xPath: string, value: string) {
+  async type(xPath: string, value: string, index: number = 0) {
     await this.page.waitForXPath(xPath);
     const input = await this.getPage().$x(xPath);
-    await this.getPage().evaluate((elementHandler, user) => (elementHandler.value = user), input[0], value);
+    await this.getPage().evaluate((elementHandler, user) => (elementHandler.value = user), input[index], value);
   }
 
   async click(xPath: string) {

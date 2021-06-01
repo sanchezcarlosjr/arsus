@@ -13,8 +13,8 @@ export class INEModelC extends INEModel {
   async scrape(userId: string): Promise<INEResponse> {
     const page = await this.createPage();
     await page.type('//*[@id="claveElector"]', this.electorKey);
-    await page.type('//*[@id="ocr"]', this.ocr);
-    await page.type('//*[@id="numeroEmision"]', this.emission);
+    await page.type('//*[@id="ocr"]', this.ocr, 1);
+    await page.type('//*[@id="numeroEmision"]', this.emission, 1);
     await page.solveCaptchas();
     await page.click('/html/body/div[1]/section[4]/div/div[3]/div[2]/form/div[3]/div/div/button');
     const credentialTable = await page.count('/html/body/div[1]/section[3]/div/div[2]/div[1]/table/tbody/tr[1]/td[2]');

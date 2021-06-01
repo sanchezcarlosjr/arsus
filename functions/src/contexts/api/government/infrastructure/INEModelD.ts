@@ -12,7 +12,7 @@ export class INEModelD extends INEModel {
 
   async scrape(userId: string): Promise<INEResponse> {
     const page = await this.createPage();
-    await page.type('//*[@id="cic"]', this.cic);
+    await page.type('//*[@id="cic"]', this.cic, 1);
     await page.type('//*[@id="ocr"]', this.ocr);
     await page.solveCaptchas();
     await page.click('/html/body/div[1]/section[4]/div/div[2]/div[2]/form/div[2]/div[2]/button');
