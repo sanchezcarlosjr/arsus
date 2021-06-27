@@ -1,1 +1,9 @@
-[{ "route": "/" }]
+[
+  { "route": "/" },
+  { "route": "/tabs/home" },
+  { "route": "/tabs/settings" },
+  { "route": "/tabs/api" },
+  { "route": "/tabs/rss" },
+  { "route": "/research" },
+  { "route": "/UABC-Scheduler/5doyPtE0gP3VD2aRkrho" }
+]

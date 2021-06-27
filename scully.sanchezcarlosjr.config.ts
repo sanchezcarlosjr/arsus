@@ -4,4 +4,12 @@ export const config: ScullyConfig = {
   projectName: 'sanchezcarlosjr',
   outDir: './dist/static',
   routes: {},
+  extraRoutes: [
+    '/tabs/home',
+    '/tabs/settings',
+    '/tabs/api',
+    '/tabs/rss',
+    '/research',
+    '/UABC-Scheduler/5doyPtE0gP3VD2aRkrho',
+  ],
 };
