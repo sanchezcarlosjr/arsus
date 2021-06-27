@@ -10,7 +10,7 @@ const routes: Routes = [
     component: LoginComponent,
     canActivate: [AngularFireAuthGuard],
     data: {
-      title: extract('Login'),
+      title: extract('LoginTitle'),
       authGuardPipe: () =>
         redirectLoggedInTo([new URLSearchParams(window.location.search).get('continue') || 'tabs/home']),
     },
