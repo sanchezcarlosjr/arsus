@@ -5,7 +5,8 @@ import { AlertController } from '@ionic/angular';
 import { Store } from '@ngxs/store';
 import { AuthStateModule } from '@store/auth/auth.state';
 import { switchMap } from 'rxjs/operators';
-import firebase from 'firebase';
+import firebase from 'firebase/app';
+import 'firebase/firestore';
 
 @Component({
   selector: 'app-rss',

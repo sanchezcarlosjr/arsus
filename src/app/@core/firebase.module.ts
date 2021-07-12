@@ -13,7 +13,6 @@ import {
   ScreenTrackingService,
   UserTrackingService,
 } from '@angular/fire/analytics';
-import { AngularFirePerformanceModule, PerformanceMonitoringService } from '@angular/fire/performance';
 
 @NgModule({
   imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
@@ -23,6 +22,7 @@ import { AngularFirePerformanceModule, PerformanceMonitoringService } from '@ang
     AngularFirestoreModule,
     AngularFireMessagingModule,
     AngularFireFunctionsModule,
+    AngularFireAnalyticsModule,
   ],
   providers: [
     { provide: REGION, useValue: 'us-central1' },

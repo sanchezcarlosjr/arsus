@@ -8,6 +8,7 @@ import { GoogleApiService } from '@store/auth/google-authentication.controller';
 import { UserRequest } from '@store/auth/user-request';
 import { SetUserName } from '@store/theme/theme.actions';
 import firebase from 'firebase/app';
+import 'firebase/auth';
 import { filter, tap } from 'rxjs/operators';
 import { ToastService } from '@shared/toast.service';
 import { LinkAction, LoginAction, LogoutAction } from './auth.actions';
