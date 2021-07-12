@@ -9,7 +9,6 @@ import { BlobIframeComponent } from '@shared/iframe/blob-iframe/blob-iframe.comp
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AuthStateModule } from '@store/auth/auth.state';
 import { MusicService } from '@app/portfolio/music/music.service';
-import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-portfolio',
@@ -19,9 +18,9 @@ import { DomSanitizer } from '@angular/platform-browser';
 export class PortfolioComponent implements OnInit, OnDestroy {
   @Select(NewsState.articles) articles: Observable<Article[]>;
   userUID = '';
-  dialogFlow = '';
   itHasFinishedPlaying = false;
   private subscription = new Subscription();
+  dialogFlow = '';
 
   constructor(
     private store: Store,
@@ -33,14 +32,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetNews());
     this.subscription = this.store.select(AuthStateModule.uid).subscribe((uid) => (this.userUID = uid));
-    this.dialogFlow =
-      '<df-messenger\n' +
-      '    intent="WELCOME"\n' +
-      '    chat-title="😀 Carlos Sanchez"\n' +
-      '    chat-icon="assets/icons/icon-72x72.png"\n' +
-      '    agent-id="695979d8-2719-43a8-98b2-25747f9d2602"\n' +
-      '    language-code="en"\n' +
-      '  ></df-messenger>';
   }
 
   ngOnDestroy() {
