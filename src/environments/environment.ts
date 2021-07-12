@@ -13,7 +13,7 @@ export const environment = {
   production: false,
   hmr: true,
   version: env.npm_package_version + '-dev',
-  serverUrl: '/api',
+  serverUrl: 'https://api.chucknorris.io',
   defaultLanguage: 'es-ES',
   supportedLanguages: ['de-DE', 'en-US', 'fr-FR', 'zh-CN', 'es-ES'],
   googleAuthDomain: 'https://sanchezcarlosjr.com/login',
