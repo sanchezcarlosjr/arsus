@@ -5,7 +5,7 @@ import { ProjectsRoutingModule } from './projects-routing.module';
 import { ProjectsComponent } from './projects.component';
 import { IonicModule } from '@ionic/angular';
 import { TranslateModule } from '@ngx-translate/core';
-import { IframeModule } from '../@shared/iframe/iframe.module';
+import { IframeModule } from '@shared/iframe/iframe.module';
 
 @NgModule({
   declarations: [ProjectsComponent],
