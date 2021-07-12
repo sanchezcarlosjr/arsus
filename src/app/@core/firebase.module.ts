@@ -5,14 +5,7 @@ import { AngularFirestoreModule } from '@angular/fire/firestore';
 import { AngularFireFunctionsModule, REGION } from '@angular/fire/functions';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { environment } from '@env/environment';
-import {
-  AngularFireAnalyticsModule,
-  APP_NAME,
-  APP_VERSION,
-  DEBUG_MODE,
-  ScreenTrackingService,
-  UserTrackingService,
-} from '@angular/fire/analytics';
+import { APP_NAME, APP_VERSION, DEBUG_MODE, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 
 @NgModule({
   imports: [AngularFireModule.initializeApp(environment.firebaseConfig)],
@@ -22,7 +15,6 @@ import {
     AngularFirestoreModule,
     AngularFireMessagingModule,
     AngularFireFunctionsModule,
-    AngularFireAnalyticsModule,
   ],
   providers: [
     { provide: REGION, useValue: 'us-central1' },
