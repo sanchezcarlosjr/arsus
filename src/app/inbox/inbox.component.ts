@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireFunctions } from '@angular/fire/functions';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { FetchInbox, GetInbox } from '@app/inbox/store/inbox.actions';
 import { InboxItem, InboxState } from '@app/inbox/store/inbox.state';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { EmailComposeComponent } from '@app/inbox/email-compose/email-compose.component';
 
 @Component({
   selector: 'app-inbox',
@@ -14,23 +15,13 @@ import { Observable } from 'rxjs';
 })
 export class InboxComponent implements OnInit {
   @Select(InboxState.items) articles$: Observable<InboxItem[]>;
-  communicationForm!: FormGroup;
 
   constructor(
     private store: Store,
     private firestore: AngularFirestore,
-    private formBuilder: FormBuilder,
+    private modal: ModalController,
     private cloudFunctions: AngularFireFunctions
-  ) {
-    this.createForm();
-  }
-
-  async upload() {
-    try {
-      await this.cloudFunctions.httpsCallable('InboxSender')(this.communicationForm.value).toPromise();
-      this.communicationForm.reset();
-    } catch (e) {}
-  }
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetInbox());
@@ -55,12 +46,13 @@ export class InboxComponent implements OnInit {
     );
   }
 
-  private createForm() {
-    this.communicationForm = this.formBuilder.group({
-      to: [''],
-      type: ['email'],
-      subject: [''],
-      message: [''],
+  async composeEmail(email: string = '') {
+    const modal = await this.modal.create({
+      component: EmailComposeComponent,
+      componentProps: {
+        email,
+      },
     });
+    return await modal.present();
   }
 }

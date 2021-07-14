@@ -1,0 +1,22 @@
+<form (ngSubmit)="upload()" [formGroup]="communicationForm" novalidate>
+  <ion-segment formControlName="type">
+    <ion-segment-button value="email">
+      <ion-label>Email</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="whatsapp">
+      <ion-label>Whatsapp</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="sms">
+      <ion-label>SMS</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <ion-input formControlName="to" placeholder="To"></ion-input>
+  <ion-input formControlName="subject" placeholder="Subject"></ion-input>
+  <ion-item>
+    <ion-label position="floating">Message</ion-label>
+    <ion-textarea formControlName="message"></ion-textarea>
+  </ion-item>
+  <ion-button type="submit" expand="full" fill="outline">
+    <ion-icon name="send-outline"></ion-icon>
+  </ion-button>
+</form>

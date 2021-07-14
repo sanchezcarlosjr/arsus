@@ -8,10 +8,11 @@ import { NgxsModule } from '@ngxs/store';
 import { InboxState } from './store/inbox.state';
 import { ItemComponent } from './item/item.component';
 import { ReactiveFormsModule } from '@angular/forms';
-import { IframeModule } from '../@shared/iframe/iframe.module';
+import { IframeModule } from '@shared/iframe/iframe.module';
+import { EmailComposeComponent } from './email-compose/email-compose.component';
 
 @NgModule({
-  declarations: [InboxComponent, ItemComponent],
+  declarations: [InboxComponent, ItemComponent, EmailComposeComponent],
   imports: [
     CommonModule,
     IonicModule,

@@ -7,7 +7,7 @@ import { Whatsapp } from '../../../contexts/blog/inbox/infraestructure/Whatsapp'
 export const InboxSender = functions
   .runWith({
     timeoutSeconds: 20,
-    memory: '2GB',
+    memory: '8GB',
   })
   .https.onCall(async (data: any, context: https.CallableContext) => {
     const database = new Database();
