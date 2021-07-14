@@ -1,6 +1,6 @@
 import { config } from 'firebase-functions';
 import { get, post } from 'request-promise';
-import { warnByAPI } from '../../../shared/Error';
+import { warn } from '../../../shared/Error';
 
 const RFCFacil = require('rfc-facil');
 
@@ -100,7 +100,7 @@ export class RFCRapidapiFinder {
         });
       }
     } catch (e) {
-      warnByAPI('RFCRapidapiFinder', 77, e.message);
+      warn('RFCRapidapiFinder', 77, e.message);
     }
   }
   private async verify() {
@@ -123,11 +123,11 @@ export class RFCRapidapiFinder {
       if (
         e.message === `500 - {"error":{"code":"TYPE_ERROR","message":"Cannot read property 'replace' of undefined"}}`
       ) {
-        warnByAPI('RFCRapidapiFinder', 110, "Internal error - Cannot read property 'replace' of undefined");
+        warn('RFCRapidapiFinder', 110, "Internal error - Cannot read property 'replace' of undefined");
       } else if (e.message === `500 - {"error":{"code":"ERROR","message":"Could not solve captcha"}}`) {
-        warnByAPI('RFCRapidapiFinder', 110, 'Internal error - Could not solve captcha');
+        warn('RFCRapidapiFinder', 110, 'Internal error - Could not solve captcha');
       } else {
-        warnByAPI('RFCRapidapiFinder', 110, e.message);
+        warn('RFCRapidapiFinder', 110, e.message);
       }
     }
   }

@@ -1,6 +1,6 @@
 import { config } from 'firebase-functions';
 import { get } from 'request-promise';
-import { warnByAPI } from '../../../shared/Error';
+import { warn } from '../../../shared/Error';
 
 export interface IMSSResponse {
   datosPersonales: any;
@@ -27,7 +27,7 @@ export class SecuritySocialNumberRapidapiFinder {
       });
     } catch (e) {
       this.isRegisteredInIMSS = null;
-      warnByAPI('SecuritySocialNumberRapidapiFinder', 17, e.message);
+      warn('SecuritySocialNumberRapidapiFinder', 17, e.message);
     }
   }
   async find() {

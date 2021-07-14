@@ -3,7 +3,7 @@ import * as mocha from 'mocha';
 import { AdminWrapper } from '../../AdminWrapper';
 import { MexicanFinder } from './../../../src/contexts/api/government/application/MexicanFinder';
 import { CurpResponse } from './../../../src/contexts/api/government/domain/CurpResponse';
-import { warnByAPI } from '../../../src/contexts/shared/Error';
+import { warn } from '../../../src/contexts/shared/Error';
 
 export class Transaction {
   private db = admin.firestore();
@@ -73,12 +73,7 @@ mocha.describe('Download mexican key data', () => {
         document = await transaction.transacte(query).catch(() => transaction.transacte(query));
       } catch (e) {
         if (e.message === '3 INVALID_ARGUMENT: The referenced transaction has expired or is no longer valid.') {
-          warnByAPI(
-            'Transaction',
-            15,
-            'The referenced transaction has expired or is no longer valid.',
-            'FIRESTORE LIBRARY'
-          );
+          warn('Transaction', 15, 'The referenced transaction has expired or is no longer valid.', 'FIRESTORE LIBRARY');
         }
       }
     }

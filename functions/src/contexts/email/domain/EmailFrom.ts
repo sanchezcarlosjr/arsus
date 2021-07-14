@@ -1,6 +1,7 @@
 import { IncomeEmailStrategy } from '../application/IncomeEmailStrategy';
 import { TypeCommunicationFinderRepository } from './TypeCommunicationFinderRepository';
 import { IncomeEmailStrategyMaker } from './IncomeEmailStrategyMaker';
+import { warn } from '../../shared/Error';
 
 export class EmailFrom {
   constructor(
@@ -25,7 +26,7 @@ export class EmailFrom {
           return this.incomeEmailStrategyMaker.makeReplyMailStrategy();
       }
     } catch (e) {
-      console.warn(e.message);
+      warn('EmailFrom', 29, e.message, 'Income Email Factory');
       return this.incomeEmailStrategyMaker.makeNoReplyMailStrategy();
     }
   }

@@ -5,6 +5,7 @@ import { EmailText } from '../domain/EmailText';
 import { FirestoreTypeCommunicationFinderRepository } from './FirestoreTypeCommunicationFinderRepository';
 import { CloudFunctionsIncomeEmailStrategyMaker } from './CloudFunctionsIncomeEmailStrategyMaker';
 import { EmailBody } from '../domain/EmailBody';
+import { warn } from '../../shared/Error';
 
 const formidable = require('formidable-serverless');
 
@@ -17,14 +18,17 @@ export class EmailPostWebHook {
       this.parse(request);
       await this.incomeEmail.doStrategy();
     } catch (e) {
-      console.log(e);
+      warn('EmailPostWebHook', 21, e.message, 'Income Email Parsing');
     }
     return res.sendStatus(200);
   }
 
   private parse(request: express.Request) {
     this.form.parse(request, (errors: any, fields: any) => {
-      console.log(fields.from);
+      if (errors !== undefined) {
+        console.log(errors);
+        throw Error(errors);
+      }
       this.incomeEmail = new InboundEmail(
         new EmailFrom(
           fields.from,

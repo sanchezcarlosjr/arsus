@@ -2,7 +2,7 @@ import { CreatorContentProvider } from '../application/CreatorContentProvider';
 import { Article } from '../domain/Article';
 import { get } from 'request-promise';
 import { filterPublishedBetween, from, Operator } from '../application/FeederEvent';
-import { warnByAPI } from '../../../shared/Error';
+import { warn } from '../../../shared/Error';
 
 export interface Data {
   url: string;
@@ -71,7 +71,7 @@ const switchMap: Operator = (response: Article[]): Promise<any>[] => {
         json: true,
       });
     } catch (e) {
-      warnByAPI('contexts/blog/news/infrastructure/HackerNews/switchMap', 70, e.message);
+      warn('contexts/blog/news/infrastructure/HackerNews/switchMap', 70, e.message);
     }
     if (!article || !article?.data) {
       return item;

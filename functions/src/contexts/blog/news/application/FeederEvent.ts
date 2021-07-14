@@ -2,7 +2,7 @@ import admin from 'firebase-admin';
 import * as moment from 'moment';
 import { get } from 'request-promise';
 import * as xml from 'xml2js';
-import { warnByAPI } from '../../../shared/Error';
+import { warn } from '../../../shared/Error';
 
 export type Operator = (response: any) => any;
 
@@ -56,7 +56,7 @@ export class FeederEvent {
     try {
       event = await this.event;
     } catch (e) {
-      warnByAPI(
+      warn(
         'contexts/blog/news/application/FeederEvent.toObjectPromise',
         57,
         `${e.message} by event=${event} and url=${e.options.url}`
@@ -69,7 +69,7 @@ export class FeederEvent {
       try {
         event = await operator(event);
       } catch (e) {
-        warnByAPI('contexts/blog/news/application/FeederEvent.toObjectPromise', 63, e.message);
+        warn('contexts/blog/news/application/FeederEvent.toObjectPromise', 63, e.message);
       }
     }
     return event;
