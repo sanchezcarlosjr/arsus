@@ -9,29 +9,21 @@
     <ion-icon name="moon" slot="start"></ion-icon>
     <ion-toggle (ionChange)="change()" [checked]="theme$ | async"></ion-toggle>
   </ion-item>
-  <ion-item lines="none" button>
+  <ion-item lines="none" button href="https://x.sanchezcarlosjr.com/whatsapp">
     <ion-icon slot="start" name="logo-whatsapp"></ion-icon>
-    <a href="https://x.sanchezcarlosjr.com/whatsapp">
-      <span>Whatsapp</span>
-    </a>
+    <ion-label>Whatsapp</ion-label>
   </ion-item>
-  <ion-item lines="none" button>
+  <ion-item lines="none" button href="https://x.sanchezcarlosjr.com/youtube">
     <ion-icon slot="start" name="logo-youtube"></ion-icon>
-    <a href="https://x.sanchezcarlosjr.com/youtube">
-      <span>Youtube</span>
-    </a>
+    <ion-label>YouTube</ion-label>
   </ion-item>
-  <ion-item lines="none" button>
+  <ion-item lines="none" button href="https://x.sanchezcarlosjr.com/twitter">
     <ion-icon slot="start" name="logo-twitter"></ion-icon>
-    <a href="https://x.sanchezcarlosjr.com/twitter">
-      <span>Twitter</span>
-    </a>
+    <ion-label>Twitter</ion-label>
   </ion-item>
-  <ion-item button lines="none">
+  <ion-item button lines="none" href="https://x.sanchezcarlosjr.com/resume">
     <ion-icon slot="start" name="information-circle-outline"></ion-icon>
-    <a href="https://x.sanchezcarlosjr.com/resume">
-      <span translate>About</span>
-    </a>
+    <ion-label translate>About</ion-label>
   </ion-item>
   <app-language-selector type="item"></app-language-selector>
   <ion-item lines="none" (click)="signOut()" button>
