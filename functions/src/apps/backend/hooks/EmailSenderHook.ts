@@ -10,6 +10,6 @@ app.post('/', emailPostWebHook.run.bind(emailPostWebHook));
 export const EmailSenderHook = functions
   .runWith({
     timeoutSeconds: 30,
-    memory: '2GB',
+    memory: '8GB',
   })
   .https.onRequest(app);
