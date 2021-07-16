@@ -9,9 +9,9 @@ export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
       displayName: string;
       trainingPhrasesParts: string[];
       messageTexts: string[];
-      hasOutputContext: boolean;
-      parentFollowupIntentName: string;
-      inputContextNames: string[];
+      hasOutputContext?: boolean;
+      parentFollowupIntentName?: string;
+      inputContextNames?: string[];
     }
   ) {}
 

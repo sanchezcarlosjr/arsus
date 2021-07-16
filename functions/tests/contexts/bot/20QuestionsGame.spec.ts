@@ -22,28 +22,34 @@ mocha.describe('20QuestionsGame', () => {
   const messageTexts = ['Rainy', 'Sunny'];
   it.only('should create intents with parent', async () => {
     const intentCreator = new IntentCreator(new DialogflowIntentCreator());
-    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter(
-      'A',
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter({
+      displayName: 'A',
       trainingPhrasesParts,
       messageTexts,
-      true,
-      'f60fb8f3-92b4-419e-9668-a7be825ee4b3',
-      ['20questionsgamecharacters-followup']
-    );
-    await intentCreator.create(dialogflowIntentCreatorAdapter);
+      hasOutputContext: true,
+      parentFollowupIntentName: 'f60fb8f3-92b4-419e-9668-a7be825ee4b3',
+      inputContextNames: ['20questionsgamecharacters-followup'],
+    });
+    await intentCreator.create('id', dialogflowIntentCreatorAdapter);
   });
   it('should create intent', async () => {
     const intentCreator = new IntentCreator(intentProvider);
-    const expr = /projects\/arsus-production\/agent\/intents\/[0-9a-z\-]{36}/g;
-    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter('A', trainingPhrasesParts, messageTexts);
-    const response = await intentCreator.create(dialogflowIntentCreatorAdapter);
-    expect(response.name).to.be.match(expr);
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter({
+      displayName: 'A',
+      trainingPhrasesParts,
+      messageTexts,
+    });
+    await intentCreator.create('id', dialogflowIntentCreatorAdapter);
   });
   it('should create intent by trainingPhrasesParts and message texts', async () => {
     const spy = sinon.spy(intentProvider, 'create');
     const intentCreator = new IntentCreator(intentProvider);
-    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter('A', trainingPhrasesParts, messageTexts);
-    await intentCreator.create(dialogflowIntentCreatorAdapter);
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter({
+      displayName: 'A',
+      trainingPhrasesParts,
+      messageTexts,
+    });
+    await intentCreator.create('id', dialogflowIntentCreatorAdapter);
     const args = spy.args[0][0];
     expect(args.displayName).to.be.equal('A');
     const phrases = [
