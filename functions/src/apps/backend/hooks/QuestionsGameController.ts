@@ -4,6 +4,7 @@ import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { DialogflowIntentCreatorAdapter } from '../../../contexts/blog/bot/infraestructure/DialogflowIntentCreatorAdapter';
 import { IntentCreator } from '../../../contexts/blog/bot/application/IntentCreator';
 import { DialogflowIntentCreator } from '../../../contexts/blog/bot/infraestructure/DialogflowIntentCreator';
+import { ReplyAdapter } from '../../../contexts/blog/bot/application/ReplyAdapter';
 
 export const QuestionsGameCreatorHook = functions
   .runWith({
@@ -12,12 +13,9 @@ export const QuestionsGameCreatorHook = functions
   })
   .firestore.document('20QuestionsGame/{uuid}')
   .onCreate(async (documentSnapshot: DocumentSnapshot, context: EventContext) => {
-    const data = documentSnapshot.data();
-    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter(
-      data.displayName,
-      data.trainingPhrasesParts,
-      data.trainingPhrasesParts
-    );
+    const reply = new ReplyAdapter(documentSnapshot);
+    const intent = await reply.adapt();
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter(intent);
     const intentCreator = new IntentCreator(new DialogflowIntentCreator());
-    await intentCreator.create(dialogflowIntentCreatorAdapter);
+    return intentCreator.create(documentSnapshot.id, dialogflowIntentCreatorAdapter);
   });

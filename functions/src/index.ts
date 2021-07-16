@@ -38,3 +38,6 @@ export * from './apps/backend/hooks/NewUserHook';
 export * from './apps/backend/hooks/SatListWatcher';
 export * from './apps/backend/hooks/searcher';
 export * from './apps/backend/hooks/StorageHook';
+export * from './apps/backend/hooks/QuestionsGameController';
+export { ReplyAdapter } from './contexts/blog/bot/application/ReplyAdapter';
+export { Reply } from './contexts/blog/bot/application/ReplyAdapter';

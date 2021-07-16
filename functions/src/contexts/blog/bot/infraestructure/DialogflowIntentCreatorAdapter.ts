@@ -5,17 +5,19 @@ import IIntent = google.cloud.dialogflow.v2.IIntent;
 
 export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
   constructor(
-    private displayName: string,
-    private trainingPhrasesParts: string[],
-    private messageTexts: string[],
-    private hasOutputContext: boolean = false,
-    private parentFollowupIntentName: string = null,
-    private inputContextNames: string[] = null
+    private intent: {
+      displayName: string;
+      trainingPhrasesParts: string[];
+      messageTexts: string[];
+      hasOutputContext: boolean;
+      parentFollowupIntentName: string;
+      inputContextNames: string[];
+    }
   ) {}
 
   adapt(): IIntent {
     return {
-      displayName: this.displayName,
+      displayName: this.intent.displayName,
       trainingPhrases: this.mapTrainingPhrasesParts(),
       messages: this.mapMessageTexts(),
       parentFollowupIntentName: this.mapParentFollowupIntentName(),
@@ -25,10 +27,10 @@ export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
   }
 
   private mapOutpuContexts() {
-    return this.hasOutputContext
+    return this.intent.hasOutputContext
       ? [
           {
-            name: `projects/arsus-production/agent/sessions/-/contexts/${this.displayName}f`,
+            name: `projects/arsus-production/agent/sessions/-/contexts/${this.intent.displayName}f`,
             lifespanCount: 3,
           },
         ]
@@ -36,13 +38,13 @@ export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
   }
 
   private mapParentFollowupIntentName() {
-    return this.parentFollowupIntentName !== null
-      ? `projects/arsus-production/agent/intents/${this.parentFollowupIntentName}`
+    return this.intent.parentFollowupIntentName !== null
+      ? `projects/arsus-production/agent/intents/${this.intent.parentFollowupIntentName}`
       : null;
   }
 
   private mapInputContextNames() {
-    return this.inputContextNames?.map(
+    return this.intent.inputContextNames?.map(
       (inputContextName) => `projects/arsus-production/agent/sessions/-/contexts/${inputContextName}`
     );
   }
@@ -51,14 +53,14 @@ export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
     return [
       {
         text: {
-          text: this.messageTexts,
+          text: this.intent.messageTexts,
         },
       },
     ];
   }
 
   private mapTrainingPhrasesParts() {
-    return this.trainingPhrasesParts.map((trainingPhrasesPart: string) => {
+    return this.intent.trainingPhrasesParts.map((trainingPhrasesPart: string) => {
       return {
         type: Type.EXAMPLE,
         parts: [
