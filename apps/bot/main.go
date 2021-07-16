@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func main() {
+func main2() {
 	userResponse := "0"
 	for infraestructure.Translation.Yes[userResponse] || userResponse == "0" {
 		fmt.Println("===========================================================================================================")

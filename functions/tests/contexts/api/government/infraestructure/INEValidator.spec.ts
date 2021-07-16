@@ -31,7 +31,7 @@ mocha.describe('INE Validator', () => {
     const ine = await ineVision.derive();
     expect(ine.type.toString()).eql(`INEModelD 183657717 0747116375842`);
   });
-  it.only('should match name file', async () => {
+  it('should match name file', async () => {
     const ineURL = new INEUrl(mockEnv.url);
     expect(ineURL.value).eq(mockEnv.assets);
   });
