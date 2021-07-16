@@ -1,6 +1,7 @@
 import * as mocha from 'mocha';
 import { IntentCreator } from '../../../src/contexts/blog/bot/application/IntentCreator';
 import { google } from '@google-cloud/dialogflow/build/protos/protos';
+import { DialogflowIntentCreatorAdapter } from '../../../src/contexts/blog/bot/infraestructure/DialogflowIntentCreatorAdapter';
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -21,12 +22,14 @@ mocha.describe('20QuestionsGame', () => {
   it('should create intent', async () => {
     const intentCreator = new IntentCreator(intentProvider);
     const expr = /Intent projects\/arsus-production\/agent\/intents\/[0-9a-z\-]{36} created/g;
-    await expect(intentCreator.create(trainingPhrasesParts, messageTexts)).to.be.eventually.match(expr);
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter('A', trainingPhrasesParts, messageTexts);
+    await expect(intentCreator.create(dialogflowIntentCreatorAdapter)).to.be.eventually.match(expr);
   });
   it.only('should create intent by trainingPhrasesParts and message texts', async () => {
     const spy = sinon.spy(intentProvider, 'create');
     const intentCreator = new IntentCreator(intentProvider);
-    await intentCreator.create(trainingPhrasesParts, messageTexts);
+    const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter('A', trainingPhrasesParts, messageTexts);
+    await intentCreator.create(dialogflowIntentCreatorAdapter);
     const args = spy.args[0][0];
     expect(args.displayName).to.be.equal('A');
     const phrases = [
