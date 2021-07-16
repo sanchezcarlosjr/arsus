@@ -5,7 +5,6 @@ export class IntentCreator {
   constructor(private provider: IntentProviderCreator) {}
 
   async create(adapter: DialogflowIntentCreatorAdapter) {
-    const response = await this.provider.create(adapter.adapt());
-    return `Intent ${response.name} created`;
+    return await this.provider.create(adapter.adapt());
   }
 }
