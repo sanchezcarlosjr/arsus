@@ -9,7 +9,7 @@ export class IntentCreator {
 
   async create(id: string, adapter: DialogflowIntentCreatorAdapter) {
     const response = await this.provider.create(adapter.adapt());
-    return this.database.collection('20QuestionsGame').update(id, {
+    return this.database.collection('QuestionsGame').update(id, {
       intentId: response.name.match('[0-9a-z-]{36}')[0],
       outputContext: response.outputContexts.map((context) => {
         return context.name;

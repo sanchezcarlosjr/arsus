@@ -11,7 +11,7 @@ export const QuestionsGameCreatorHook = functions
     timeoutSeconds: 30,
     memory: '2GB',
   })
-  .firestore.document('20QuestionsGame/{uuid}')
+  .firestore.document('QuestionsGame/{uuid}')
   .onCreate(async (documentSnapshot: DocumentSnapshot, context: EventContext) => {
     const reply = new ReplyAdapter(documentSnapshot);
     const intent = await reply.adapt();
