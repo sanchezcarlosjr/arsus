@@ -22,11 +22,11 @@ export class DialogflowIntentCreatorAdapter implements IntentCreatorAdapter {
       messages: this.mapMessageTexts(),
       parentFollowupIntentName: this.mapParentFollowupIntentName(),
       inputContextNames: this.mapInputContextNames(),
-      outputContexts: this.mapOutpuContexts(),
+      outputContexts: this.mapOutputContexts(),
     };
   }
 
-  private mapOutpuContexts() {
+  private mapOutputContexts() {
     return this.intent.hasOutputContext
       ? [
           {
