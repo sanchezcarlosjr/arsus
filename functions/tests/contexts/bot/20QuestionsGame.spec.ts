@@ -3,6 +3,8 @@ import { IntentCreator } from '../../../src/contexts/blog/bot/application/Intent
 import { google } from '@google-cloud/dialogflow/build/protos/protos';
 import { DialogflowIntentCreatorAdapter } from '../../../src/contexts/blog/bot/infraestructure/DialogflowIntentCreatorAdapter';
 import { DialogflowIntentCreator } from '../../../src/contexts/blog/bot/infraestructure/DialogflowIntentCreator';
+import { DialogflowIntentListing } from '../../../src/contexts/blog/bot/infraestructure/DialogflowIntentListing';
+import { QuestionsGame } from '../../../src/contexts/blog/bot/application/QuestionsGame';
 
 const chai = require('chai');
 const expect = chai.expect;
@@ -20,7 +22,18 @@ mocha.describe('20QuestionsGame', () => {
   };
   const trainingPhrasesParts = ['Hello, What is weather today?', 'How is the weather today?'];
   const messageTexts = ['Rainy', 'Sunny'];
-  it.only('should create intents with parent', async () => {
+  it('should list intents', async () => {
+    const dialogflowListing = new DialogflowIntentListing();
+    await dialogflowListing.list();
+  });
+  it.only('should filter intents', async () => {
+    const dialogflowListing = new DialogflowIntentListing();
+    const questionsGame = new QuestionsGame(dialogflowListing);
+    const response = await questionsGame.adapt();
+    console.log(response.attributes);
+    expect(response.name).to.eq('0');
+  });
+  it('should create intents with parent', async () => {
     const intentCreator = new IntentCreator(new DialogflowIntentCreator());
     const dialogflowIntentCreatorAdapter = new DialogflowIntentCreatorAdapter({
       displayName: 'A',
