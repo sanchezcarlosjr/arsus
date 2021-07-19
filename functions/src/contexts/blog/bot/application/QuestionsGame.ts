@@ -11,14 +11,13 @@ interface Node {
 
 export class QuestionsGame {
   private readonly rootFollowupIntentName = functions.config().bot.questions_game;
-  private game: Node[];
   private rootIndex = 0;
 
   constructor(private dialogflowIntent: DialogflowIntentListing) {}
 
   async load() {
     const intents = await this.dialogflowIntent.list();
-    this.game = intents
+    return intents
       .filter((x) => x.rootFollowupIntentName === this.rootFollowupIntentName || x.name === this.rootFollowupIntentName)
       .map((intent, index: number) => {
         if (intent.name === this.rootFollowupIntentName) {
@@ -38,8 +37,8 @@ export class QuestionsGame {
           id: intent.name,
           parentFollowupIntentName: intent.parentFollowupIntentName,
           attributes: {
-            questions: messages,
-            user_expressions: trainingPhrases,
+            response: messages,
+            invoker: trainingPhrases,
           },
         };
         return reply;
@@ -47,23 +46,22 @@ export class QuestionsGame {
   }
 
   async adapt(): Promise<Node> {
-    await this.load();
-    return this.map(this.game.splice(this.rootIndex, 1)[0]);
+    const game = await this.load();
+    const root = game.splice(this.rootIndex, 1)[0];
+    return this.map(root, game);
   }
 
-  private map(tree: Node): Node {
-    if (this.game.length === 0) {
+  private map(tree: Node, game: Node[]): Node {
+    if (game.length === 0) {
       return null;
     }
+    const newGame: Node[] = [];
     const parent = tree.id;
-    this.game.forEach((reply, i) => {
-      if (reply.parentFollowupIntentName === parent) {
-        tree.children.push(reply);
-        this.game.splice(i, 1);
-      }
-    });
+    game.forEach((reply) =>
+      reply.parentFollowupIntentName === parent ? tree.children.push(reply) : newGame.push(reply)
+    );
     for (const child of tree.children) {
-      this.map(child);
+      this.map(child, newGame);
     }
     return tree;
   }

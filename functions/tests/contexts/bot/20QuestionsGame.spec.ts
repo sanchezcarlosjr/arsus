@@ -30,8 +30,10 @@ mocha.describe('20QuestionsGame', () => {
     const dialogflowListing = new DialogflowIntentListing();
     const questionsGame = new QuestionsGame(dialogflowListing);
     const response = await questionsGame.adapt();
-    console.log(response.attributes);
     expect(response.name).to.eq('0');
+    expect(response.children[0].name).to.eq('1');
+    expect(response.children[0].children[0].name).to.eq('3');
+    expect(response.children[0].children[1].name).to.eq('4');
   });
   it('should create intents with parent', async () => {
     const intentCreator = new IntentCreator(new DialogflowIntentCreator());
