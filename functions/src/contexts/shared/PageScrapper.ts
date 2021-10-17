@@ -3,19 +3,34 @@ import puppeteer, { PuppeteerExtraPlugin } from 'puppeteer-extra';
 import * as admin from 'firebase-admin';
 import * as fs from 'fs';
 import * as os from 'os';
+import { config } from 'firebase-functions';
+const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 
-export class PageCreator {
-  private static instance: PageCreator = null;
+export class PageScrapper {
+  private static instance: PageScrapper = null;
 
   private constructor(private page: Page) {}
 
   static async getInstance(url: string, ...plugins: PuppeteerExtraPlugin[]) {
-    if (PageCreator.instance === null) {
+    if (PageScrapper.instance === null) {
       plugins.forEach((plugin) => puppeteer.use(plugin));
-      const page = await PageCreator.launch(url);
-      PageCreator.instance = new PageCreator(page);
+      const page = await PageScrapper.launch(url);
+      PageScrapper.instance = new PageScrapper(page);
     }
-    return PageCreator.instance;
+    return PageScrapper.instance;
+  }
+
+  static instanceWithRecaptchaPlugin(url: string) {
+    return PageScrapper.getInstance(
+      url,
+      RecaptchaPlugin({
+        provider: {
+          id: '2captcha',
+          token: config().captcha2.key,
+        },
+        visualFeedback: false,
+      })
+    );
   }
 
   private static async launch(url: string) {

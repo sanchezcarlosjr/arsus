@@ -1,12 +1,11 @@
-import { get } from 'request-promise';
-import { Database } from '../../../../database/database';
-import { getGroups } from '../../../shared/regex';
 import { CommandBatch } from '../application/CommandBatch';
 import { CurpId } from '../domain/CurpId';
 import { CurpIdRepository } from '../domain/CurpIdRepository';
 import { CurpResponse } from '../domain/CurpResponse';
 import { CURPResponseCommand } from './CURPResponseCommand';
+import { PageScrapper } from '../../../shared/PageScrapper';
 import moment = require('moment');
+import { Database } from '../../../../database/database';
 
 export class CurpNotFound extends Error {
   constructor(value: string) {
@@ -15,12 +14,11 @@ export class CurpNotFound extends Error {
 }
 
 const genderISOConverter = new Map([
-  ['H', '1'],
-  ['M', '2'],
+  ['HOMBRE', '1'],
+  ['MUJER', '2'],
 ]);
 
 export class CurpIdScraper extends CurpIdRepository {
-  private htmlScrapePattern = /"([A-Z Ñ\-0-9.\/]*)";/gi;
   private database = new Database();
   constructor() {
     super();
@@ -28,21 +26,40 @@ export class CurpIdScraper extends CurpIdRepository {
 
   async search(id: CurpId): Promise<CurpResponse> {
     CommandBatch.getInstance().addCommand(new CURPResponseCommand());
-    const htmlResponse: string = await get(
-      `http://sipso.sedesol.gob.mx/consultarCurp/consultaCurpR.jsp?cveCurp=${id.value}`
+    const page = await PageScrapper.instanceWithRecaptchaPlugin('https://www.gob.mx/curp/');
+    await page.getPage().type('#curpinput', id.value);
+    await page.solveCaptchas();
+    await page.getPage().click('#searchButton');
+    const name = await page.read(
+      '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[2]/td[2]'
     );
-    const curpWithoutShape = getGroups(htmlResponse, this.htmlScrapePattern);
-    if (!curpWithoutShape[4]) {
+    if (!name) {
       throw new CurpNotFound(id.value);
     }
+    const birthState = await page.read(
+      '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[8]/td[2]'
+    );
     return {
       curp: id.value,
-      fatherName: curpWithoutShape[1],
-      motherName: curpWithoutShape[2],
-      name: curpWithoutShape[0],
-      gender: genderISOConverter.get(curpWithoutShape[4]),
-      birthday: moment(curpWithoutShape[3], 'DD/MM/YYYY').toISOString(),
-      birthState: (await this.database.collection('states').showData(curpWithoutShape[5])).iso,
+      fatherName: await page.read(
+        '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[3]/td[2]'
+      ),
+      motherName: await page.read(
+        '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[4]/td[2]'
+      ),
+      name,
+      gender: genderISOConverter.get(
+        await page.read(
+          '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[5]/td[2]'
+        )
+      ),
+      birthday: moment(
+        await page.read(
+          '/html/body/div[2]/main/div/div/div[2]/section/div/div/div[2]/form/div[2]/div[1]/div/div[2]/table/tr[6]/td[2]'
+        ),
+        'DD/MM/YYYY'
+      ).toISOString(),
+      birthState: (await this.database.collection('states').showData(birthState)).iso,
     };
   }
 }

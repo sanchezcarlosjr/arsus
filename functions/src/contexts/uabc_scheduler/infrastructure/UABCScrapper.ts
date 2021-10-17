@@ -1,4 +1,4 @@
-import { PageCreator } from '../../shared/PageCreator';
+import { PageScrapper } from '../../shared/PageScrapper';
 
 export interface Subject {
   location: string;
@@ -16,7 +16,7 @@ export class UABCScrapper {
   constructor(private user: string, private password: string) {}
 
   async scrape(): Promise<Subject[][]> {
-    const page = await PageCreator.getInstance(this.URL);
+    const page = await PageScrapper.getInstance(this.URL);
     await page.type('//*[@id="_com_liferay_login_web_portlet_LoginPortlet_login"]', this.user);
     await page.type('//*[@id="_com_liferay_login_web_portlet_LoginPortlet_password"]', this.password);
     await page.click(

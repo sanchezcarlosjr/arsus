@@ -57,7 +57,7 @@ mocha.describe('CURP Api', () => {
     assert.doesNotThrow(() => new CurpId('C'), `'CASE00011NMA8' is a invalid curp`);
     assert.throw(() => new CurpId('CASE0001A'), `'CASE000116NMA' is a invalid curp`);
   });
-  it('should search a curp id', async () => {
+  it.only('should search a curp id', async () => {
     const curpIdScrape = new CurpIdScraper();
     const curpId = new CurpId(examples[0].curp);
     const curpResponse: CurpResponse = await curpIdScrape.search(curpId);

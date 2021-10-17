@@ -4,7 +4,7 @@ import { Birthday } from './../domain/Birthday';
 import { InfonavitResponse } from './../domain/InfonavitResponse';
 import { SecuritySocialNumber } from './../domain/SecuritySocialNumber';
 import { InfonavitResponseCommand, MexicanGeneratorCommand } from './InfonavitResponseCommand';
-import { PageCreator } from '../../../shared/PageCreator';
+import { PageScrapper } from '../../../shared/PageScrapper';
 
 enum InfonavitPage {
   URL = 'https://precalificaciones.infonavit.org.mx/Precalificacion/precalif.xhtml?tipoProducto=CI',
@@ -147,7 +147,7 @@ class CreditURL extends Credit {
 
 export class InfonavitScrapper {
   async find(securitySocialNumber: SecuritySocialNumber, birthday: Birthday): Promise<InfonavitResponse> {
-    const pageCreator = await PageCreator.getInstance(InfonavitPage.URL);
+    const pageCreator = await PageScrapper.getInstance(InfonavitPage.URL);
     const credit = this.getCredits(securitySocialNumber, birthday, pageCreator.getPage());
     const response = await credit.scrape();
     CommandBatch.getInstance().addCommand(new InfonavitResponseCommand(securitySocialNumber));

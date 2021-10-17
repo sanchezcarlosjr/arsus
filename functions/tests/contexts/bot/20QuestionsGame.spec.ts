@@ -26,7 +26,7 @@ mocha.describe('20QuestionsGame', () => {
     const dialogflowListing = new DialogflowIntentListing();
     await dialogflowListing.list();
   });
-  it.only('should filter intents', async () => {
+  it('should filter intents', async () => {
     const dialogflowListing = new DialogflowIntentListing();
     const questionsGame = new QuestionsGame(dialogflowListing);
     const response = await questionsGame.adapt();

@@ -1,5 +1,5 @@
 import { INEResponse } from './INEResponse';
-import { PageCreator } from '../../../shared/PageCreator';
+import { PageScrapper } from '../../../shared/PageScrapper';
 import { config } from 'firebase-functions';
 
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
@@ -13,7 +13,7 @@ export abstract class INEModel {
   abstract toString(): string;
 
   createPage() {
-    return PageCreator.getInstance(
+    return PageScrapper.getInstance(
       this.URL,
       RecaptchaPlugin({
         provider: {
