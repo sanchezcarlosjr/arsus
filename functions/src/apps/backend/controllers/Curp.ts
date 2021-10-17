@@ -12,9 +12,10 @@ import { QuotaCounter } from '../../../contexts/api/government/infrastructure/Qu
 
 export const curp = functions
   .runWith({
-    timeoutSeconds: 70,
-    memory: '2GB',
+    timeoutSeconds: 120,
+    memory: '8GB',
   })
+  .region('us-west4', 'us-central1')
   .https.onRequest(async (req: https.Request | any, response: Response) => {
     try {
       await ensureIsValidApiKey(req.query.apiKey);
