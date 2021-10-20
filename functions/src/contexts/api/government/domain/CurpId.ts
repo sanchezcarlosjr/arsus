@@ -2,7 +2,7 @@ import { StringObject } from '../../../../helpers/StringObject';
 
 export class BadCurpFormat extends Error {
   constructor(curp: string) {
-    super(`'${curp}' is a invalid curp`);
+    super(`'${curp}' is an invalid curp`);
   }
 }
 
