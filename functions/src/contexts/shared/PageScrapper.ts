@@ -4,6 +4,8 @@ import * as admin from 'firebase-admin';
 import * as fs from 'fs';
 import * as os from 'os';
 import { config } from 'firebase-functions';
+import { WaitForSelectorOptions } from 'puppeteer';
+
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 
 export class PageScrapper {
@@ -63,6 +65,18 @@ export class PageScrapper {
     return this.page;
   }
 
+  async typeWithSelector(selector: string, value: string) {
+    await this.page.type(selector, value);
+  }
+
+  async getHtml() {
+    return await this.page.evaluate(() => document.querySelector('*').outerHTML);
+  }
+
+  async clickWithSelector(selector: string) {
+    await this.page.click(selector);
+  }
+
   async type(xPath: string, value: string, index: number = 0) {
     await this.page.waitForXPath(xPath);
     const input = await this.getPage().$x(xPath);
@@ -83,8 +97,8 @@ export class PageScrapper {
     return (await this.page.$x(xPath)).length;
   }
 
-  async read(xPath: string) {
-    const element = await this.page.waitForXPath(xPath);
+  async read(xPath: string, options?: WaitForSelectorOptions) {
+    const element = await this.page.waitForXPath(xPath, options);
     return await element.evaluate((el) => el.textContent);
   }
 

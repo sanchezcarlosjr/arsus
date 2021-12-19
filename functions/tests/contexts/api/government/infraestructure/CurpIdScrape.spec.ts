@@ -9,18 +9,7 @@ import { CurpIdScraper } from '../../../../../src/contexts/api/government/infras
 import { Database } from '../../../../../src/database/database';
 import { AdminWrapper } from '../../../../AdminWrapper';
 import { QuotaCounter } from '../../../../../src/contexts/api/government/infrastructure/QuotaCounter';
-
-const examples: CurpResponse[] = [
-  {
-    curp: '',
-    fatherName: '',
-    motherName: '',
-    name: '',
-    gender: '',
-    birthday: '',
-    birthState: '',
-  },
-];
+import { curpExamples } from '../../../../env';
 
 mocha.describe('CURP Api', () => {
   const adminWrapper = new AdminWrapper();
@@ -44,6 +33,20 @@ mocha.describe('CURP Api', () => {
     }
   });
 
+  it('should finish process after x time', async () => {
+    const curpIdScrape = new CurpIdScraper();
+    const curpId = new CurpId(curpExamples[0].curp);
+    const startTime = performance.now();
+    try {
+      await curpIdScrape.search(curpId);
+    } catch (e) {
+      expect(e.message).to.equal(`CURP '${curpId.value}' not found`);
+    }
+    const endTime = performance.now();
+    const timeInMilliseconds = endTime - startTime;
+    expect(timeInMilliseconds).to.lessThan(300);
+  });
+
   it('should not show error with valid API Key', async () => {
     try {
       await ensureIsValidApiKey('444');
@@ -59,14 +62,14 @@ mocha.describe('CURP Api', () => {
   });
   it.only('should search a curp id', async () => {
     const curpIdScrape = new CurpIdScraper();
-    const curpId = new CurpId(examples[0].curp);
+    const curpId = new CurpId(curpExamples[0].curp);
     const curpResponse: CurpResponse = await curpIdScrape.search(curpId);
-    assert.deepEqual(curpResponse, examples[0]);
+    assert.deepEqual(curpResponse, curpExamples[0]);
   });
   it('should caching a curp id', async () => {
     const database = new Database();
     database.collection('id');
-    for (const example of examples) {
+    for (const example of curpExamples) {
       const curpResponse = await new CurpIdFinder(new CurpIdScraper(), new CurpIdQueryFinder()).find(
         new CurpId(example.curp)
       );
