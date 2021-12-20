@@ -1,10 +1,9 @@
-import { Page } from 'puppeteer-extra/dist/puppeteer';
 import puppeteer, { PuppeteerExtraPlugin } from 'puppeteer-extra';
 import * as admin from 'firebase-admin';
 import * as fs from 'fs';
 import * as os from 'os';
 import { config } from 'firebase-functions';
-import { WaitForSelectorOptions } from 'puppeteer';
+import { Page, WaitForSelectorOptions } from 'puppeteer';
 
 const RecaptchaPlugin = require('puppeteer-extra-plugin-recaptcha');
 

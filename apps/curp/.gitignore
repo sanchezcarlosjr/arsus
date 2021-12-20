@@ -1,0 +1,15 @@
+## Compiled JavaScript files
+**/*.js
+**/*.d.ts
+**/*.js.map
+
+# Typescript v1 declaration files
+/typings
+
+/node_modules
+
+service-account-credentials.json
+/lib
+tests/env.ts
+
+.runtimeconfig.json

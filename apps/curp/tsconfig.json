@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "target": "es2020",
+    "lib": ["es2020", "DOM"],
+    "module": "ES2020",
+    "moduleResolution": "Node",
+    "strict": true,
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "declaration": true,
+    "strictNullChecks": false,
+    "skipLibCheck": true
+  }
+}
