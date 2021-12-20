@@ -2,6 +2,8 @@ import fetch from 'node-fetch';
 import { CaptchaSolver } from './CaptchaSolver.js';
 import { CurpIdRepository } from '../domain/CurpIdRepository.js';
 import { Database } from '../shared/database.js';
+import { CommandBatch } from '../application/CommandBatch.js';
+import { CURPResponseCommand } from './CURPResponseCommand.js';
 
 const genderISOConverter = new Map([
   ['HOMBRE', '1'],
@@ -14,6 +16,7 @@ export class CurpIdScraper extends CurpIdRepository {
   private database = new Database();
 
   async search(curpId: any) {
+    CommandBatch.getInstance().addCommand(new CURPResponseCommand());
     const captchaSolver = new CaptchaSolver();
     const captchaSolution = await captchaSolver.solve(
       '6LdJssgUAAAAAKkVr-Aj-xP5QQzclPeGZmhRwXeY',

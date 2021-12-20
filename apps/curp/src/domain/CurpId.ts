@@ -12,7 +12,17 @@ export class CurpId extends StringObject {
 
   constructor(curpId: string) {
     super(curpId);
+    this.ensure();
+  }
+
+  private ensure() {
+    this.isNotUndefined();
+    this.toUpperCase();
     this.ensureCurpId();
+  }
+
+  private toUpperCase() {
+    this.value = this.value.toUpperCase();
   }
 
   private ensureCurpId() {
@@ -21,5 +31,11 @@ export class CurpId extends StringObject {
       throw new BadCurpFormat(this.value);
     }
     this.value = match[0];
+  }
+
+  private isNotUndefined() {
+    if (this.value === undefined) {
+      throw new BadCurpFormat('');
+    }
   }
 }

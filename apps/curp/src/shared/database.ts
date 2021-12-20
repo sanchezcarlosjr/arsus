@@ -1,8 +1,8 @@
 import { WhereFilterOp } from '@firebase/firestore-types';
-import admin from 'firebase-admin';
+import { getFirestore } from 'firebase-admin/firestore';
 
 export class Database {
-  private firestore = admin.firestore();
+  private firestore = getFirestore();
   private _collection = 'users';
 
   public get batch() {

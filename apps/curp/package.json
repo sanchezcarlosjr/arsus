@@ -1,14 +1,15 @@
 {
   "name": "curp",
-  "version": "3.0.0",
+  "version": "3.1.0",
   "private": true,
   "type": "module",
+  "main": "index.js",
   "engines": {
     "node": ">=14.0.0"
   },
   "scripts": {
-    "start": "tsc && functions-framework --target=curp --source=dist",
-    "deploy": "tsc && gcloud functions deploy curp --runtime nodejs14 --trigger-http --source=dist --allow-unauthenticated --region=us-west4 --memory=8192MB --timeout=120"
+    "start": "export GOOGLE_APPLICATION_CREDENTIALS='./service-account-credentials.json' && tsc && functions-framework --target=curp --source=dist",
+    "deploy": "tsc && cp package.json dist/package.json && gcloud functions deploy curp --runtime nodejs14 --trigger-http --allow-unauthenticated --region=us-west4 --memory=8192MB --timeout=120 --source=dist"
   },
   "dependencies": {
     "2captcha": "^2.1.10",

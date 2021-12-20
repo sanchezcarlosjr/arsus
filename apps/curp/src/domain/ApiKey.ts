@@ -1,8 +1,8 @@
-import admin from 'firebase-admin';
+import { getAuth } from 'firebase-admin/auth';
 
 export async function ensureIsValidApiKey(apiKey: string) {
   if (!apiKey) {
     throw new Error(`invalid API Key`);
   }
-  await admin.auth().getUser(apiKey);
+  await getAuth().getUser(apiKey);
 }

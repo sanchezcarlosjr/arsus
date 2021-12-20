@@ -8,14 +8,13 @@ import { QuotaCounter } from './infrastructure/QuotaCounter.js';
 import { JsonCommand } from './infrastructure/JSONCommand.js';
 import { initializeApp } from 'firebase-admin/app';
 
-const app = initializeApp();
+initializeApp();
 
 export const curp = async (req: any, response: any) => {
   try {
     await ensureIsValidApiKey(req.query.apiKey);
-    const curpResponse = await new CurpIdFinder(new CurpIdScraper(), new CurpIdQueryFinder()).find(
-      new CurpId(req.query.curp)
-    );
+    const curpId = new CurpId(req.query.curp);
+    const curpResponse = await new CurpIdFinder(new CurpIdScraper(), new CurpIdQueryFinder()).find(curpId);
     return CommandBatch.getInstance()
       .addCommand(new QuotaCounter(req.query.apiKey))
       .addCommand(new JsonCommand(response))
