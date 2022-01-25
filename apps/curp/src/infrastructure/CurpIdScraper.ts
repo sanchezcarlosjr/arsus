@@ -45,7 +45,6 @@ export class CurpIdScraper extends CurpIdRepository {
       method: 'POST',
     }).then((res) => res.json());
     this.ensure(renapoResponse.codigo);
-    console.log(renapoResponse);
     const register = renapoResponse.registros[0];
     return {
       curp: curpId.value,
@@ -58,7 +57,7 @@ export class CurpIdScraper extends CurpIdRepository {
       statusCurp: register.statusCurp,
       nationality: register.nacionalidad,
       probatoryDocument: register.docProbatorio,
-      pdf: renapoResponse.parametro,
+      pdf: register.parametro,
       probatoryDocumentData: {
         ...register.datosDocProbatorio,
       },
