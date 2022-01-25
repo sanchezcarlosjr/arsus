@@ -1,9 +1,9 @@
 import fetch from 'node-fetch';
 import { CaptchaSolver } from './CaptchaSolver.js';
 import { CurpIdRepository } from '../domain/CurpIdRepository.js';
-import { Database } from '../shared/database.js';
 import { CommandBatch } from '../application/CommandBatch.js';
 import { CURPResponseCommand } from './CURPResponseCommand.js';
+import { CurpId } from '../domain/CurpId';
 
 const genderISOConverter = new Map([
   ['HOMBRE', '1'],
@@ -11,13 +11,11 @@ const genderISOConverter = new Map([
 ]);
 const birthdayFormatFromRenapo = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/g;
 const birthday = '$3-$2-$1T00:00:00.000Z';
+const captchaSolver = new CaptchaSolver();
 
 export class CurpIdScraper extends CurpIdRepository {
-  private database = new Database();
-
-  async search(curpId: any) {
+  async search(curpId: CurpId) {
     CommandBatch.getInstance().addCommand(new CURPResponseCommand());
-    const captchaSolver = new CaptchaSolver();
     const captchaSolution = await captchaSolver.solve(
       '6LdJssgUAAAAAKkVr-Aj-xP5QQzclPeGZmhRwXeY',
       'https://www.gob.mx/curp'
@@ -47,19 +45,22 @@ export class CurpIdScraper extends CurpIdRepository {
       method: 'POST',
     }).then((res) => res.json());
     this.ensure(renapoResponse.codigo);
+    console.log(renapoResponse);
+    const register = renapoResponse.registros[0];
     return {
       curp: curpId.value,
-      fatherName: renapoResponse.primerApellido,
-      motherName: renapoResponse.segundoApellido,
-      name: renapoResponse.nombres,
-      gender: genderISOConverter.get(renapoResponse.sexo),
-      birthday: renapoResponse.fechaNacimiento.replace(birthdayFormatFromRenapo, birthday),
-      birthState: (await this.database.collection('states').showData(renapoResponse.claveEntidad)).iso,
-      statusCurp: renapoResponse.statusCurp,
-      nationality: renapoResponse.nacionalidad,
-      probatoryDocument: renapoResponse.docProbatorio,
+      fatherName: register.primerApellido,
+      motherName: register.segundoApellido,
+      name: register.nombres,
+      gender: genderISOConverter.get(register.sexo),
+      birthday: register.fechaNacimiento.replace(birthdayFormatFromRenapo, birthday),
+      birthState: await curpId.getIsoState(),
+      statusCurp: register.statusCurp,
+      nationality: register.nacionalidad,
+      probatoryDocument: register.docProbatorio,
+      pdf: renapoResponse.parametro,
       probatoryDocumentData: {
-        ...renapoResponse.datosDocProbatorio,
+        ...register.datosDocProbatorio,
       },
     };
   }

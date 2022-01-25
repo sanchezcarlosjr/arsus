@@ -10,11 +10,13 @@ import { initializeApp } from 'firebase-admin/app';
 
 initializeApp();
 
+const curpIdFinder = new CurpIdFinder(new CurpIdQueryFinder(), new CurpIdScraper());
 export const curp = async (req: any, response: any) => {
   try {
+    console.log('Query parameters: ', req.query);
     await ensureIsValidApiKey(req.query.apiKey);
     const curpId = new CurpId(req.query.curp);
-    const curpResponse = await new CurpIdFinder(new CurpIdScraper(), new CurpIdQueryFinder()).find(curpId);
+    const curpResponse = await curpIdFinder.find(curpId);
     return CommandBatch.getInstance()
       .addCommand(new QuotaCounter(req.query.apiKey))
       .addCommand(new JsonCommand(response))

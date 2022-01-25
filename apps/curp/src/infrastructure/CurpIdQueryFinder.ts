@@ -1,10 +1,9 @@
 import { CurpId } from '../domain/CurpId.js';
 import { CurpIdRepository } from '../domain/CurpIdRepository.js';
-import { CurpResponse } from '../domain/CurpResponse.js';
 import { getFirestore } from 'firebase-admin/firestore';
 
 export class CurpIdQueryFinder extends CurpIdRepository {
-  search(id: CurpId): Promise<CurpResponse> {
+  search(id: CurpId) {
     return getFirestore()
       .doc(`id/${id.value}`)
       .get()
@@ -13,15 +12,13 @@ export class CurpIdQueryFinder extends CurpIdRepository {
           return null;
         }
         const data = document.data();
-        return {
-          curp: data.curp,
-          fatherName: data.fatherName,
-          motherName: data.motherName,
-          name: data.name,
-          gender: data.gender,
-          birthday: data.birthday,
-          birthState: data.birthState,
-        };
+        if (data.error) {
+          return {
+            curp: id.value,
+            error: data.error,
+          };
+        }
+        return data;
       });
   }
 }

@@ -1,11 +1,20 @@
-import { CurpResponse } from '../domain/CurpResponse.js';
 import { CurpIdRepository } from '../domain/CurpIdRepository.js';
 import { CurpId } from '../domain/CurpId.js';
-import { CurpIdQueryFinder } from '../infrastructure/CurpIdQueryFinder.js';
 
 export class CurpIdFinder {
-  constructor(private curpIdRepository: CurpIdRepository, private curpIdQueryFinder: CurpIdQueryFinder) {}
-  async find(id: CurpId): Promise<CurpResponse> {
-    return (await this.curpIdQueryFinder.search(id)) || (await this.curpIdRepository.search(id));
+  private readonly _curpIdRepositories: CurpIdRepository[];
+
+  constructor(...curpIdRepository: CurpIdRepository[]) {
+    this._curpIdRepositories = curpIdRepository;
+  }
+
+  async find(id: CurpId) {
+    for (const curpIdRepository of this._curpIdRepositories) {
+      const t = await curpIdRepository.search(id);
+      if (t !== null) {
+        return t;
+      }
+    }
+    throw new Error('Server error. CURP not found.');
   }
 }

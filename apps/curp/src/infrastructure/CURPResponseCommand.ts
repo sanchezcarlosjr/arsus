@@ -6,6 +6,9 @@ export class CURPResponseCommand implements Command {
   constructor() {}
 
   execute(curpResponse: CurpResponse) {
+    if (curpResponse === undefined || curpResponse.curp === undefined) {
+      throw new Error('Provider error');
+    }
     return getFirestore().collection('id').doc(curpResponse.curp).set(curpResponse);
   }
 }
