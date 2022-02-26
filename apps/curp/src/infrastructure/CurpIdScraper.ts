@@ -45,6 +45,12 @@ export class CurpIdScraper extends CurpIdRepository {
       method: 'POST',
     }).then((res) => res.json());
     this.ensure(renapoResponse.codigo);
+    if (renapoResponse.registros == undefined) {
+      return {
+        curp: curpId.value,
+        error: 'CURP not found',
+      };
+    }
     const register = renapoResponse.registros[0];
     return {
       curp: curpId.value,
