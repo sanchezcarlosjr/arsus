@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, Renderer2 } from '@angular/core';
+import { Component, ElementRef, Input, OnChanges, OnDestroy, Renderer2 } from '@angular/core';
 import { LoadingController, Platform } from '@ionic/angular';
-import { timer } from 'rxjs';
 
 declare global {
   interface Window {
@@ -26,7 +25,7 @@ export class IframeComponent implements OnChanges, OnDestroy {
     private renderer: Renderer2,
     private loading: LoadingController
   ) {
-    this.height = `${platform.height() - 4}px`;
+    this.height = `100%`;
   }
 
   async ngOnChanges() {
@@ -49,6 +48,7 @@ export class IframeComponent implements OnChanges, OnDestroy {
       this.renderer.appendChild(this.elementRef.nativeElement, script);
     }
   }
+
   // TODO
   ngOnDestroy() {
     if (this.script) {

@@ -29,6 +29,10 @@ const routes: Routes = [
     path: 'research',
     loadChildren: () => import('./research/research.module').then((m) => m.ResearchModule),
   },
+  {
+    path: 'projects',
+    loadChildren: () => import('./research/research.module').then((m) => m.ResearchModule),
+  },
   { path: 'privacy-policy', loadChildren: () => import('./privacy/privacy.module').then((m) => m.PrivacyModule) },
   { path: 'terms-and-conditions', loadChildren: () => import('./terms/terms.module').then((m) => m.TermsModule) },
   {
