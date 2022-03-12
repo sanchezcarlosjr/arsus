@@ -2,6 +2,7 @@
 **/*.js
 **/*.d.ts
 **/*.js.map
+/dist
 
 # Typescript v1 declaration files
 /typings
