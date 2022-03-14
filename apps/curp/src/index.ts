@@ -27,7 +27,7 @@ export const curp = async (req: any, response: any) => {
       .addCommand(new QuotaCounter(req.query.apiKey))
       .addCommand(new JsonCommand(response, 400))
       .execute({
-        error: e.message,
+        error: (e as Error).message,
       });
   }
 };
