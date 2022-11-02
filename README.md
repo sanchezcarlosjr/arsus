@@ -1,5 +1,8 @@
 # Arsus
 
+## CURP API
+If you want CURP data, there is available an [CURP Package](https://github.com/sanchezcarlosjr/curp). 
+
 This project was generated with [ngX-Rocket](https://github.com/ngx-rocket/generator-ngx-rocket/)
 version 8.0.1
 
